@@ -5,7 +5,7 @@
 // STEP 3: Deploy as NEW VERSION
 // ============================================================
 
-var SS_ID = '1OL6ITLAuk3gpJ-8VnmRHvyPd5wYNBm4iXjlASjL7qEU';
+var SS_ID = '1TWeGTv2DYfzWjLZdzKLgw-H_QywL2XqbaBikr8I9DaU';
 
 /* ── Format a date value from spreadsheet into DD/MM/YYYY ── */
 function fmtGasDate(val) {
@@ -28,6 +28,29 @@ function doGet(e) {
     .setTitle('Markaz Al Asas Academy')
     .addMetaTag('viewport','width=device-width,initial-scale=1')
     .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
+}
+
+// ── doPost — GitHub Pages fetch() API ────────────────────────
+// Allows GitHub-hosted HTML to call GAS functions via fetch()
+function doPost(e) {
+  var result;
+  try {
+    var payload = JSON.parse(e.postData.contents);
+    var action  = payload.action || '';
+    if      (action === 'getPublicData')     result = getPublicData();
+    else if (action === 'login')             result = handleLoginFromClient(payload.username, payload.password, payload.role);
+    else if (action === 'sendOtp')           result = sendOtp({ email: payload.email });
+    else if (action === 'verifyOtp')         result = verifyOtp({ email: payload.email, otp: payload.otp, hash: payload.hash });
+    else if (action === 'submitAdmission')   result = handlePostFromClient(payload);
+    else if (action === 'getCommittee')      result = getCommittee();
+    else if (action === 'ping')              result = ping();
+    else result = { success: false, message: 'Unknown action: ' + action };
+  } catch(err) {
+    result = { success: false, message: err.message };
+  }
+  return ContentService
+    .createTextOutput(JSON.stringify(result))
+    .setMimeType(ContentService.MimeType.JSON);
 }
 
 // ── PING ─────────────────────────────────────────────────────
