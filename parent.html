@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Parent Portal — Markaz Al Asas</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+:root{
+  --pk:#E91E8C;--mg:#C2185B;--yw:#F5C518;--gd:#FFB300;
+  --pu:#7B1FA2;--dk:#1a0a2e;--bg:#f5f0fb;--wh:#fff;
+  --tx:#1a0a2e;--mu:#8b7099;--sw:240px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Poppins',sans-serif;background:var(--bg);display:flex;min-height:100vh;}
+
+/* SIDEBAR */
+.sb{width:var(--sw);background:var(--dk);position:fixed;left:0;top:0;bottom:0;overflow-y:auto;z-index:200;display:flex;flex-direction:column;transition:transform .35s cubic-bezier(.4,0,.2,1);}
+
+
+
+.sb-logo{padding:18px 16px;border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:10px;}
+.sb-icon{width:36px;height:36px;background:linear-gradient(135deg,var(--pu),#4A148C);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;color:#fff;}
+.sb-t1{font-family:'Amiri',serif;font-size:13px;color:var(--yw);line-height:1.3;}
+.sb-t2{font-size:9px;color:rgba(255,255,255,.4);}
+.sb-user{padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.06);display:flex;align-items:center;gap:10px;}
+.su-av{width:40px;height:40px;background:linear-gradient(135deg,var(--pu),#4A148C);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;color:#fff;flex-shrink:0;}
+.su-n{font-size:12px;font-weight:600;color:#fff;}
+.su-r{font-size:10px;color:var(--yw);}
+.sb-sec{padding:12px 12px 4px;font-size:9px;font-weight:700;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:1px;}
+.ni{display:flex;align-items:center;gap:10px;padding:10px 16px;color:rgba(255,255,255,.6);font-size:13px;font-weight:500;cursor:pointer;border-radius:10px;margin:1px 8px;transition:all .2s;}
+.ni:hover{background:rgba(123,31,162,.2);color:#fff;}
+.ni.active{background:linear-gradient(135deg,rgba(123,31,162,.4),rgba(74,20,140,.2));color:var(--yw);}
+.ni i{width:16px;text-align:center;font-size:14px;}
+.sb-foot{margin-top:auto;padding:16px;border-top:1px solid rgba(255,255,255,.08);}
+
+/* MAIN */
+.main{margin-left:var(--sw);flex:1;min-height:100vh;display:flex;flex-direction:column;}
+.tb{background:#fff;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 12px rgba(0,0,0,.06);position:sticky;top:0;z-index:50;}
+.tb-l{display:flex;align-items:center;gap:12px;}
+.pg-t{font-size:18px;font-weight:700;color:var(--tx);}
+.bc{font-size:11px;color:#aaa;}
+.tb-r{display:flex;align-items:center;gap:10px;}
+.tbb{width:36px;height:36px;border-radius:10px;background:var(--bg);border:none;display:flex;align-items:center;justify-content:center;color:#777;font-size:15px;cursor:pointer;transition:all .2s;}
+.tbb:hover{background:#ede8f5;color:var(--pu);}
+
+/* HAMBURGER TOGGLE BUTTON */
+.btn-menu-toggle{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  width:40px;height:40px;
+  background:linear-gradient(135deg,var(--pu),#4A148C);
+  border:none;border-radius:12px;cursor:pointer;
+  transition:all .3s;
+  box-shadow:0 3px 12px rgba(123,31,162,.4);
+  flex-shrink:0;
+}
+.btn-menu-toggle:hover{transform:scale(1.08);box-shadow:0 5px 18px rgba(123,31,162,.6);}
+.btn-menu-toggle:active{transform:scale(.95);}
+.hamburger-icon{display:flex;flex-direction:column;gap:5px;width:18px;}
+.hamburger-icon span{
+  display:block;height:2px;width:100%;
+  background:#fff;border-radius:2px;
+  transition:all .3s cubic-bezier(.4,0,.2,1);
+  transform-origin:center;
+}
+/* Animated X when sidebar open */
+.sidebar-open .hamburger-icon span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.sidebar-open .hamburger-icon span:nth-child(2){opacity:0;transform:scaleX(0);}
+.sidebar-open .hamburger-icon span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+.content{padding:22px;flex:1;}
+
+/* CARDS */
+.card{background:#fff;border-radius:16px;box-shadow:0 2px 12px rgba(0,0,0,.05);overflow:hidden;margin-bottom:18px;}
+.ch{padding:14px 20px;border-bottom:1px solid #f0e8f8;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+.ct{font-size:14px;font-weight:700;color:var(--tx);display:flex;align-items:center;gap:8px;}
+.ct i{color:var(--pu);}
+
+/* STAT CARDS */
+.sc-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:20px;}
+.sc{background:#fff;border-radius:16px;padding:18px;display:flex;align-items:center;gap:12px;box-shadow:0 2px 12px rgba(0,0,0,.05);transition:all .3s;}
+.sc:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(123,31,162,.12);}
+.sc-ic{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;color:#fff;flex-shrink:0;}
+.sc-v{font-size:22px;font-weight:800;color:var(--tx);line-height:1;}
+.sc-l{font-size:11px;color:#999;margin-top:3px;}
+
+/* CHILD SELECTOR */
+.child-sel{display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap;}
+.child-btn{background:#fff;border:2px solid #e0d0ea;border-radius:14px;padding:12px 20px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:10px;font-family:'Poppins',sans-serif;}
+.child-btn.active{border-color:var(--pu);background:linear-gradient(135deg,rgba(123,31,162,.08),rgba(74,20,140,.04));}
+.child-btn .av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;background:linear-gradient(135deg,var(--pu),#4A148C);color:#fff;}
+.child-btn .cn{font-size:13px;font-weight:600;color:var(--tx);}
+.child-btn .cc{font-size:11px;color:var(--mu);}
+
+/* TABLE */
+.tw{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;}
+thead th{background:#fdf5ff;padding:10px 14px;font-size:11px;font-weight:700;color:#999;text-align:left;text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid #f0e8f8;white-space:nowrap;}
+tbody td{padding:11px 14px;font-size:13px;color:#333;border-bottom:1px solid #fdf5ff;vertical-align:middle;}
+tbody tr:last-child td{border-bottom:none;}
+tbody tr:hover{background:#fdf8ff;}
+.badge{padding:3px 10px;border-radius:20px;font-size:10px;font-weight:700;display:inline-block;}
+.b-ok{background:rgba(76,175,80,.12);color:#388E3C;}
+.b-no{background:rgba(244,67,54,.1);color:#D32F2F;}
+.b-pd{background:rgba(245,197,24,.15);color:#F57F17;}
+.b-lv{background:rgba(33,150,243,.1);color:#1565C0;}
+
+/* ATTENDANCE CHART */
+.att-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:16px 20px;}
+.att-box{border-radius:12px;padding:14px;text-align:center;}
+.att-num{font-size:28px;font-weight:800;line-height:1;}
+.att-lbl{font-size:11px;font-weight:500;margin-top:4px;}
+.att-bar{height:8px;background:#f0e8f8;border-radius:4px;margin:4px 0;overflow:hidden;}
+.att-fill{height:100%;border-radius:4px;transition:width .5s ease;}
+
+/* RESULT CARD */
+.result-header{display:flex;align-items:center;gap:16px;padding:16px 20px;background:linear-gradient(135deg,var(--pu),#4A148C);color:#fff;border-radius:0;}
+.result-grade{width:56px;height:56px;background:rgba(255,255,255,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800;}
+.result-info h3{font-size:16px;font-weight:700;}
+.result-info p{font-size:12px;opacity:.8;}
+.result-pass{background:rgba(76,175,80,.2);color:#A5D6A7;padding:4px 14px;border-radius:20px;font-size:12px;font-weight:700;display:inline-block;margin-top:4px;}
+.result-fail{background:rgba(244,67,54,.2);color:#EF9A9A;padding:4px 14px;border-radius:20px;font-size:12px;font-weight:700;display:inline-block;margin-top:4px;}
+.sub-marks{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;padding:16px 20px;}
+.sub-card{border:1px solid #f0e8f8;border-radius:12px;padding:12px;text-align:center;}
+.sub-name{font-size:11px;color:var(--mu);margin-bottom:4px;}
+.sub-score{font-size:20px;font-weight:800;color:var(--pu);}
+.sub-max{font-size:10px;color:#bbb;}
+.sub-grade{font-size:11px;font-weight:700;color:var(--pk);margin-top:2px;}
+
+/* FEE STATUS */
+.fee-summary{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:16px 20px;}
+.fee-box{border-radius:12px;padding:14px;text-align:center;}
+
+/* PANELS */
+.pnl{display:none;}
+.pnl.active{display:block;}
+
+/* NOTICE BOARD */
+.notice-list{display:flex;flex-direction:column;gap:0;}
+.notice-item{padding:14px 20px;border-bottom:1px solid #fdf5ff;display:flex;gap:12px;align-items:flex-start;}
+.notice-item:last-child{border-bottom:none;}
+.notice-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:5px;}
+.notice-title{font-size:13px;font-weight:600;color:var(--tx);margin-bottom:3px;}
+.notice-date{font-size:11px;color:var(--mu);}
+
+/* TOAST */
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--dk);color:#fff;padding:10px 22px;border-radius:30px;font-size:13px;font-weight:500;z-index:9999;transition:transform .3s;box-shadow:0 6px 20px rgba(0,0,0,.3);border:1px solid rgba(123,31,162,.3);white-space:nowrap;pointer-events:none;}
+#toast.show{transform:translateX(-50%) translateY(0);}
+
+/* LOADING */
+.loading{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px;color:var(--mu);}
+.spinner{width:36px;height:36px;border:3px solid #f0e8f8;border-top-color:var(--pu);border-radius:50%;animation:spin .8s linear infinite;margin-bottom:12px;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* HAMBURGER BUTTON */
+.ham-btn{
+  display:none;
+  width:40px;height:40px;
+  border-radius:10px;
+  background:var(--dk);
+  border:none;
+  cursor:pointer;
+  align-items:center;justify-content:center;
+  transition:all .25s;
+  flex-shrink:0;
+}
+.ham-btn:hover{background:var(--pu);}
+.ham-icon{
+  display:flex;flex-direction:column;
+  justify-content:center;align-items:center;
+  gap:5px;width:20px;height:16px;
+}
+.ham-icon span{
+  display:block;width:20px;height:2px;
+  background:#fff;border-radius:2px;
+  transition:all .3s cubic-bezier(.4,0,.2,1);
+  transform-origin:center;
+}
+/* Hamburger → X animation */
+.ham-btn.is-open .ham-icon span:nth-child(1){
+  transform:translateY(7px) rotate(45deg);
+}
+.ham-btn.is-open .ham-icon span:nth-child(2){
+  opacity:0;transform:scaleX(0);
+}
+.ham-btn.is-open .ham-icon span:nth-child(3){
+  transform:translateY(-7px) rotate(-45deg);
+}
+
+/* SIDEBAR — smooth slide */
+.sb{
+  transition:transform .35s cubic-bezier(.4,0,.2,1),
+             box-shadow .35s ease;
+}
+.sb.open{
+  box-shadow:4px 0 32px rgba(0,0,0,.35);
+}
+
+/* CLOSE BUTTON inside sidebar (mobile) */
+.sb-close-btn{
+  display:none;
+  position:absolute;top:14px;right:14px;
+  width:32px;height:32px;
+  background:rgba(255,255,255,.1);
+  border:none;border-radius:50%;
+  color:#fff;font-size:14px;
+  cursor:pointer;
+  align-items:center;justify-content:center;
+  transition:background .2s;
+  z-index:1;
+}
+.sb-close-btn:hover{background:rgba(255,255,255,.25);}
+.sb-logo{position:relative;}
+
+/* RESPONSIVE */
+@media(min-width:901px){
+  .sb{transform:translateX(0) !important;}
+  .main{margin-left:var(--sw) !important;}
+  .ham-btn{display:none !important;}
+  .sb-overlay{display:none !important;}
+  .sb-close-btn{display:none !important;}
+}
+@media(max-width:900px){
+  .sb{transform:translateX(-100%);width:280px;z-index:200;}
+  .sb.open{transform:translateX(0);}
+  .main{margin-left:0 !important;}
+  .sc-row{grid-template-columns:repeat(2,1fr);}
+  .pg-t{font-size:15px;}
+  .ham-btn{display:flex !important;}
+  .sb-close-btn{display:flex !important;}
+}
+@media(max-width:480px){
+  .sb{width:260px;}
+  .sc-row{grid-template-columns:1fr;}
+  .sc-row .sc{padding:14px 12px;}
+}
+
+/* SIDEBAR OVERLAY */
+.sb-overlay{
+  display:none;
+  position:fixed;inset:0;
+  background:rgba(0,0,0,.55);
+  z-index:199;
+  cursor:pointer;
+  animation:fadeOverlay .25s ease;
+}
+.sb-overlay.show{display:block;}
+@keyframes fadeOverlay{from{opacity:0;}to{opacity:1;}}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sb" id="sidebar">
+  <div class="sb-logo">
+    <div class="sb-icon"><i class="fas fa-mosque"></i></div>
+    <div><div class="sb-t1">Markaz Al Asas</div><div class="sb-t2">Parent Portal</div></div>
+    <button class="sb-close-btn" onclick="closeSidebar()" aria-label="Close menu">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+  <div class="sb-user">
+    <div class="su-av"><i class="fas fa-user"></i></div>
+    <div><div class="su-n" id="parentName">Parent</div><div class="su-r">Parent Account</div></div>
+  </div>
+
+  <div class="sb-sec">My Children</div>
+  <div class="ni active" id="ni-dashboard" onclick="showP('dashboard')"><i class="fas fa-tachometer-alt"></i> Dashboard</div>
+  <div class="ni" id="ni-attendance" onclick="showP('attendance')"><i class="fas fa-calendar-check"></i> Attendance</div>
+  <div class="ni" id="ni-results" onclick="showP('results')"><i class="fas fa-chart-bar"></i> Results</div>
+  <div class="ni" id="ni-admitcard" onclick="showP('admitcard')"><i class="fas fa-id-card"></i> Admit Card</div>
+  <div class="ni" id="ni-fees" onclick="showP('fees')"><i class="fas fa-rupee-sign"></i> Fee Status</div>
+
+  <div class="sb-sec">Information</div>
+  <div class="ni" id="ni-notices" onclick="showP('notices')"><i class="fas fa-bullhorn"></i> Notices</div>
+  <div class="ni" id="ni-events" onclick="showP('events')"><i class="fas fa-calendar-alt"></i> Events</div>
+  <div class="ni" id="ni-profile" onclick="showP('profile')"><i class="fas fa-user-cog"></i> My Profile</div>
+
+  <div class="sb-foot">
+    <div class="ni" onclick="doLogout()" style="margin:0;border-radius:10px"><i class="fas fa-sign-out-alt"></i> Logout</div>
+  </div>
+</aside>
+
+<!-- OVERLAY — tap outside to close sidebar on mobile -->
+<div class="sb-overlay" id="sbOverlay" onclick="closeSidebar()"></div>
+
+<!-- MAIN -->
+<main class="main">
+  <div class="tb">
+    <div class="tb-l">
+      <button class="tbb ham-btn" id="menuBtn" onclick="toggleSidebar()" aria-label="Toggle menu">
+        <span class="ham-icon" id="hamIcon">
+          <span></span><span></span><span></span>
+        </span>
+      </button>
+      <div>
+        <div class="pg-t" id="pgTitle">Dashboard</div>
+        <div class="bc">Parent Portal › <span id="bc2">Dashboard</span></div>
+      </div>
+    </div>
+    <div class="tb-r">      <button class="tbb" onclick="refreshData()" title="Refresh"><i class="fas fa-sync-alt"></i></button>
+      <button class="tbb" onclick="toast('🔔 No new notifications')" title="Notifications"><i class="fas fa-bell"></i></button>
+      <button class="tbb" onclick="doLogout()" title="Logout"><i class="fas fa-sign-out-alt"></i></button>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- ═ DASHBOARD ═ -->
+    <div class="pnl active" id="pnl-dashboard">
+      <!-- Child Selector -->
+      <div class="child-sel" id="childSelector">
+        <div class="loading"><div class="spinner"></div><p>Loading children…</p></div>
+      </div>
+
+      <!-- Stats Row -->
+      <div class="sc-row">
+        <div class="sc">
+          <div class="sc-ic" style="background:linear-gradient(135deg,#7B1FA2,#4A148C)"><i class="fas fa-user-graduate"></i></div>
+          <div><div class="sc-v" id="st-class">—</div><div class="sc-l">Current Class</div></div>
+        </div>
+        <div class="sc">
+          <div class="sc-ic" style="background:linear-gradient(135deg,#4CAF50,#388E3C)"><i class="fas fa-calendar-check"></i></div>
+          <div><div class="sc-v" id="st-att">—</div><div class="sc-l">Attendance %</div></div>
+        </div>
+        <div class="sc">
+          <div class="sc-ic" style="background:linear-gradient(135deg,#E91E8C,#C2185B)"><i class="fas fa-chart-bar"></i></div>
+          <div><div class="sc-v" id="st-pct">—</div><div class="sc-l">Last Exam %</div></div>
+        </div>
+        <div class="sc">
+          <div class="sc-ic" style="background:linear-gradient(135deg,#FF9800,#F57C00)"><i class="fas fa-rupee-sign"></i></div>
+          <div><div class="sc-v" id="st-fee">—</div><div class="sc-l">Fee Status</div></div>
+        </div>
+      </div>
+
+      <!-- Student Info Card -->
+      <div class="card" id="studentInfoCard">
+        <div class="ch"><div class="ct"><i class="fas fa-user-graduate"></i> Student Information</div></div>
+        <div style="padding:20px">
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px" id="studentInfoGrid">
+            <div class="loading"><div class="spinner"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Notices -->
+      <div class="card">
+        <div class="ch"><div class="ct"><i class="fas fa-bullhorn"></i> Recent Notices</div></div>
+        <div class="notice-list">
+          <div class="notice-item"><div class="notice-dot" style="background:#E91E8C"></div><div><div class="notice-title">Annual Exam Schedule Published</div><div class="notice-date">July 10, 2024</div></div></div>
+          <div class="notice-item"><div class="notice-dot" style="background:#F5C518"></div><div><div class="notice-title">Parent-Teacher Meeting — August 3</div><div class="notice-date">July 8, 2024</div></div></div>
+          <div class="notice-item"><div class="notice-dot" style="background:#7B1FA2"></div><div><div class="notice-title">Viswas Program — July 27, Imam Shafi Atrium</div><div class="notice-date">July 5, 2024</div></div></div>
+          <div class="notice-item"><div class="notice-dot" style="background:#4CAF50"></div><div><div class="notice-title">Fee Payment Reminder — July Month</div><div class="notice-date">July 1, 2024</div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═ ATTENDANCE ═ -->
+    <div class="pnl" id="pnl-attendance">
+      <div class="card">
+        <div class="ch"><div class="ct"><i class="fas fa-calendar-check"></i> Attendance Summary</div></div>
+        <div class="att-summary">
+          <div class="att-box" style="background:rgba(76,175,80,.08)">
+            <div class="att-num" style="color:#4CAF50" id="att-present">0</div>
+            <div class="att-bar"><div class="att-fill" id="att-pbar" style="background:#4CAF50;width:0%"></div></div>
+            <div class="att-lbl" style="color:#388E3C">Present Days</div>
+          </div>
+          <div class="att-box" style="background:rgba(244,67,54,.08)">
+            <div class="att-num" style="color:#f44336" id="att-absent">0</div>
+            <div class="att-bar"><div class="att-fill" id="att-abar" style="background:#f44336;width:0%"></div></div>
+            <div class="att-lbl" style="color:#D32F2F">Absent Days</div>
+          </div>
+          <div class="att-box" style="background:rgba(33,150,243,.08)">
+            <div class="att-num" style="color:#2196F3" id="att-leave">0</div>
+            <div class="att-bar"><div class="att-fill" id="att-lbar" style="background:#2196F3;width:0%"></div></div>
+            <div class="att-lbl" style="color:#1565C0">Leave Days</div>
+          </div>
+        </div>
+        <div style="padding:0 20px 16px">
+          <div style="background:#f9f3ff;border-radius:12px;padding:12px 16px;display:flex;align-items:center;gap:10px">
+            <i class="fas fa-info-circle" style="color:var(--pu)"></i>
+            <span style="font-size:12px;color:var(--mu)">Overall attendance: <strong id="att-pct" style="color:var(--pu)">—</strong></span>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="ch">
+          <div class="ct"><i class="fas fa-list"></i> Monthly Attendance Record</div>
+          <select id="attMonth" style="padding:6px 10px;border:1.5px solid #e0d0ea;border-radius:8px;font-family:'Poppins',sans-serif;font-size:12px;outline:none" onchange="loadAttendance()">
+            <option value="2024-07">July 2024</option>
+            <option value="2024-06">June 2024</option>
+            <option value="2024-05">May 2024</option>
+          </select>
+        </div>
+        <div class="tw">
+          <table>
+            <thead><tr><th>Date</th><th>Day</th><th>Status</th></tr></thead>
+            <tbody id="attTable">
+              <tr><td colspan="3" style="text-align:center;color:var(--mu);padding:20px"><i class="fas fa-calendar"></i> Select a student to view attendance</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═ RESULTS ═ -->
+    <div class="pnl" id="pnl-results">
+      <div class="card" id="resultCard">
+        <div style="padding:30px;text-align:center;color:var(--mu)">
+          <i class="fas fa-chart-bar" style="font-size:40px;margin-bottom:12px;opacity:.3"></i>
+          <p>Select a student to view results</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═ ADMIT CARD ═ -->
+    <div class="pnl" id="pnl-admitcard">
+      <div class="card">
+        <div class="ch"><div class="ct"><i class="fas fa-id-card"></i> Admit Card</div></div>
+        <div style="padding:20px" id="admitCardContent">
+          <div style="text-align:center;color:var(--mu);padding:20px">
+            <i class="fas fa-id-card" style="font-size:40px;margin-bottom:12px;opacity:.3"></i>
+            <p>Admit cards will be available before exam period</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═ FEES ═ -->
+    <div class="pnl" id="pnl-fees">
+      <div class="card">
+        <div class="ch"><div class="ct"><i class="fas fa-rupee-sign"></i> Fee Status</div></div>
+        <div class="fee-summary">
+          <div class="fee-box" style="background:rgba(76,175,80,.08);border-radius:12px">
+            <div style="font-size:24px;font-weight:800;color:#4CAF50" id="fee-paid">₹0</div>
+            <div style="font-size:12px;color:#388E3C;margin-top:4px">Total Paid</div>
+          </div>
+          <div class="fee-box" style="background:rgba(244,67,54,.08);border-radius:12px">
+            <div style="font-size:24px;font-weight:800;color:#f44336" id="fee-due">₹0</div>
+            <div style="font-size:12px;color:#D32F2F;margin-top:4px">Due Amount</div>
+          </div>
+        </div>
+        <div class="tw">
+          <table>
+            <thead><tr><th>Receipt ID</th><th>Fee Type</th><th>Amount</th><th>Month</th><th>Date</th><th>Status</th></tr></thead>
+            <tbody id="feeTable">
+              <tr><td colspan="6" style="text-align:center;color:var(--mu);padding:20px">Select a student to view fee records</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═ NOTICES ═ -->
+    <div class="pnl" id="pnl-notices">
+      <div class="card">
+        <div class="ch"><div class="ct"><i class="fas fa-bullhorn"></i> Notice Board</div></div>
+        <div class="notice-list" id="noticeList">
+          <div class="notice-item"><div class="notice-dot" style="background:#E91E8C"></div><div><div class="notice-title">Annual Exam Results Published — Check Result Portal</div><div class="notice-date">July 10, 2024 · Academic</div></div></div>
+          <div class="notice-item"><div class="notice-dot" style="background:#F5C518"></div><div><div class="notice-title">New Batch Admissions Open for 2024-25</div><div class="notice-date">July 8, 2024 · Announcement</div></div></div>
+          <div class="notice-item"><div class="notice-dot" style="background:#7B1FA2"></div><div><div class="notice-title">Viswas Program — July 27, 11 AM, Imam Shafi Atrium</div><div class="notice-date">July 5, 2024 · Events</div></div></div>
+          <div class="notice-item"><div class="notice-dot" style="background:#4CAF50"></div><div><div class="notice-title">Quran Recitation Competition — Register Before July 30</div><div class="notice-date">July 3, 2024 · Academic</div></div></div>
+          <div class="notice-item"><div class="notice-dot" style="background:#2196F3"></div><div><div class="notice-title">Parent-Teacher Meeting — August 3, 10 AM</div><div class="notice-date">July 1, 2024 · General</div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═ EVENTS ═ -->
+    <div class="pnl" id="pnl-events">
+      <div class="card">
+        <div class="ch"><div class="ct"><i class="fas fa-calendar-alt"></i> Upcoming Events</div></div>
+        <div style="padding:16px;display:flex;flex-direction:column;gap:10px" id="eventsList">
+          <div style="display:flex;gap:12px;align-items:center;padding:12px;background:#fdf5ff;border-radius:12px">
+            <div style="background:linear-gradient(135deg,#E91E8C,#C2185B);color:#fff;border-radius:10px;padding:8px 10px;text-align:center;min-width:44px"><div style="font-size:16px;font-weight:800;line-height:1">27</div><div style="font-size:9px;font-weight:600">JUL</div></div>
+            <div><div style="font-size:13px;font-weight:600;color:var(--tx)">Viswas Program</div><div style="font-size:11px;color:var(--mu)"><i class="fas fa-clock"></i> 11:00 AM · Imam Shafi Atrium</div></div>
+          </div>
+          <div style="display:flex;gap:12px;align-items:center;padding:12px;background:#fffbf0;border-radius:12px">
+            <div style="background:linear-gradient(135deg,#F5C518,#FFB300);color:#fff;border-radius:10px;padding:8px 10px;text-align:center;min-width:44px"><div style="font-size:16px;font-weight:800;line-height:1">03</div><div style="font-size:9px;font-weight:600">AUG</div></div>
+            <div><div style="font-size:13px;font-weight:600;color:var(--tx)">Parent-Teacher Meeting</div><div style="font-size:11px;color:var(--mu)"><i class="fas fa-clock"></i> 10:00 AM · Main Hall</div></div>
+          </div>
+          <div style="display:flex;gap:12px;align-items:center;padding:12px;background:#f5f0ff;border-radius:12px">
+            <div style="background:linear-gradient(135deg,#7B1FA2,#4A148C);color:#fff;border-radius:10px;padding:8px 10px;text-align:center;min-width:44px"><div style="font-size:16px;font-weight:800;line-height:1">15</div><div style="font-size:9px;font-weight:600">AUG</div></div>
+            <div><div style="font-size:13px;font-weight:600;color:var(--tx)">Quran Recitation Competition</div><div style="font-size:11px;color:var(--mu)"><i class="fas fa-clock"></i> 9:00 AM · Auditorium</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═ PROFILE ═ -->
+    <div class="pnl" id="pnl-profile">
+      <div class="card">
+        <div class="ch"><div class="ct"><i class="fas fa-user-cog"></i> My Profile</div></div>
+        <div style="padding:20px">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px" id="profileGrid">
+            <div style="display:flex;flex-direction:column;gap:4px"><label style="font-size:11px;font-weight:600;color:#555">Name</label><div style="padding:9px 12px;border:1.5px solid #e8d8f0;border-radius:10px;font-size:13px" id="pr-name">—</div></div>
+            <div style="display:flex;flex-direction:column;gap:4px"><label style="font-size:11px;font-weight:600;color:#555">Role</label><div style="padding:9px 12px;border:1.5px solid #e8d8f0;border-radius:10px;font-size:13px">Parent</div></div>
+            <div style="display:flex;flex-direction:column;gap:4px"><label style="font-size:11px;font-weight:600;color:#555">Email</label><div style="padding:9px 12px;border:1.5px solid #e8d8f0;border-radius:10px;font-size:13px" id="pr-email">—</div></div>
+            <div style="display:flex;flex-direction:column;gap:4px"><label style="font-size:11px;font-weight:600;color:#555">Username</label><div style="padding:9px 12px;border:1.5px solid #e8d8f0;border-radius:10px;font-size:13px" id="pr-user">—</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main><div id="toast"></div>
+
+<script>
+'use strict';
+
+// ── STATE ──
+var SESSION = {};
+var CHILDREN = [];
+var ACTIVE_CHILD = null;
+var PANELS = ['dashboard','attendance','results','admitcard','fees','notices','events','profile'];
+
+// ── INIT — load session from URL/cache ──
+(function init(){
+  // Try to get session info passed via URL param or sessionStorage
+  var params = new URLSearchParams(window.location.search);
+  var token  = params.get('token') || sessionStorage.getItem('parentToken') || '';
+  var name   = sessionStorage.getItem('parentName') || 'Parent';
+  var email  = sessionStorage.getItem('parentEmail') || '';
+  var uname  = sessionStorage.getItem('parentUsername') || '';
+
+  if (token) sessionStorage.setItem('parentToken', token);
+  SESSION = { token: token, name: name, email: email, username: uname };
+
+  document.getElementById('parentName').textContent = name;
+  document.getElementById('pr-name').textContent    = name;
+  document.getElementById('pr-email').textContent   = email || '—';
+  document.getElementById('pr-user').textContent    = uname || '—';
+
+  loadChildren();
+})();
+
+// ── PANEL NAVIGATION ──
+function showP(name){
+  PANELS.forEach(function(p){
+    var el = document.getElementById('pnl-'+p);
+    if(el) el.classList.toggle('active', p===name);
+    var ni = document.getElementById('ni-'+p);
+    if(ni) ni.classList.toggle('active', p===name);
+  });
+  document.getElementById('pgTitle').textContent = name.charAt(0).toUpperCase()+name.slice(1);
+  document.getElementById('bc2').textContent = name.charAt(0).toUpperCase()+name.slice(1);
+  if(window.innerWidth<900) document.getElementById('sidebar').classList.remove('open');
+
+  // Load data for panel
+  if (name==='attendance') loadAttendance();
+  if (name==='results')    loadResults();
+  if (name==='fees')       loadFees();
+}
+
+// ── LOAD CHILDREN ──
+function loadChildren(){
+  var sel = document.getElementById('childSelector');
+  if (!sel) return;
+
+  sel.innerHTML = '<div class="loading"><div class="spinner"></div><p>Loading children…</p></div>';
+
+  if (typeof google==='undefined' || !google.script){
+    // Demo mode
+    CHILDREN = [
+      { StudentID:'STU001', AdmissionNo:'STU001', Name:'Ahmad Muhammed', Class:'Class 7', Section:'A', FatherName:'Demo Parent', Phone:'9876543210' },
+      { StudentID:'STU002', AdmissionNo:'STU002', Name:'Fatima Zahra',   Class:'Class 5', Section:'B', FatherName:'Demo Parent', Phone:'9876543210' }
+    ];
+    renderChildSelector();
+    return;
+  }
+
+  /* Strategy 1: Look up by parent username (admin-linked) */
+  google.script.run
+    .withSuccessHandler(function(res){
+      if (res && res.success && res.data && res.data.length > 0){
+        CHILDREN = res.data;
+        renderChildSelector();
+      } else {
+        /* Strategy 2: Look up by phone/email stored in student records */
+        google.script.run
+          .withSuccessHandler(function(res2){
+            if (res2 && res2.success && res2.data && res2.data.length > 0){
+              CHILDREN = res2.data;
+            } else {
+              CHILDREN = [];
+            }
+            renderChildSelector();
+          })
+          .withFailureHandler(function(){
+            CHILDREN = [];
+            renderChildSelector();
+          })
+          .getChildData({ phone: SESSION.phone, email: SESSION.email });
+      }
+    })
+    .withFailureHandler(function(){
+      CHILDREN = [];
+      renderChildSelector();
+    })
+    .getLinkedChildren(SESSION.username);
+}
+
+function renderChildSelector(){
+  var sel = document.getElementById('childSelector');
+  if (!sel) return;
+
+  if (CHILDREN.length === 0){
+    sel.innerHTML = '<div style="background:#fff;border-radius:14px;padding:16px 20px;font-size:13px;color:var(--mu);border:2px dashed #e0d0ea"><i class="fas fa-info-circle" style="margin-right:8px;color:var(--pu)"></i>No children linked. Contact admin to link your children.</div>';
+    return;
+  }
+
+  sel.innerHTML = '<p style="font-size:12px;font-weight:600;color:var(--mu);width:100%;margin-bottom:4px">SELECT CHILD:</p>';
+  CHILDREN.forEach(function(child, i){
+    var btn = document.createElement('div');
+    btn.className = 'child-btn' + (i===0?' active':'');
+    btn.innerHTML =
+      '<div class="av"><i class="fas fa-user-graduate"></i></div>' +
+      '<div><div class="cn">'+child.Name+'</div><div class="cc">'+child.Class+(child.Section?' - '+child.Section:'')+'</div></div>';
+    btn.onclick = function(){
+      document.querySelectorAll('.child-btn').forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      selectChild(child);
+    };
+    sel.appendChild(btn);
+    if (i===0) selectChild(child);
+  });
+}
+
+function selectChild(child){
+  ACTIVE_CHILD = child;
+  document.getElementById('st-class').textContent = child.Class || '—';
+  loadStudentInfo(child);
+  loadAttendanceSummary(child.StudentID || child.AdmissionNo);
+  loadLastExamSummary(child.StudentID || child.AdmissionNo);
+  loadFeeSummary(child.StudentID || child.AdmissionNo);
+}
+
+function loadStudentInfo(child){
+  var grid = document.getElementById('studentInfoGrid');
+  if (!grid) return;
+  var fields = [
+    ['Admission No', child.AdmissionNo||'—'],
+    ['Full Name',    child.Name||'—'],
+    ['Class',        (child.Class||'—')+(child.Section?' - '+child.Section:'')],
+    ['Father\'s Name',child.FatherName||'—'],
+    ['Mother\'s Name',child.MotherName||'—'],
+    ['Phone',        child.Phone||'—'],
+    ['Date of Birth',child.DOB||'—'],
+    ['Status',       child.Status||'Active']
+  ];
+  grid.innerHTML = fields.map(function(f){
+    return '<div style="display:flex;flex-direction:column;gap:3px">' +
+      '<span style="font-size:11px;font-weight:600;color:var(--mu)">'+ f[0] +'</span>' +
+      '<span style="font-size:13px;font-weight:500;color:var(--tx);background:#fdf8ff;padding:8px 12px;border-radius:8px;border:1px solid #f0e8f8">'+ f[1] +'</span>' +
+      '</div>';
+  }).join('');
+}
+
+// ── ATTENDANCE SUMMARY ──
+function loadAttendanceSummary(studentId){
+  if (!studentId) return;
+  if (typeof google==='undefined' || !google.script){
+    updateAttSummary(22, 3, 1);
+    return;
+  }
+  google.script.run
+    .withSuccessHandler(function(res){
+      if (res && res.success && res.data){
+        var d = res.data[studentId];
+        if (d) updateAttSummary(d.P||0, d.A||0, d.L||0);
+      }
+    })
+    .withFailureHandler(function(){})
+    .getAttendanceSummary({ studentId: studentId });
+}
+
+function updateAttSummary(p, a, l){
+  var total = p+a+l || 1;
+  var pct   = Math.round((p/total)*100);
+  document.getElementById('att-present').textContent = p;
+  document.getElementById('att-absent').textContent  = a;
+  document.getElementById('att-leave').textContent   = l;
+  document.getElementById('att-pct').textContent     = pct+'%';
+  document.getElementById('st-att').textContent      = pct+'%';
+  setTimeout(function(){
+    document.getElementById('att-pbar').style.width = pct+'%';
+    document.getElementById('att-abar').style.width = Math.round((a/total)*100)+'%';
+    document.getElementById('att-lbar').style.width = Math.round((l/total)*100)+'%';
+  }, 200);
+}
+
+// ── ATTENDANCE TABLE ──
+function loadAttendance(){
+  if (!ACTIVE_CHILD) return;
+  var month = document.getElementById('attMonth') ? document.getElementById('attMonth').value : '';
+  var tbody = document.getElementById('attTable');
+  if (!tbody) return;
+  tbody.innerHTML = '<tr><td colspan="3" style="text-align:center;padding:16px"><div class="spinner" style="margin:0 auto"></div></td></tr>';
+
+  if (typeof google==='undefined' || !google.script){
+    // Demo data
+    var days=['01','02','03','04','07','08','09','10','11','14','15','16','17','18'];
+    var demo = days.map(function(d,i){
+      return { date:'2024-07-'+d, status: i%7===5?'A':i%13===0?'L':'P' };
+    });
+    renderAttTable(demo);
+    return;
+  }
+  google.script.run
+    .withSuccessHandler(function(res){
+      if (res && res.success) renderAttTable(res.data);
+      else tbody.innerHTML = '<tr><td colspan="3" style="text-align:center;color:var(--mu);padding:16px">No records found</td></tr>';
+    })
+    .withFailureHandler(function(){ tbody.innerHTML = '<tr><td colspan="3" style="text-align:center;color:#f44336;padding:16px">Error loading attendance</td></tr>'; })
+    .getAttendanceForStudent(ACTIVE_CHILD.StudentID);
+}
+
+function renderAttTable(data){
+  var tbody = document.getElementById('attTable');
+  if (!data || data.length===0){
+    tbody.innerHTML = '<tr><td colspan="3" style="text-align:center;color:var(--mu);padding:16px">No attendance records found</td></tr>';
+    return;
+  }
+  var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  tbody.innerHTML = data.map(function(rec){
+    var d    = new Date(rec.date);
+    var day  = days[d.getDay()];
+    var cls  = rec.status==='P'?'b-ok':rec.status==='A'?'b-no':'b-lv';
+    var lbl  = rec.status==='P'?'Present':rec.status==='A'?'Absent':'Leave';
+    return '<tr><td>'+rec.date+'</td><td>'+day+'</td><td><span class="badge '+cls+'">'+lbl+'</span></td></tr>';
+  }).join('');
+}
+
+// ── RESULTS ──
+function loadLastExamSummary(studentId){
+  if (typeof google==='undefined' || !google.script){
+    document.getElementById('st-pct').textContent = '83%';
+    return;
+  }
+  google.script.run
+    .withSuccessHandler(function(res){
+      if (res && res.success) document.getElementById('st-pct').textContent = (res.percentage||'—')+'%';
+    })
+    .withFailureHandler(function(){})
+    .getMarksForClass({ class:'', examName:'' });
+}
+
+function loadResults(){
+  if (!ACTIVE_CHILD){ toast('⚠ Select a child first'); return; }
+  var card = document.getElementById('resultCard');
+  card.innerHTML = '<div style="padding:20px;text-align:center"><div class="spinner" style="margin:0 auto"></div></div>';
+
+  if (typeof google==='undefined' || !google.script){
+    renderResult({
+      success:true, percentage:83, overallGrade:'A', result:'PASS',
+      total:415, maxTotal:500,
+      student: ACTIVE_CHILD,
+      marks:[
+        {Subject:'Quran',MarksObtained:85,MaxMarks:100,Grade:'A'},
+        {Subject:'Arabic',MarksObtained:78,MaxMarks:100,Grade:'B+'},
+        {Subject:'Islamic Studies',MarksObtained:92,MaxMarks:100,Grade:'A+'},
+        {Subject:'Mathematics',MarksObtained:76,MaxMarks:100,Grade:'B+'},
+        {Subject:'English',MarksObtained:84,MaxMarks:100,Grade:'A'}
+      ]
+    });
+    return;
+  }
+  var sid = ACTIVE_CHILD.StudentID || ACTIVE_CHILD.AdmissionNo || '';
+  var cls = ACTIVE_CHILD.Class || '';
+  google.script.run
+    .withSuccessHandler(function(res){
+      if (res && res.success) renderResult(res.data||[], sid);
+      else card.innerHTML = '<div style="padding:20px;text-align:center;color:#f44336">Error loading results</div>';
+    })
+    .withFailureHandler(function(e){ card.innerHTML = '<div style="padding:20px;text-align:center;color:#f44336">Error: '+(e.message||'Failed')+'</div>'; })
+    .getMarksForClass({ class:cls, examName:'' });
+}
+
+function renderResult(allMarks, studentId){
+  var card = document.getElementById('resultCard');
+  /* Filter marks for this student only */
+  var marks = (allMarks||[]).filter(function(r){
+    var rsid = String(r.StudentID||r.AdmissionNo||'').trim();
+    var csid = String(studentId||'').trim();
+    return rsid === csid;
+  });
+
+  if (!marks || marks.length === 0){
+    card.innerHTML = '<div style="padding:30px;text-align:center;color:var(--mu)"><i class="fas fa-chart-bar" style="font-size:36px;margin-bottom:12px;opacity:.3;display:block"></i><p>No exam results available yet</p></div>';
+    return;
+  }
+
+  /* Group by exam */
+  var byExam = {};
+  marks.forEach(function(m){
+    var ex = m.ExamName || m.examName || 'Exam';
+    if (!byExam[ex]) byExam[ex] = [];
+    byExam[ex].push(m);
+  });
+
+  var html = '';
+  Object.keys(byExam).forEach(function(exam){
+    var examMarks = byExam[exam];
+    var total   = examMarks.reduce(function(s,m){ return s+Number(m.MarksObtained||0); },0);
+    var maxTot  = examMarks.reduce(function(s,m){ return s+Number(m.MaxMarks||100); },0);
+    var pct     = maxTot>0?Math.round((total/maxTot)*100):0;
+    var grade   = pct>=90?'A+':pct>=80?'A':pct>=70?'B+':pct>=60?'B':pct>=50?'C':pct>=35?'D':'F';
+    var pass    = pct>=35;
+    var gc      = pct>=60?'#388E3C':pct>=35?'#F57F17':'#D32F2F';
+
+    html += '<div style="margin-bottom:16px;border:1px solid #f0e8f8;border-radius:14px;overflow:hidden">';
+    html += '<div class="result-header" style="background:linear-gradient(135deg,#1a0a2e,#2d0845)">';
+    html += '<div class="result-grade" style="background:linear-gradient(135deg,'+gc+','+gc+'aa)">'+grade+'</div>';
+    html += '<div class="result-info">';
+    html += '<h3>'+(ACTIVE_CHILD&&ACTIVE_CHILD.Name||'Student')+'</h3>';
+    html += '<p>'+exam+' · '+pct+'% · '+total+'/'+maxTot+'</p>';
+    html += '<span class="'+(pass?'result-pass':'result-fail')+'">'+(pass?'PASS':'FAIL')+'</span>';
+    html += '</div></div>';
+    html += '<div class="sub-marks">';
+    examMarks.forEach(function(m){
+      var mp = m.MaxMarks>0?Math.round((m.MarksObtained/m.MaxMarks)*100):0;
+      var mc = mp>=60?'#388E3C':mp>=35?'#F57F17':'#D32F2F';
+      html += '<div class="sub-card">';
+      html += '<div class="sub-name">'+(m.Subject||m.subject||'')+'</div>';
+      html += '<div class="sub-score" style="color:'+mc+'">'+(m.MarksObtained||0)+'</div>';
+      html += '<div class="sub-max">/ '+(m.MaxMarks||100)+'</div>';
+      html += '<div class="sub-grade">'+((m.Grade||m.grade||grade))+' · '+mp+'%</div>';
+      html += '<div style="height:3px;background:#f0e8f8;border-radius:2px;margin-top:4px"><div style="height:100%;width:'+mp+'%;background:'+mc+';border-radius:2px"></div></div>';
+      html += '</div>';
+    });
+    html += '</div></div>';
+  });
+  card.innerHTML = html;
+}
+
+// ── FEES ──
+function loadFeeSummary(studentId){
+  document.getElementById('st-fee').textContent = 'Paid';
+  if (typeof google==='undefined' || !google.script) return;
+  google.script.run
+    .withSuccessHandler(function(res){
+      if (res && res.success){
+        var total = res.data.reduce(function(s,r){ return s+(Number(r.Amount)||0); },0);
+        document.getElementById('st-fee').textContent = total>0?'Paid':'Due';
+      }
+    })
+    .withFailureHandler(function(){})
+    .getFeeStatus(studentId);
+}
+
+function loadFees(){
+  if (!ACTIVE_CHILD){ toast('⚠ Select a child first'); return; }
+  var tbody = document.getElementById('feeTable');
+  tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:16px"><div class="spinner" style="margin:0 auto"></div></td></tr>';
+
+  if (typeof google==='undefined' || !google.script){
+    var demo=[
+      {ReceiptID:'RCP001',FeeType:'Monthly Fee',Amount:'500',Month:'Jul 2024',PaidAt:'Jul 5, 2024',Status:'Paid'},
+      {ReceiptID:'RCP002',FeeType:'Monthly Fee',Amount:'500',Month:'Jun 2024',PaidAt:'Jun 5, 2024',Status:'Paid'},
+      {ReceiptID:'RCP003',FeeType:'Exam Fee',   Amount:'200',Month:'Mar 2024',PaidAt:'Mar 1, 2024',Status:'Paid'}
+    ];
+    renderFees(demo);
+    return;
+  }
+  google.script.run
+    .withSuccessHandler(function(res){
+      if (res && res.success) renderFees(res.data);
+      else tbody.innerHTML='<tr><td colspan="6" style="text-align:center;color:var(--mu);padding:16px">No fee records</td></tr>';
+    })
+    .withFailureHandler(function(){ tbody.innerHTML='<tr><td colspan="6" style="text-align:center;color:#f44336;padding:16px">Error</td></tr>'; })
+    .getFeeStatus(ACTIVE_CHILD.StudentID || ACTIVE_CHILD.AdmissionNo);
+}
+
+function renderFees(data){
+  var tbody  = document.getElementById('feeTable');
+  var total  = 0;
+  if (!data || data.length===0){
+    tbody.innerHTML='<tr><td colspan="6" style="text-align:center;color:var(--mu);padding:16px">No fee records found</td></tr>';
+    return;
+  }
+  tbody.innerHTML = data.map(function(r){
+    total += Number(r.Amount)||0;
+    return '<tr>' +
+      '<td>'+(r.ReceiptID||'—')+'</td>' +
+      '<td>'+(r.FeeType||'—')+'</td>' +
+      '<td>₹'+(r.Amount||0)+'</td>' +
+      '<td>'+(r.Month||'—')+'</td>' +
+      '<td>'+(r.PaidAt||r.CreatedAt||'—')+'</td>' +
+      '<td><span class="badge b-ok">'+(r.Status||'Paid')+'</span></td>' +
+      '</tr>';
+  }).join('');
+  document.getElementById('fee-paid').textContent = '₹'+total;
+}
+
+// ── REFRESH ──
+function refreshData(){
+  if (ACTIVE_CHILD) selectChild(ACTIVE_CHILD);
+  toast('✅ Data refreshed');
+}
+
+// ── LOGOUT ──
+function doLogout(){
+  sessionStorage.clear();
+  if (typeof google!=='undefined' && google.script && google.script.run){
+    google.script.run
+      .withSuccessHandler(function(url){ window.top.location.href = url; })
+      .withFailureHandler(function(){})
+      .getScriptUrl();
+  } else {
+    window.location.href = 'index.html';
+  }
+}
+
+// ── TOAST ──
+function toast(msg){
+  var t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  clearTimeout(window._tt);
+  window._tt=setTimeout(function(){ t.classList.remove('show'); },2500);
+}
+
+// ── SIDEBAR OPEN / CLOSE ──
+function toggleSidebar(){
+  var sb  = document.getElementById('sidebar');
+  var ov  = document.getElementById('sbOverlay');
+  var btn = document.getElementById('menuBtn');
+  var isOpen = sb.classList.toggle('open');
+  if(ov)  ov.classList.toggle('show', isOpen);
+  if(btn) btn.classList.toggle('is-open', isOpen);
+  // prevent body scroll when sidebar open on mobile
+  document.body.style.overflow = isOpen ? 'hidden' : '';
+}
+function closeSidebar(){
+  var sb  = document.getElementById('sidebar');
+  var ov  = document.getElementById('sbOverlay');
+  var btn = document.getElementById('menuBtn');
+  sb.classList.remove('open');
+  if(ov)  ov.classList.remove('show');
+  if(btn) btn.classList.remove('is-open');
+  document.body.style.overflow = '';
+}
+// Close sidebar when a nav item is tapped on mobile
+document.querySelectorAll('.ni').forEach(function(el){
+  el.addEventListener('click', function(){
+    if(window.innerWidth <= 900) closeSidebar();
+  });
+});
+// Close on Escape key
+document.addEventListener('keydown', function(e){
+  if(e.key === 'Escape') closeSidebar();
+});
+</script>
+
+<!-- Sidebar overlay for mobile -->
+<div class="sb-overlay" id="sbOverlay" onclick="closeSidebar()"></div>
+
+</body>
+</html>

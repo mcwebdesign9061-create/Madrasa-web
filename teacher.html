@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Teacher Portal — Markaz Al Asas</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+:root{
+  --pk:#F5C518;--mg:#FFB300;--dk:#1a0a2e;--bg:#fffdf0;
+  --tx:#1a0a2e;--mu:#8b7099;--sw:250px;--tbh:60px;--bnav:64px;
+  --card:#fff;--border:#f0e8d0;--radius:14px;
+  --ac:#E91E8C;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+body{font-family:'Poppins',sans-serif;background:var(--bg);min-height:100vh;overflow-x:hidden;}
+
+/* TOPBAR */
+.topbar{position:fixed;top:0;left:0;right:0;height:var(--tbh);z-index:300;background:var(--dk);display:flex;align-items:center;justify-content:space-between;padding:0 16px;box-shadow:0 2px 16px rgba(0,0,0,.25);border-bottom:2px solid var(--pk);}
+.topbar-left{display:flex;align-items:center;gap:12px;}
+.ham{width:40px;height:40px;border-radius:10px;background:rgba(255,255,255,.08);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:5px;transition:background .2s;flex-shrink:0;}
+.ham:hover{background:rgba(245,197,24,.3);}
+.ham span{display:block;width:18px;height:2px;background:#fff;border-radius:2px;transition:all .3s;}
+.ham.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.ham.open span:nth-child(2){opacity:0;transform:scaleX(0);}
+.ham.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+.brand{display:flex;align-items:center;gap:8px;}
+.brand-icon{width:32px;height:32px;background:linear-gradient(135deg,var(--pk),var(--mg));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--dk);flex-shrink:0;}
+.brand-name{font-family:'Amiri',serif;font-size:14px;color:var(--pk);font-weight:700;}
+.page-title{font-size:14px;font-weight:700;color:#fff;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.topbar-right{display:flex;gap:6px;}
+.icon-btn{width:38px;height:38px;border-radius:10px;background:rgba(255,255,255,.08);border:none;color:rgba(255,255,255,.8);font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.icon-btn:hover{background:rgba(245,197,24,.25);color:var(--pk);}
+
+/* SIDEBAR */
+.sidebar{position:fixed;top:0;left:0;bottom:0;width:var(--sw);background:var(--dk);z-index:400;display:flex;flex-direction:column;transform:translateX(-100%);transition:transform .35s cubic-bezier(.4,0,.2,1);overflow-y:auto;}
+.sidebar.open{transform:translateX(0);box-shadow:8px 0 40px rgba(0,0,0,.5);}
+.sb-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:399;backdrop-filter:blur(3px);cursor:pointer;}
+.sb-overlay.show{display:block;}
+.sb-header{padding:16px;border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:space-between;}
+.sb-brand{display:flex;align-items:center;gap:10px;}
+.sb-icon{width:38px;height:38px;background:linear-gradient(135deg,var(--pk),var(--mg));border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:17px;color:var(--dk);}
+.sb-title{font-family:'Amiri',serif;font-size:14px;color:var(--pk);line-height:1.2;}
+.sb-sub{font-size:9px;color:rgba(255,255,255,.4);}
+.sb-x{width:30px;height:30px;background:rgba(255,255,255,.1);border:none;border-radius:50%;color:#fff;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.sb-user{padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.06);display:flex;align-items:center;gap:10px;}
+.sb-av{width:38px;height:38px;background:linear-gradient(135deg,var(--pk),var(--mg));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--dk);}
+.sb-uname{font-size:12px;font-weight:600;color:#fff;}
+.sb-urole{font-size:10px;color:var(--pk);}
+.sb-sec{padding:12px 14px 4px;font-size:9px;font-weight:700;color:rgba(255,255,255,.25);text-transform:uppercase;letter-spacing:1.2px;}
+.ni{display:flex;align-items:center;gap:11px;padding:11px 16px;color:rgba(255,255,255,.65);font-size:13px;font-weight:500;cursor:pointer;border-radius:10px;margin:1px 8px;transition:all .2s;}
+.ni:hover{background:rgba(245,197,24,.12);color:#fff;}
+.ni.active{background:linear-gradient(135deg,rgba(245,197,24,.25),rgba(255,179,0,.15));color:var(--pk);}
+.ni i{width:16px;text-align:center;font-size:14px;}
+.sb-footer{margin-top:auto;padding:12px 8px;border-top:1px solid rgba(255,255,255,.07);}
+
+/* MAIN */
+.main{padding-top:var(--tbh);min-height:100vh;padding-bottom:calc(var(--bnav)+16px);}
+.content{padding:14px;}
+
+/* BOTTOM NAV */
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;height:var(--bnav);z-index:250;background:#fff;border-top:1px solid var(--border);display:flex;align-items:stretch;box-shadow:0 -4px 20px rgba(0,0,0,.08);}
+.bn-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;padding:6px 4px;border:none;background:none;color:var(--mu);font-family:'Poppins',sans-serif;transition:all .2s;}
+.bn-item.active{color:var(--pk);}
+.bn-item i{font-size:18px;}
+.bn-item span{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.4px;}
+.bn-fab{flex:none;width:52px;height:52px;background:linear-gradient(135deg,var(--pk),var(--mg));border-radius:50%;margin:-14px 12px 0;display:flex;align-items:center;justify-content:center;color:var(--dk);font-size:22px;cursor:pointer;box-shadow:0 4px 18px rgba(245,197,24,.5);border:3px solid #fff;transition:all .2s;}
+
+/* CARDS */
+.card{background:var(--card);border-radius:var(--radius);box-shadow:0 2px 10px rgba(0,0,0,.05);overflow:hidden;margin-bottom:14px;}
+.ch{padding:12px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+.ct{font-size:13px;font-weight:700;color:var(--tx);display:flex;align-items:center;gap:7px;}
+.ct i{color:var(--pk);}
+.btn{padding:7px 13px;border-radius:8px;border:none;font-family:'Poppins',sans-serif;font-size:11px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:5px;transition:all .2s;}
+.btn-pk{background:linear-gradient(135deg,var(--pk),var(--mg));color:var(--dk);}
+.btn-ol{background:transparent;border:1.5px solid #e0d0a0;color:#666;}
+.btn-ol:hover{border-color:var(--pk);color:var(--pk);}
+
+/* STAT CARDS */
+.sc-row{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:14px;}
+.sc{background:var(--card);border-radius:var(--radius);padding:14px;display:flex;align-items:center;gap:12px;box-shadow:0 2px 10px rgba(0,0,0,.05);}
+.sc-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;color:#fff;flex-shrink:0;}
+.sc-val{font-size:20px;font-weight:800;color:var(--tx);line-height:1;}
+.sc-lbl{font-size:10px;color:#999;margin-top:2px;}
+
+/* FORM */
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:14px;}
+.fg{display:flex;flex-direction:column;gap:4px;}
+.fg label{font-size:11px;font-weight:600;color:#666;}
+.fi{width:100%;padding:10px 12px;border:1.5px solid #e8d8c0;border-radius:10px;font-family:'Poppins',sans-serif;font-size:13px;color:var(--tx);outline:none;background:#fff;transition:border-color .2s;}
+.fi:focus{border-color:var(--pk);box-shadow:0 0 0 3px rgba(245,197,24,.12);}
+.full{grid-column:1/-1;}
+
+/* LIST ROWS */
+.list-row{display:flex;align-items:center;gap:12px;padding:11px 14px;border-bottom:1px solid var(--border);}
+.list-row:last-child{border-bottom:none;}
+.list-av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.list-title{font-size:13px;font-weight:600;color:var(--tx);}
+.list-sub{font-size:11px;color:var(--mu);}
+.list-right{margin-left:auto;text-align:right;flex-shrink:0;}
+.badge{padding:3px 9px;border-radius:20px;font-size:10px;font-weight:700;display:inline-block;}
+.b-ok{background:rgba(76,175,80,.12);color:#388E3C;}
+.b-no{background:rgba(244,67,54,.1);color:#D32F2F;}
+.b-pd{background:rgba(245,197,24,.15);color:#F57F17;}
+
+/* ATTENDANCE */
+.att-row{display:grid;grid-template-columns:auto 1fr repeat(3,44px);gap:8px;align-items:center;padding:10px 14px;border-bottom:1px solid #fffbf0;}
+.att-row:last-child{border-bottom:none;}
+.att-lbl{text-align:center;font-size:9px;font-weight:700;color:var(--mu);text-transform:uppercase;}
+.att-radio input[type=radio]{width:18px;height:18px;accent-color:var(--pk);cursor:pointer;}
+
+/* PANELS */
+.pnl{display:none;}.pnl.active{display:block;}
+
+/* TOAST */
+#toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(40px);background:var(--dk);color:#fff;padding:10px 20px;border-radius:24px;font-size:12px;font-weight:500;z-index:9999;transition:transform .3s,opacity .3s;opacity:0;box-shadow:0 6px 20px rgba(0,0,0,.3);border:1px solid rgba(245,197,24,.3);white-space:nowrap;pointer-events:none;max-width:80vw;text-align:center;}
+#toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
+
+/* DESKTOP */
+@media(min-width:768px){
+  .sidebar{transform:translateX(0);}
+  .sb-overlay{display:none !important;}
+  .ham{display:none;}
+  .main{padding-left:var(--sw);}
+  .bottom-nav{display:none;}
+  .main{padding-bottom:16px;}
+  .sc-row{grid-template-columns:repeat(4,1fr);}
+  .fr{grid-template-columns:1fr 1fr;}
+  .content{padding:20px;}
+}
+@media(max-width:400px){
+  .fr{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <div class="topbar-left">
+    <button class="ham" id="hamBtn"><span></span><span></span><span></span></button>
+    <div class="brand">
+      <div class="brand-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+      <span class="brand-name">Markaz Al Asas</span>
+    </div>
+  </div>
+  <span class="page-title" id="pageTitle">Dashboard</span>
+  <div class="topbar-right">
+    <button class="icon-btn" id="btnRefresh" title="Refresh"><i class="fas fa-sync-alt"></i></button>
+    <button class="icon-btn" id="btnLogout" title="Logout"><i class="fas fa-sign-out-alt"></i></button>
+  </div>
+</header>
+
+<!-- SIDEBAR -->
+<div class="sb-overlay" id="sbOverlay"></div>
+<aside class="sidebar" id="sidebar">
+  <div class="sb-header">
+    <div class="sb-brand">
+      <div class="sb-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+      <div><div class="sb-title">Markaz Al Asas</div><div class="sb-sub">Teacher Portal</div></div>
+    </div>
+    <button class="sb-x" id="sbClose"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="sb-user">
+    <div class="sb-av"><i class="fas fa-user-tie"></i></div>
+    <div><div class="sb-uname" id="teacherName">Teacher</div><div class="sb-urole">Teaching Staff</div></div>
+  </div>
+
+  <div class="sb-sec">Main</div>
+  <div class="ni active" id="ni-dashboard" data-panel="dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</div>
+  <div class="ni" id="ni-attendance" data-panel="attendance"><i class="fas fa-clipboard-check"></i> Mark Attendance</div>
+  <div class="ni" id="ni-marks" data-panel="marks"><i class="fas fa-chart-bar"></i> Enter Marks</div>
+  <div class="ni" id="ni-students" data-panel="students"><i class="fas fa-user-graduate"></i> My Students</div>
+
+  <div class="sb-sec">Academic</div>
+  <div class="ni" id="ni-results" data-panel="results"><i class="fas fa-trophy"></i> View Results</div>
+  <div class="ni" id="ni-admitcard" data-panel="admitcard"><i class="fas fa-id-card"></i> Admit Cards</div>
+  <div class="ni" id="ni-timetable" data-panel="timetable"><i class="fas fa-calendar-week"></i> Timetable</div>
+
+  <div class="sb-sec">Communication</div>
+  <div class="ni" id="ni-notices" data-panel="notices"><i class="fas fa-bullhorn"></i> Notices</div>
+
+  <div class="sb-footer">
+    <div class="ni" id="ni-logout" style="margin:0;color:rgba(255,100,100,.8)"><i class="fas fa-sign-out-alt"></i> Logout</div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+<div class="content">
+
+  <!-- DASHBOARD -->
+  <div class="pnl active" id="pnl-dashboard">
+    <div class="sc-row">
+      <div class="sc"><div class="sc-icon" style="background:linear-gradient(135deg,#F5C518,#FFB300)"><i class="fas fa-user-graduate"></i></div><div><div class="sc-val" id="dv-students">—</div><div class="sc-lbl">My Students</div></div></div>
+      <div class="sc"><div class="sc-icon" style="background:linear-gradient(135deg,#4CAF50,#388E3C)"><i class="fas fa-calendar-check"></i></div><div><div class="sc-val" id="dv-present">—</div><div class="sc-lbl">Present Today</div></div></div>
+      <div class="sc"><div class="sc-icon" style="background:linear-gradient(135deg,#E91E8C,#C2185B)"><i class="fas fa-chart-bar"></i></div><div><div class="sc-val" id="dv-marked">—</div><div class="sc-lbl">Exams Marked</div></div></div>
+      <div class="sc"><div class="sc-icon" style="background:linear-gradient(135deg,#7B1FA2,#4A148C)"><i class="fas fa-chalkboard"></i></div><div><div class="sc-val" id="dv-class">—</div><div class="sc-lbl">My Class</div></div></div>
+    </div>
+
+    <div class="card">
+      <div class="ch"><div class="ct"><i class="fas fa-bolt"></i> Quick Actions</div></div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:14px">
+        <div style="background:#fffbf0;border:1.5px solid #f0e0a0;border-radius:12px;padding:14px;text-align:center;cursor:pointer" onclick="showP('attendance')">
+          <div style="font-size:24px;margin-bottom:6px">✅</div><div style="font-size:11px;font-weight:600;color:var(--tx)">Mark Attendance</div>
+        </div>
+        <div style="background:#fffbf0;border:1.5px solid #f0e0a0;border-radius:12px;padding:14px;text-align:center;cursor:pointer" onclick="showP('marks')">
+          <div style="font-size:24px;margin-bottom:6px">📝</div><div style="font-size:11px;font-weight:600;color:var(--tx)">Enter Marks</div>
+        </div>
+        <div style="background:#fffbf0;border:1.5px solid #f0e0a0;border-radius:12px;padding:14px;text-align:center;cursor:pointer" onclick="showP('results')">
+          <div style="font-size:24px;margin-bottom:6px">📊</div><div style="font-size:11px;font-weight:600;color:var(--tx)">View Results</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="ch"><div class="ct"><i class="fas fa-bullhorn"></i> Recent Notices</div></div>
+      <div style="padding:10px 14px;display:flex;flex-direction:column;gap:8px" id="noticeList">
+        <div style="padding:10px;background:#fffbf0;border-radius:10px;border-left:3px solid var(--pk)">
+          <div style="font-size:12px;font-weight:600;color:var(--tx)">Parent-Teacher Meeting — Aug 3, 10 AM</div>
+          <div style="font-size:10px;color:var(--mu)">July 8, 2024</div>
+        </div>
+        <div style="padding:10px;background:#fffbf0;border-radius:10px;border-left:3px solid #E91E8C">
+          <div style="font-size:12px;font-weight:600;color:var(--tx)">Annual Exam Schedule Published</div>
+          <div style="font-size:10px;color:var(--mu)">July 5, 2024</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ATTENDANCE -->
+  <div class="pnl" id="pnl-attendance">
+    <div class="card">
+      <div class="ch">
+        <div class="ct"><i class="fas fa-clipboard-check"></i> Mark Attendance</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <input type="date" id="attDate" class="fi" style="width:auto;padding:7px 10px;font-size:12px">
+          <select id="attClass" class="fi" style="width:auto;padding:7px 10px;font-size:12px" onchange="loadAttStudents()">
+            <option value="">Select Class</option>
+            <option>Class 1</option><option>Class 2</option><option>Class 3</option>
+            <option>Class 4</option><option>Class 5</option><option>Class 6</option>
+            <option>Class 7</option><option>Class 8</option><option>Class 9</option>
+            <option>Class 10</option><option>Class 11</option><option>Class 12</option>
+          </select>
+        </div>
+      </div>
+      <div style="padding:8px 14px 4px;display:grid;grid-template-columns:auto 1fr repeat(3,44px);gap:8px">
+        <div></div>
+        <div class="att-lbl" style="text-align:left;font-size:10px;font-weight:600;color:var(--mu)">Student</div>
+        <div class="att-lbl" style="color:#4CAF50">P</div>
+        <div class="att-lbl" style="color:#f44336">A</div>
+        <div class="att-lbl" style="color:#2196F3">L</div>
+      </div>
+      <div id="attStudentList">
+        <div style="padding:20px;text-align:center;color:var(--mu);font-size:12px">Select a class to load students</div>
+      </div>
+      <div style="padding:12px 14px">
+        <button class="btn btn-pk" style="padding:10px 22px" onclick="saveTeacherAttendance()"><i class="fas fa-save"></i> Save Attendance</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ENTER MARKS -->
+  <div class="pnl" id="pnl-marks">
+    <div class="card">
+      <div class="ch"><div class="ct"><i class="fas fa-edit"></i> Enter Marks</div></div>
+      <div class="fr">
+        <div class="fg"><label>Exam Name *</label>
+          <select class="fi" id="mk-exam">
+            <option>Unit Test 1</option><option>Unit Test 2</option>
+            <option>Half Yearly</option><option>Annual Exam</option>
+          </select>
+        </div>
+        <div class="fg"><label>Class *</label>
+          <select class="fi" id="mk-cls" onchange="loadMarksStudents()">
+            <option value="">Select Class</option>
+            <option>Class 1</option><option>Class 2</option><option>Class 3</option>
+            <option>Class 4</option><option>Class 5</option><option>Class 6</option>
+            <option>Class 7</option><option>Class 8</option><option>Class 9</option>
+            <option>Class 10</option><option>Class 11</option><option>Class 12</option>
+          </select>
+        </div>
+        <div class="fg"><label>Subject</label>
+          <input class="fi" type="text" id="mk-subj" placeholder="e.g. Quran, Arabic, Maths">
+        </div>
+        <div class="fg"><label>Max Marks</label>
+          <input class="fi" type="number" id="mk-max" value="100">
+        </div>
+      </div>
+      <div id="marksStudentList" style="padding:0 14px 14px">
+        <div style="color:var(--mu);font-size:12px;padding:10px 0">Select class to load students</div>
+      </div>
+      <div style="padding:0 14px 14px">
+        <button class="btn btn-pk" style="padding:10px 22px" onclick="saveTeacherMarks()"><i class="fas fa-save"></i> Save Marks</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MY STUDENTS -->
+  <div class="pnl" id="pnl-students">
+    <div class="card">
+      <div class="ch">
+        <div class="ct"><i class="fas fa-users"></i> My Students</div>
+        <select class="fi" id="stuClassSel" style="width:auto;padding:6px 10px;font-size:11px" onchange="loadMyStudents()">
+          <option value="">All Classes</option>
+          <option>Class 1</option><option>Class 2</option><option>Class 3</option>
+          <option>Class 4</option><option>Class 5</option><option>Class 6</option>
+          <option>Class 7</option><option>Class 8</option><option>Class 9</option>
+          <option>Class 10</option><option>Class 11</option><option>Class 12</option>
+        </select>
+      </div>
+      <div id="myStudentList">
+        <div style="padding:20px;text-align:center;color:var(--mu);font-size:12px"><i class="fas fa-spinner fa-spin"></i> Loading students…</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VIEW RESULTS -->
+  <div class="pnl" id="pnl-results">
+    <div class="card">
+      <div class="ch"><div class="ct"><i class="fas fa-trophy"></i> Student Results</div></div>
+      <div class="fr" style="padding-bottom:0">
+        <div class="fg"><label>Class</label>
+          <select class="fi" id="res-cls">
+            <option value="">All Classes</option>
+            <option>Class 1</option><option>Class 2</option><option>Class 3</option>
+            <option>Class 4</option><option>Class 5</option><option>Class 6</option>
+            <option>Class 7</option><option>Class 8</option><option>Class 9</option>
+            <option>Class 10</option><option>Class 11</option><option>Class 12</option>
+          </select>
+        </div>
+        <div class="fg"><label>Exam</label>
+          <select class="fi" id="res-exam">
+            <option>Annual Exam</option><option>Half Yearly</option>
+            <option>Unit Test 1</option><option>Unit Test 2</option>
+          </select>
+        </div>
+      </div>
+      <div style="padding:0 14px 14px">
+        <button class="btn btn-pk" style="padding:9px 18px" onclick="loadTeacherResults()"><i class="fas fa-search"></i> View Results</button>
+      </div>
+      <div id="resultsBody"><div style="padding:20px;text-align:center;color:var(--mu);font-size:12px">Select class and exam, then click View Results</div></div>
+    </div>
+  </div>
+
+  <!-- TIMETABLE -->
+  <div class="pnl" id="pnl-timetable">
+    <div class="card">
+      <div class="ch"><div class="ct"><i class="fas fa-calendar-week"></i> My Timetable</div></div>
+      <div style="padding:14px;overflow-x:auto">
+        <table style="width:100%;border-collapse:collapse;font-size:12px;min-width:400px">
+          <thead>
+            <tr style="background:linear-gradient(135deg,#1a0a2e,#2d0845);color:#fff">
+              <th style="padding:10px;text-align:left">Day</th>
+              <th style="padding:10px;text-align:center">Period 1</th>
+              <th style="padding:10px;text-align:center">Period 2</th>
+              <th style="padding:10px;text-align:center">Period 3</th>
+              <th style="padding:10px;text-align:center">Period 4</th>
+              <th style="padding:10px;text-align:center">Period 5</th>
+            </tr>
+          </thead>
+          <tbody id="timetableBody">
+            <tr style="background:#fffbf0"><td style="padding:9px 10px;font-weight:600;color:var(--tx)">Sunday</td><td style="padding:9px;text-align:center;color:var(--mu)">Quran</td><td style="padding:9px;text-align:center;color:var(--mu)">Arabic</td><td style="padding:9px;text-align:center;color:var(--mu)">Free</td><td style="padding:9px;text-align:center;color:var(--mu)">Maths</td><td style="padding:9px;text-align:center;color:var(--mu)">English</td></tr>
+            <tr><td style="padding:9px 10px;font-weight:600;color:var(--tx)">Monday</td><td style="padding:9px;text-align:center;color:var(--mu)">Arabic</td><td style="padding:9px;text-align:center;color:var(--mu)">Islamic</td><td style="padding:9px;text-align:center;color:var(--mu)">Quran</td><td style="padding:9px;text-align:center;color:var(--mu)">English</td><td style="padding:9px;text-align:center;color:var(--mu)">Free</td></tr>
+            <tr style="background:#fffbf0"><td style="padding:9px 10px;font-weight:600;color:var(--tx)">Tuesday</td><td style="padding:9px;text-align:center;color:var(--mu)">Islamic</td><td style="padding:9px;text-align:center;color:var(--mu)">Quran</td><td style="padding:9px;text-align:center;color:var(--mu)">Maths</td><td style="padding:9px;text-align:center;color:var(--mu)">Arabic</td><td style="padding:9px;text-align:center;color:var(--mu)">English</td></tr>
+            <tr><td style="padding:9px 10px;font-weight:600;color:var(--tx)">Wednesday</td><td style="padding:9px;text-align:center;color:var(--mu)">Maths</td><td style="padding:9px;text-align:center;color:var(--mu)">English</td><td style="padding:9px;text-align:center;color:var(--mu)">Arabic</td><td style="padding:9px;text-align:center;color:var(--mu)">Islamic</td><td style="padding:9px;text-align:center;color:var(--mu)">Quran</td></tr>
+            <tr style="background:#fffbf0"><td style="padding:9px 10px;font-weight:600;color:var(--tx)">Thursday</td><td style="padding:9px;text-align:center;color:var(--mu)">English</td><td style="padding:9px;text-align:center;color:var(--mu)">Maths</td><td style="padding:9px;text-align:center;color:var(--mu)">Islamic</td><td style="padding:9px;text-align:center;color:var(--mu)">Free</td><td style="padding:9px;text-align:center;color:var(--mu)">Arabic</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADMIT CARDS -->
+  <div class="pnl" id="pnl-admitcard">
+    <div class="card">
+      <div class="ch"><div class="ct"><i class="fas fa-id-card"></i> Generate Admit Cards</div></div>
+      <div class="fr">
+        <div class="fg"><label>Exam Name *</label>
+          <select class="fi" id="t-ac-exam">
+            <option>Annual Exam 2024-25</option><option>Half Yearly 2024-25</option>
+            <option>Unit Test 1</option><option>Unit Test 2</option>
+          </select>
+        </div>
+        <div class="fg"><label>Class *</label>
+          <select class="fi" id="t-ac-class">
+            <option value="">All Classes</option>
+            <option>Class 1</option><option>Class 2</option><option>Class 3</option>
+            <option>Class 4</option><option>Class 5</option><option>Class 6</option>
+            <option>Class 7</option><option>Class 8</option><option>Class 9</option>
+            <option>Class 10</option><option>Class 11</option><option>Class 12</option>
+          </select>
+        </div>
+        <div class="fg"><label>Exam Date</label><input class="fi" type="date" id="t-ac-date"></div>
+        <div class="fg"><label>Venue</label><input class="fi" type="text" id="t-ac-venue" value="Main Examination Hall"></div>
+      </div>
+      <div style="padding:0 14px 14px;display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn btn-pk" style="padding:10px 20px" onclick="teacherGenerateCards()"><i class="fas fa-magic"></i> Generate Cards</button>
+        <button class="btn btn-ol" style="padding:10px 18px" onclick="teacherPrintAllCards()"><i class="fas fa-print"></i> Print All</button>
+      </div>
+    </div>
+    <div class="card" id="t-ac-preview" style="display:none">
+      <div class="ch">
+        <div class="ct"><i class="fas fa-list"></i> Cards <span id="t-ac-count" style="font-size:11px;font-weight:400;color:var(--mu)"></span></div>
+        <button class="btn btn-pk" onclick="teacherPrintAllCards()" style="padding:7px 14px"><i class="fas fa-print"></i> Print All</button>
+      </div>
+      <div id="t-ac-list" style="padding:10px 14px;display:flex;flex-direction:column;gap:6px;max-height:400px;overflow-y:auto"></div>
+    </div>
+  </div>
+
+  <!-- NOTICES -->
+  <div class="pnl" id="pnl-notices">
+    <div class="card">
+      <div class="ch"><div class="ct"><i class="fas fa-bullhorn"></i> School Notices</div></div>
+      <div style="padding:10px 14px;display:flex;flex-direction:column;gap:8px">
+        <div style="padding:12px;background:#fffbf0;border-radius:10px;border-left:3px solid var(--pk)">
+          <div style="font-size:13px;font-weight:600;color:var(--tx)">Annual Exam Schedule Published</div>
+          <div style="font-size:11px;color:var(--mu);margin-top:3px">July 10, 2024 · Academic</div>
+        </div>
+        <div style="padding:12px;background:#fffbf0;border-radius:10px;border-left:3px solid #E91E8C">
+          <div style="font-size:13px;font-weight:600;color:var(--tx)">Parent-Teacher Meeting — August 3, 10 AM</div>
+          <div style="font-size:11px;color:var(--mu);margin-top:3px">July 8, 2024 · General</div>
+        </div>
+        <div style="padding:12px;background:#fffbf0;border-radius:10px;border-left:3px solid #7B1FA2">
+          <div style="font-size:13px;font-weight:600;color:var(--tx)">Viswas Program — July 27, Imam Shafi Atrium</div>
+          <div style="font-size:11px;color:var(--mu);margin-top:3px">July 5, 2024 · Events</div>
+        </div>
+        <div style="padding:12px;background:#fffbf0;border-radius:10px;border-left:3px solid #4CAF50">
+          <div style="font-size:13px;font-weight:600;color:var(--tx)">Quran Competition — Register Before July 30</div>
+          <div style="font-size:11px;color:var(--mu);margin-top:3px">July 3, 2024 · Academic</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</main>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <button class="bn-item active" id="bn-dashboard" data-panel="dashboard"><i class="fas fa-home"></i><span>Home</span></button>
+  <button class="bn-item" id="bn-attendance" data-panel="attendance"><i class="fas fa-clipboard-check"></i><span>Attend.</span></button>
+  <div class="bn-fab" id="bnFab"><i class="fas fa-th-large"></i></div>
+  <button class="bn-item" id="bn-marks" data-panel="marks"><i class="fas fa-edit"></i><span>Marks</span></button>
+  <button class="bn-item" id="bn-students" data-panel="students"><i class="fas fa-users"></i><span>Students</span></button>
+  <button class="bn-item" id="bn-admitcard" data-panel="admitcard"><i class="fas fa-id-card"></i><span>Cards</span></button>
+</nav>
+
+<div id="toast"></div>
+
+<script>
+var PANELS = ['dashboard','attendance','marks','students','results','admitcard','timetable','notices'];
+
+/* ── SIDEBAR ── */
+function toggleSidebar() {
+  var sb=document.getElementById('sidebar'), ov=document.getElementById('sbOverlay'), btn=document.getElementById('hamBtn');
+  if(!sb) return;
+  var open=sb.classList.toggle('open');
+  if(ov) ov.classList.toggle('show',open);
+  if(btn) btn.classList.toggle('open',open);
+  document.body.style.overflow=open?'hidden':'';
+}
+function closeSidebar() {
+  var sb=document.getElementById('sidebar'), ov=document.getElementById('sbOverlay'), btn=document.getElementById('hamBtn');
+  if(sb) sb.classList.remove('open');
+  if(ov) ov.classList.remove('show');
+  if(btn) btn.classList.remove('open');
+  document.body.style.overflow='';
+}
+
+/* ── PANEL NAVIGATION ── */
+function showP(name) {
+  PANELS.forEach(function(p) {
+    var el=document.getElementById('pnl-'+p); if(el) el.classList.toggle('active',p===name);
+    var ni=document.getElementById('ni-'+p);  if(ni) ni.classList.toggle('active',p===name);
+    var bn=document.getElementById('bn-'+p);  if(bn) bn.classList.toggle('active',p===name);
+  });
+  var titles={dashboard:'Dashboard',attendance:'Mark Attendance',marks:'Enter Marks',
+    students:'My Students',results:'View Results',timetable:'Timetable',notices:'Notices'};
+  var t=document.getElementById('pageTitle'); if(t) t.textContent=titles[name]||name;
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(window.innerWidth<768) closeSidebar();
+  if(name==='students') setTimeout(loadMyStudents,150);
+  if(name==='results')  setTimeout(loadTeacherResults,150);
+}
+
+/* ── TOAST ── */
+function toast(msg) {
+  var t=document.getElementById('toast'); if(!t) return;
+  t.textContent=msg; t.classList.add('show');
+  clearTimeout(window._tt);
+  window._tt=setTimeout(function(){ t.classList.remove('show'); },2600);
+}
+
+/* ── GAS CALL ── */
+function gasCall(fn, args, onSuccess, onFail) {
+  if(typeof google==='undefined'||!google.script||!google.script.run) {
+    if(onSuccess) onSuccess({success:true,data:[],message:'Demo mode'});
+    return;
+  }
+  var obj = google.script.run
+    .withSuccessHandler(onSuccess||function(){})
+    .withFailureHandler(onFail||function(e){ toast('Error: '+(e.message||e)); });
+  if(args !== undefined) obj[fn](args);
+  else obj[fn]();
+}
+
+/* ── LOAD ATTENDANCE STUDENTS ── */
+function loadAttStudents() {
+  var cls=document.getElementById('attClass').value;
+  var list=document.getElementById('attStudentList');
+  if(!cls||!list) return;
+  list.innerHTML='<div style="padding:14px;text-align:center;color:var(--mu)"><i class="fas fa-spinner fa-spin"></i></div>';
+  gasCall('getStudents', cls, function(res) {
+    var data = (res&&res.data)||[];
+    if(data.length===0){ list.innerHTML='<div style="padding:14px;text-align:center;color:var(--mu)">No students in '+cls+'</div>'; return; }
+    list.innerHTML='';
+    data.forEach(function(s,i){
+      var sid=s.AdmissionNo||s.StudentID||'';
+      var row=document.createElement('div'); row.className='att-row';
+      row.innerHTML='<span style="font-size:11px;color:var(--mu)">'+(i+1)+'</span>'+
+        '<span style="font-size:12px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+(s.Name||'—')+'</span>'+
+        '<div style="display:flex;justify-content:center"><input type="radio" name="att_'+sid+'" value="P" checked></div>'+
+        '<div style="display:flex;justify-content:center"><input type="radio" name="att_'+sid+'" value="A"></div>'+
+        '<div style="display:flex;justify-content:center"><input type="radio" name="att_'+sid+'" value="L"></div>';
+      list.appendChild(row);
+    });
+    window._attStudents = data;
+  });
+}
+
+/* ── SAVE ATTENDANCE ── */
+function saveTeacherAttendance() {
+  var date=document.getElementById('attDate').value;
+  var cls=document.getElementById('attClass').value;
+  if(!date){ toast('Select date'); return; }
+  if(!window._attStudents||window._attStudents.length===0){ toast('Load students first'); return; }
+  var records=window._attStudents.map(function(s){
+    var sid=s.AdmissionNo||s.StudentID||'';
+    var radios=document.querySelectorAll('input[name="att_'+sid+'"]');
+    var status='P';
+    radios.forEach(function(r){ if(r.checked) status=r.value; });
+    return {studentId:sid, status:status};
+  });
+  toast('Saving attendance…');
+  gasCall('markAttendanceDirect',{date:date,classId:cls,records:records},function(res){
+    toast(res&&res.success?'✅ Attendance saved!':'✗ '+(res?res.message:'Error'));
+  });
+}
+
+/* ── LOAD MARKS STUDENTS ── */
+function loadMarksStudents() {
+  var cls=document.getElementById('mk-cls').value;
+  var list=document.getElementById('marksStudentList');
+  if(!cls||!list) return;
+  list.innerHTML='<div style="color:var(--mu);font-size:12px"><i class="fas fa-spinner fa-spin"></i> Loading…</div>';
+  gasCall('getStudents',cls,function(res){
+    var data=(res&&res.data)||[];
+    if(data.length===0){ list.innerHTML='<div style="color:var(--mu);font-size:12px">No students in '+cls+'</div>'; return; }
+    var maxM=document.getElementById('mk-max').value||100;
+    var html='<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:12px"><thead><tr style="background:#fffbf0"><th style="padding:8px;text-align:left;border-bottom:2px solid var(--border)">#</th><th style="padding:8px;text-align:left;border-bottom:2px solid var(--border)">Student</th><th style="padding:8px;text-align:center;border-bottom:2px solid var(--border)">Marks /'+maxM+'</th></tr></thead><tbody>';
+    data.forEach(function(s,i){
+      var sid=s.AdmissionNo||s.StudentID||'';
+      html+='<tr style="'+(i%2===0?'background:#fffbf0':'')+'"><td style="padding:7px 8px;border-bottom:1px solid var(--border);color:var(--mu)">'+(i+1)+'</td>';
+      html+='<td style="padding:7px 8px;border-bottom:1px solid var(--border);font-weight:500">'+(s.Name||'—')+'</td>';
+      html+='<td style="padding:4px 8px;border-bottom:1px solid var(--border);text-align:center"><input type="number" id="mk_'+sid+'" min="0" max="'+maxM+'" placeholder="—" style="width:60px;padding:5px;border:1.5px solid #e0d0a0;border-radius:8px;font-size:12px;text-align:center;font-family:Poppins,sans-serif;outline:none"></td>';
+      html+='</tr>';
+    });
+    html+='</tbody></table></div>';
+    list.innerHTML=html;
+    window._marksStudents=data;
+  });
+}
+
+/* ── SAVE MARKS ── */
+function saveTeacherMarks() {
+  var exam=document.getElementById('mk-exam').value;
+  var cls=document.getElementById('mk-cls').value;
+  var subj=(document.getElementById('mk-subj').value||'').trim();
+  var maxM=Number(document.getElementById('mk-max').value)||100;
+  if(!cls||!subj){ toast('Select class and enter subject'); return; }
+  if(!window._marksStudents){ toast('Load students first'); return; }
+  var records=[];
+  window._marksStudents.forEach(function(s){
+    var sid=s.AdmissionNo||s.StudentID||'';
+    var el=document.getElementById('mk_'+sid);
+    if(el&&el.value!=='') records.push({studentId:sid,subject:subj,marksObtained:Number(el.value),maxMarks:maxM});
+  });
+  if(records.length===0){ toast('Enter at least one mark'); return; }
+  toast('Saving '+records.length+' marks…');
+  gasCall('addMarksDirect',{examName:exam,class:cls,records:records},function(res){
+    toast(res&&res.success?'✅ Marks saved!':'✗ '+(res?res.message:'Error'));
+  });
+}
+
+/* ── LOAD MY STUDENTS ── */
+function loadMyStudents() {
+  var cls=document.getElementById('stuClassSel').value;
+  var list=document.getElementById('myStudentList');
+  if(!list) return;
+  list.innerHTML='<div style="padding:14px;text-align:center;color:var(--mu)"><i class="fas fa-spinner fa-spin"></i></div>';
+  gasCall('getStudents',cls,function(res){
+    var data=(res&&res.data)||[];
+    if(data.length===0){ list.innerHTML='<div style="padding:14px;text-align:center;color:var(--mu)">No students found</div>'; return; }
+    var colors=['rgba(245,197,24,.1)','rgba(233,30,140,.1)','rgba(123,31,162,.1)','rgba(76,175,80,.1)','rgba(33,150,243,.1)'];
+    var icolors=['var(--pk)','#E91E8C','#7B1FA2','#4CAF50','#2196F3'];
+    list.innerHTML='';
+    data.forEach(function(s,i){
+      var row=document.createElement('div'); row.className='list-row';
+      var av=document.createElement('div'); av.className='list-av'; av.style.background=colors[i%colors.length];
+      av.innerHTML='<i class="fas fa-user-graduate" style="color:'+icolors[i%icolors.length]+';font-size:15px"></i>';
+      var info=document.createElement('div'); info.style.flex='1';
+      info.innerHTML='<div class="list-title">'+(s.Name||'—')+'</div><div class="list-sub">'+(s.Class||'')+(s.Section?' · '+s.Section:'')+' · '+(s.AdmissionNo||'')+'</div>';
+      var badge=document.createElement('span'); badge.className='badge b-ok'; badge.textContent=s.Status||'Active';
+      row.appendChild(av); row.appendChild(info); row.appendChild(badge);
+      list.appendChild(row);
+    });
+  });
+}
+
+/* ── LOAD RESULTS ── */
+function loadTeacherResults() {
+  var cls=document.getElementById('res-cls').value;
+  var exam=document.getElementById('res-exam').value;
+  var body=document.getElementById('resultsBody');
+  if(!body) return;
+  body.innerHTML='<div style="padding:14px;text-align:center;color:var(--mu)"><i class="fas fa-spinner fa-spin"></i> Loading…</div>';
+  gasCall('getMarksForClass',{class:cls,examName:exam},function(res){
+    var data=(res&&res.data)||[];
+    if(data.length===0){ body.innerHTML='<div style="padding:14px;text-align:center;color:var(--mu)">No results found</div>'; return; }
+    /* Group by student */
+    var byStudent={};
+    data.forEach(function(r){
+      var sid=r.StudentID||r.AdmissionNo||'';
+      if(!byStudent[sid]) byStudent[sid]={name:r.Name||sid,class:r.Class||'',marks:[]};
+      if(r.Subject) byStudent[sid].marks.push({subj:r.Subject,got:Number(r.MarksObtained||0),max:Number(r.MaxMarks||100),grade:r.Grade||''});
+    });
+    var html='<div style="padding:8px 14px;display:flex;flex-direction:column;gap:10px">';
+    Object.keys(byStudent).forEach(function(sid){
+      var st=byStudent[sid];
+      var total=st.marks.reduce(function(s,m){return s+m.got;},0);
+      var maxT=st.marks.reduce(function(s,m){return s+m.max;},0);
+      var pct=maxT>0?Math.round((total/maxT)*100):0;
+      var grade=pct>=90?'A+':pct>=80?'A':pct>=70?'B+':pct>=60?'B':pct>=50?'C':pct>=35?'D':'F';
+      var pass=pct>=35;
+      var gc=pct>=60?'#388E3C':pct>=35?'#F57F17':'#D32F2F';
+      html+='<div style="border:1px solid var(--border);border-radius:12px;overflow:hidden">';
+      html+='<div style="background:linear-gradient(135deg,#1a0a2e,#2d0845);padding:10px 14px;display:flex;align-items:center;justify-content:space-between">';
+      html+='<div style="display:flex;align-items:center;gap:10px"><div style="width:34px;height:34px;background:linear-gradient(135deg,'+gc+','+gc+'aa);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:#fff">'+grade+'</div>';
+      html+='<div><div style="font-size:12px;font-weight:700;color:#fff">'+st.name+'</div><div style="font-size:10px;color:rgba(255,255,255,.4)">'+st.class+' · '+exam+'</div></div></div>';
+      html+='<div style="text-align:right"><div style="font-size:16px;font-weight:800;color:var(--pk)">'+pct+'%</div>';
+      html+='<span style="background:'+(pass?'rgba(76,175,80,.2)':'rgba(244,67,54,.2)')+';color:'+(pass?'#a5d6a7':'#ef9a9a')+';padding:1px 8px;border-radius:10px;font-size:10px;font-weight:700">'+(pass?'PASS':'FAIL')+'</span></div></div>';
+      html+='<div style="padding:8px 12px;display:flex;flex-wrap:wrap;gap:6px;background:#fafafa">';
+      st.marks.forEach(function(m){
+        var mp=m.max>0?Math.round((m.got/m.max)*100):0;
+        var mc=mp>=60?'#388E3C':mp>=35?'#F57F17':'#D32F2F';
+        html+='<div style="background:#fff;border-radius:8px;padding:6px 10px;border:1px solid var(--border);min-width:80px"><div style="font-size:9px;color:var(--mu);font-weight:600">'+m.subj+'</div>';
+        html+='<div style="font-size:14px;font-weight:800;color:'+mc+'">'+m.got+'<span style="font-size:9px;color:#ccc;font-weight:400">/'+m.max+'</span></div>';
+        html+='<div style="height:3px;background:#f0e8f8;border-radius:2px;margin-top:3px"><div style="height:100%;width:'+mp+'%;background:'+mc+';border-radius:2px"></div></div></div>';
+      });
+      html+='</div></div>';
+    });
+    html+='</div>';
+    body.innerHTML=html;
+  });
+}
+
+var _tAcStudents=[],_tAcExam='',_tAcDate='',_tAcVenue='',_tAcYear='2024-25';
+
+function teacherGenerateCards() {
+  var exam=(document.getElementById('t-ac-exam')||{value:''}).value;
+  var cls=(document.getElementById('t-ac-class')||{value:''}).value;
+  var date=(document.getElementById('t-ac-date')||{value:''}).value;
+  var venue=(document.getElementById('t-ac-venue')||{value:'Main Examination Hall'}).value||'Main Examination Hall';
+  if(!exam){toast('Select exam name');return;}
+  _tAcExam=exam;_tAcDate=date;_tAcVenue=venue;
+  toast('Loading students...');
+  function build(students){
+    var filtered=cls?students.filter(function(s){return (s.Class||s.class||'')===cls;}):students;
+    if(filtered.length===0){toast('No students found');return;}
+    _tAcStudents=filtered;
+    var preview=document.getElementById('t-ac-preview'),list=document.getElementById('t-ac-list'),count=document.getElementById('t-ac-count');
+    if(count) count.textContent='('+filtered.length+')';
+    list.innerHTML='';
+    filtered.forEach(function(s,i){
+      var row=document.createElement('div');
+      row.style.cssText='display:flex;align-items:center;gap:8px;padding:9px 10px;background:#fffbf0;border-radius:8px;border:1px solid var(--border)';
+      var name=s.Name||s.name||'—',scls=s.Class||s.class||'',admno=s.AdmissionNo||s.admissionNo||'';
+      row.innerHTML='<div style="width:30px;height:30px;background:linear-gradient(135deg,var(--pk),var(--mg));border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--dk);font-size:11px;font-weight:700;flex-shrink:0">'+(i+1)+'</div>'+
+        '<div style="flex:1"><div style="font-size:12px;font-weight:600">'+name+'</div><div style="font-size:10px;color:var(--mu)">'+scls+' · '+admno+'</div></div>'+
+        '<button class="btn btn-ol" style="padding:4px 9px;font-size:10px" data-idx="'+i+'"><i class="fas fa-print"></i></button>';
+      row.querySelector('[data-idx]').addEventListener('click',function(){
+        teacherPrintOneCard(Number(this.getAttribute('data-idx')));
+      });
+      list.appendChild(row);
+    });
+    if(preview) preview.style.display='block';
+    toast('Generated '+filtered.length+' cards');
+  }
+  if(typeof google==='undefined'||!google.script||!google.script.run){
+    build([{Name:'Demo Student',Class:cls||'Class 7',AdmissionNo:'STU001',Gender:'Male',FatherName:'Demo Father',DOB:'01/01/2014'}]);
+    return;
+  }
+  gasCall('getStudents',cls,function(res){ build((res&&res.data)||[]); });
+}
+
+function buildTeacherCard(s,exam,date,venue){
+  var name=s.Name||s.name||'—',cls=s.Class||s.class||'—',sec=s.Section||s.section||'';
+  var admno=s.AdmissionNo||s.admissionNo||s.StudentID||'—';
+  var dob=s.DOB||s.dob||'—',gender=s.Gender||s.gender||'—',father=s.FatherName||s.fatherName||'—';
+  return '<div style="border:2px solid #1a0a2e;border-radius:10px;margin-bottom:14px;page-break-inside:avoid;overflow:hidden;font-family:Arial,sans-serif">'+
+    '<div style="background:linear-gradient(135deg,#1a0a2e,#2d0845);padding:12px 16px;display:flex;align-items:center;gap:12px">'+
+      '<div style="width:46px;height:46px;background:linear-gradient(135deg,#F5C518,#FFB300);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">🕌</div>'+
+      '<div style="flex:1"><div style="font-size:14px;font-weight:900;color:#fff">MARKAZ AL ASAS ACADEMY</div>'+
+      '<div style="font-size:10px;color:#F5C518">SSF Dawa Sector, Ali Gate, Calicut</div></div>'+
+      '<div style="font-size:10px;font-weight:700;color:#F5C518;letter-spacing:1px">ADMIT CARD</div></div>'+
+    '<div style="background:linear-gradient(135deg,#F5C518,#FFB300);padding:7px 16px;display:flex;justify-content:space-between">'+
+      '<div style="font-size:12px;font-weight:800;color:#1a0a2e">'+exam+'</div>'+
+      '<div style="font-size:11px;color:#1a0a2e">'+date+'</div></div>'+
+    '<div style="padding:12px 16px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;font-size:11px">'+
+      '<div><b style="color:#aaa;font-size:9px;text-transform:uppercase;display:block">Student</b>'+name+'</div>'+
+      '<div><b style="color:#aaa;font-size:9px;text-transform:uppercase;display:block">Adm No</b><span style="color:#E91E8C;font-family:monospace">'+admno+'</span></div>'+
+      '<div><b style="color:#aaa;font-size:9px;text-transform:uppercase;display:block">Class</b>'+cls+(sec?' - '+sec:'')+'</div>'+
+      '<div><b style="color:#aaa;font-size:9px;text-transform:uppercase;display:block">DOB</b>'+dob+'</div>'+
+      '<div><b style="color:#aaa;font-size:9px;text-transform:uppercase;display:block">Gender</b>'+gender+'</div>'+
+      '<div><b style="color:#aaa;font-size:9px;text-transform:uppercase;display:block">Father</b>'+father+'</div>'+
+    '</div>'+
+    '<div style="padding:8px 16px 12px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid #ffe0b2">'+
+      '<div style="font-size:10px;color:#666"><b>Venue:</b> '+venue+'</div>'+
+      '<div style="border-top:1px solid #333;width:110px;padding-top:4px;font-size:9px;color:#666;text-align:center">Principal Signature</div>'+
+    '</div></div>';
+}
+
+function teacherPrintOneCard(idx){
+  var s=_tAcStudents[idx]; if(!s) return;
+  var w=window.open('','_blank','width=600,height=800');
+  w.document.write('<html><body style="margin:20px;font-family:Arial">'+buildTeacherCard(s,_tAcExam,_tAcDate,_tAcVenue)+'<script>window.print();<\/script></body></html>');
+  w.document.close();
+}
+
+function teacherPrintAllCards(){
+  if(!_tAcStudents||_tAcStudents.length===0){toast('Generate cards first');return;}
+  var html=_tAcStudents.map(function(s){return buildTeacherCard(s,_tAcExam,_tAcDate,_tAcVenue);}).join('');
+  var w=window.open('','_blank','width=800,height=900');
+  w.document.write('<html><head><style>@media print{@page{margin:10mm;size:A4;}}body{margin:20px;font-family:Arial}</style></head><body>'+html+'<script>window.print();<\/script></body></html>');
+  w.document.close();
+}
+
+/* ── LOAD DASHBOARD STATS ── */
+function loadDashboardStats() {
+  gasCall('getDashboardStats',undefined,function(res){
+    if(res&&res.success){
+      var s=res.stats;
+      var el;
+      el=document.getElementById('dv-students'); if(el) el.textContent=s.totalStudents||'—';
+      el=document.getElementById('dv-present');  if(el) el.textContent=s.presentToday||'—';
+      el=document.getElementById('dv-marked');   if(el) el.textContent='—';
+      el=document.getElementById('dv-class');    if(el) el.textContent='Class 7';
+    }
+  });
+}
+
+/* ── LOGOUT ── */
+function doLogout() {
+  sessionStorage.clear();
+  if(typeof google!=='undefined'&&google.script&&google.script.run){
+    google.script.run.withSuccessHandler(function(u){window.top.location.href=u;}).withFailureHandler(function(){}).getScriptUrl();
+  } else { window.location.href='index.html'; }
+}
+
+/* ── INIT ── */
+document.addEventListener('DOMContentLoaded', function() {
+  /* Set teacher name from session */
+  var name = sessionStorage.getItem('parentName') || 'Teacher';
+  var el = document.getElementById('teacherName'); if(el) el.textContent = name;
+
+  /* Set today's date */
+  var d = document.getElementById('attDate');
+  if(d) d.value = new Date().toISOString().split('T')[0];
+
+  /* Load stats */
+  loadDashboardStats();
+
+  /* Buttons */
+  document.getElementById('hamBtn').addEventListener('click', toggleSidebar);
+  document.getElementById('bnFab').addEventListener('click', toggleSidebar);
+  document.getElementById('sbClose').addEventListener('click', closeSidebar);
+  document.getElementById('sbOverlay').addEventListener('click', closeSidebar);
+  document.getElementById('btnRefresh').addEventListener('click', loadDashboardStats);
+  document.getElementById('btnLogout').addEventListener('click', doLogout);
+  document.getElementById('ni-logout').addEventListener('click', doLogout);
+
+  /* Nav delegation */
+  document.addEventListener('click', function(e){
+    var el = e.target.closest('[data-panel]');
+    if(el) showP(el.getAttribute('data-panel'));
+  });
+
+  /* Escape key */
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeSidebar(); });
+});
+</script>
+</body>
+</html>

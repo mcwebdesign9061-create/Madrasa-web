@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Student Portal — Markaz Al Asas</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+:root{
+  --pk:#00BCD4;--mg:#00838F;--dk:#0d1b2a;--bg:#f0fbff;
+  --tx:#0d1b2a;--mu:#607d8b;--sw:250px;--tbh:60px;--bnav:64px;
+  --card:#fff;--border:#e0f0f4;--radius:14px;--ac:#E91E8C;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+body{font-family:'Poppins',sans-serif;background:var(--bg);min-height:100vh;overflow-x:hidden;}
+
+.topbar{position:fixed;top:0;left:0;right:0;height:var(--tbh);z-index:300;background:var(--dk);display:flex;align-items:center;justify-content:space-between;padding:0 16px;box-shadow:0 2px 16px rgba(0,0,0,.25);border-bottom:2px solid var(--pk);}
+.topbar-left{display:flex;align-items:center;gap:12px;}
+.ham{width:40px;height:40px;border-radius:10px;background:rgba(255,255,255,.08);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:5px;transition:background .2s;}
+.ham:hover{background:rgba(0,188,212,.3);}
+.ham span{display:block;width:18px;height:2px;background:#fff;border-radius:2px;transition:all .3s;}
+.ham.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.ham.open span:nth-child(2){opacity:0;transform:scaleX(0);}
+.ham.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+.brand{display:flex;align-items:center;gap:8px;}
+.brand-icon{width:32px;height:32px;background:linear-gradient(135deg,var(--pk),var(--mg));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;color:#fff;}
+.brand-name{font-family:'Amiri',serif;font-size:14px;color:var(--pk);font-weight:700;}
+.page-title{font-size:14px;font-weight:700;color:#fff;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.topbar-right{display:flex;gap:6px;}
+.icon-btn{width:38px;height:38px;border-radius:10px;background:rgba(255,255,255,.08);border:none;color:rgba(255,255,255,.8);font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.icon-btn:hover{background:rgba(0,188,212,.25);color:var(--pk);}
+
+.sidebar{position:fixed;top:0;left:0;bottom:0;width:var(--sw);background:var(--dk);z-index:400;display:flex;flex-direction:column;transform:translateX(-100%);transition:transform .35s cubic-bezier(.4,0,.2,1);overflow-y:auto;}
+.sidebar.open{transform:translateX(0);box-shadow:8px 0 40px rgba(0,0,0,.5);}
+.sb-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:399;backdrop-filter:blur(3px);cursor:pointer;}
+.sb-overlay.show{display:block;}
+.sb-header{padding:16px;border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:space-between;}
+.sb-icon{width:38px;height:38px;background:linear-gradient(135deg,var(--pk),var(--mg));border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:17px;color:#fff;}
+.sb-title{font-family:'Amiri',serif;font-size:14px;color:var(--pk);line-height:1.2;}
+.sb-sub{font-size:9px;color:rgba(255,255,255,.4);}
+.sb-x{width:30px;height:30px;background:rgba(255,255,255,.1);border:none;border-radius:50%;color:#fff;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.sb-user{padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.06);display:flex;align-items:center;gap:10px;}
+.sb-av{width:42px;height:42px;background:linear-gradient(135deg,var(--pk),var(--mg));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;color:#fff;}
+.sb-uname{font-size:12px;font-weight:700;color:#fff;}
+.sb-urole{font-size:10px;color:var(--pk);}
+.sb-sec{padding:12px 14px 4px;font-size:9px;font-weight:700;color:rgba(255,255,255,.25);text-transform:uppercase;letter-spacing:1.2px;}
+.ni{display:flex;align-items:center;gap:11px;padding:11px 16px;color:rgba(255,255,255,.65);font-size:13px;font-weight:500;cursor:pointer;border-radius:10px;margin:1px 8px;transition:all .2s;}
+.ni:hover{background:rgba(0,188,212,.15);color:#fff;}
+.ni.active{background:linear-gradient(135deg,rgba(0,188,212,.25),rgba(0,131,143,.15));color:var(--pk);}
+.ni i{width:16px;text-align:center;font-size:14px;}
+.sb-footer{margin-top:auto;padding:12px 8px;border-top:1px solid rgba(255,255,255,.07);}
+
+.main{padding-top:var(--tbh);min-height:100vh;padding-bottom:calc(var(--bnav)+16px);}
+.content{padding:14px;}
+
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;height:var(--bnav);z-index:250;background:#fff;border-top:1px solid var(--border);display:flex;align-items:stretch;box-shadow:0 -4px 20px rgba(0,0,0,.08);}
+.bn-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;padding:6px 4px;border:none;background:none;color:var(--mu);font-family:'Poppins',sans-serif;transition:all .2s;}
+.bn-item.active{color:var(--pk);}
+.bn-item i{font-size:18px;}
+.bn-item span{font-size:9px;font-weight:600;text-transform:uppercase;}
+.bn-fab{flex:none;width:52px;height:52px;background:linear-gradient(135deg,var(--pk),var(--mg));border-radius:50%;margin:-14px 12px 0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:22px;cursor:pointer;box-shadow:0 4px 18px rgba(0,188,212,.5);border:3px solid #fff;}
+
+.card{background:var(--card);border-radius:var(--radius);box-shadow:0 2px 10px rgba(0,0,0,.05);overflow:hidden;margin-bottom:14px;}
+.ch{padding:12px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+.ct{font-size:13px;font-weight:700;color:var(--tx);display:flex;align-items:center;gap:7px;}
+.ct i{color:var(--pk);}
+.btn{padding:7px 13px;border-radius:8px;border:none;font-family:'Poppins',sans-serif;font-size:11px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:5px;}
+.btn-pk{background:linear-gradient(135deg,var(--pk),var(--mg));color:#fff;}
+.btn-ol{background:transparent;border:1.5px solid var(--border);color:#666;}
+
+.sc-row{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:14px;}
+.sc{background:var(--card);border-radius:var(--radius);padding:14px;display:flex;align-items:center;gap:12px;box-shadow:0 2px 10px rgba(0,0,0,.05);}
+.sc-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;color:#fff;flex-shrink:0;}
+.sc-val{font-size:20px;font-weight:800;color:var(--tx);line-height:1;}
+.sc-lbl{font-size:10px;color:#999;margin-top:2px;}
+
+.pnl{display:none;}.pnl.active{display:block;}
+.badge{padding:3px 9px;border-radius:20px;font-size:10px;font-weight:700;display:inline-block;}
+.b-ok{background:rgba(76,175,80,.12);color:#388E3C;}
+.b-no{background:rgba(244,67,54,.1);color:#D32F2F;}
+.b-pd{background:rgba(0,188,212,.15);color:#00838F;}
+.list-row{display:flex;align-items:center;gap:12px;padding:11px 14px;border-bottom:1px solid var(--border);}
+.list-row:last-child{border-bottom:none;}
+.list-title{font-size:13px;font-weight:600;color:var(--tx);}
+.list-sub{font-size:11px;color:var(--mu);}
+
+#toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(40px);background:var(--dk);color:#fff;padding:10px 20px;border-radius:24px;font-size:12px;font-weight:500;z-index:9999;transition:transform .3s,opacity .3s;opacity:0;pointer-events:none;max-width:80vw;text-align:center;}
+#toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
+
+@media(min-width:768px){
+  .sidebar{transform:translateX(0);}
+  .sb-overlay{display:none !important;}
+  .ham{display:none;}
+  .main{padding-left:var(--sw);}
+  .bottom-nav{display:none;}
+  .main{padding-bottom:16px;}
+  .sc-row{grid-template-columns:repeat(4,1fr);}
+  .content{padding:20px;}
+}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <div class="topbar-left">
+    <button class="ham" id="hamBtn"><span></span><span></span><span></span></button>
+    <div class="brand">
+      <div class="brand-icon"><i class="fas fa-user-graduate"></i></div>
+      <span class="brand-name">Markaz Al Asas</span>
+    </div>
+  </div>
+  <span class="page-title" id="pageTitle">Dashboard</span>
+  <div class="topbar-right">
+    <button class="icon-btn" id="btnLogout" title="Logout"><i class="fas fa-sign-out-alt"></i></button>
+  </div>
+</header>
+
+<!-- SIDEBAR -->
+<div class="sb-overlay" id="sbOverlay"></div>
+<aside class="sidebar" id="sidebar">
+  <div class="sb-header">
+    <div style="display:flex;align-items:center;gap:10px">
+      <div class="sb-icon"><i class="fas fa-user-graduate"></i></div>
+      <div><div class="sb-title">Markaz Al Asas</div><div class="sb-sub">Student Portal</div></div>
+    </div>
+    <button class="sb-x" id="sbClose"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="sb-user">
+    <div class="sb-av"><i class="fas fa-user-graduate"></i></div>
+    <div><div class="sb-uname" id="studentName">Student</div><div class="sb-urole" id="studentClass">—</div></div>
+  </div>
+
+  <div class="sb-sec">My Portal</div>
+  <div class="ni active" id="ni-dashboard" data-panel="dashboard"><i class="fas fa-home"></i> Dashboard</div>
+  <div class="ni" id="ni-profile" data-panel="profile"><i class="fas fa-id-card"></i> My Profile</div>
+  <div class="ni" id="ni-attendance" data-panel="attendance"><i class="fas fa-calendar-check"></i> Attendance</div>
+  <div class="ni" id="ni-results" data-panel="results"><i class="fas fa-chart-bar"></i> My Results</div>
+  <div class="ni" id="ni-admitcard" data-panel="admitcard"><i class="fas fa-id-card-alt"></i> Admit Card</div>
+  <div class="ni" id="ni-fees" data-panel="fees"><i class="fas fa-rupee-sign"></i> Fee Status</div>
+
+  <div class="sb-sec">School</div>
+  <div class="ni" id="ni-notices" data-panel="notices"><i class="fas fa-bullhorn"></i> Notices</div>
+  <div class="ni" id="ni-timetable" data-panel="timetable"><i class="fas fa-calendar-week"></i> Timetable</div>
+
+  <div class="sb-footer">
+    <div class="ni" id="ni-logout" style="margin:0;color:rgba(255,100,100,.8)"><i class="fas fa-sign-out-alt"></i> Logout</div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+<div class="content">
+
+  <!-- DASHBOARD -->
+  <div class="pnl active" id="pnl-dashboard">
+    <!-- Welcome Banner -->
+    <div style="background:linear-gradient(135deg,var(--dk),#1a3a4a);border-radius:16px;padding:20px;margin-bottom:14px;position:relative;overflow:hidden">
+      <div style="position:absolute;top:-20px;right:-20px;width:100px;height:100px;background:rgba(0,188,212,.15);border-radius:50%"></div>
+      <div style="position:absolute;bottom:-30px;right:30px;width:70px;height:70px;background:rgba(0,188,212,.1);border-radius:50%"></div>
+      <div style="position:relative;z-index:1">
+        <div style="font-family:'Amiri',serif;font-size:13px;color:var(--pk);margin-bottom:4px">السلام عليكم</div>
+        <div style="font-size:18px;font-weight:800;color:#fff" id="welcomeName">Welcome!</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.6);margin-top:4px" id="welcomeClass">Markaz Al Asas Academy</div>
+      </div>
+    </div>
+
+    <div class="sc-row">
+      <div class="sc"><div class="sc-icon" style="background:linear-gradient(135deg,#4CAF50,#388E3C)"><i class="fas fa-calendar-check"></i></div><div><div class="sc-val" id="dv-att">—</div><div class="sc-lbl">Attendance %</div></div></div>
+      <div class="sc"><div class="sc-icon" style="background:linear-gradient(135deg,#E91E8C,#C2185B)"><i class="fas fa-chart-bar"></i></div><div><div class="sc-val" id="dv-pct">—</div><div class="sc-lbl">Last Exam %</div></div></div>
+      <div class="sc"><div class="sc-icon" style="background:linear-gradient(135deg,var(--pk),var(--mg))"><i class="fas fa-trophy"></i></div><div><div class="sc-val" id="dv-grade">—</div><div class="sc-lbl">Overall Grade</div></div></div>
+      <div class="sc"><div class="sc-icon" style="background:linear-gradient(135deg,#FF9800,#F57C00)"><i class="fas fa-rupee-sign"></i></div><div><div class="sc-val" id="dv-fee">—</div><div class="sc-lbl">Fee Status</div></div></div>
+    </div>
+
+    <div class="card">
+      <div class="ch"><div class="ct"><i class="fas fa-bolt"></i> Quick Access</div></div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:14px">
+        <div style="background:linear-gradient(135deg,rgba(0,188,212,.1),rgba(0,131,143,.05));border:1px solid rgba(0,188,212,.2);border-radius:12px;padding:14px;text-align:center;cursor:pointer" onclick="showP('results')">
+          <i class="fas fa-chart-bar" style="font-size:22px;color:var(--pk);margin-bottom:6px;display:block"></i>
+          <div style="font-size:11px;font-weight:600;color:var(--tx)">My Results</div>
+        </div>
+        <div style="background:linear-gradient(135deg,rgba(76,175,80,.1),rgba(56,142,60,.05));border:1px solid rgba(76,175,80,.2);border-radius:12px;padding:14px;text-align:center;cursor:pointer" onclick="showP('attendance')">
+          <i class="fas fa-calendar-check" style="font-size:22px;color:#4CAF50;margin-bottom:6px;display:block"></i>
+          <div style="font-size:11px;font-weight:600;color:var(--tx)">Attendance</div>
+        </div>
+        <div style="background:linear-gradient(135deg,rgba(233,30,140,.1),rgba(194,24,91,.05));border:1px solid rgba(233,30,140,.2);border-radius:12px;padding:14px;text-align:center;cursor:pointer" onclick="showP('admitcard')">
+          <i class="fas fa-id-card-alt" style="font-size:22px;color:#E91E8C;margin-bottom:6px;display:block"></i>
+          <div style="font-size:11px;font-weight:600;color:var(--tx)">Admit Card</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="ch"><div class="ct"><i class="fas fa-bullhorn"></i> Latest Notices</div></div>
+      <div style="padding:10px 14px;display:flex;flex-direction:column;gap:8px">
+        <div style="padding:10px;background:rgba(0,188,212,.05);border-radius:10px;border-left:3px solid var(--pk)">
+          <div style="font-size:12px;font-weight:600;color:var(--tx)">Annual Exam Schedule Published</div>
+          <div style="font-size:10px;color:var(--mu)">July 10, 2024</div>
+        </div>
+        <div style="padding:10px;background:rgba(233,30,140,.05);border-radius:10px;border-left:3px solid #E91E8C">
+          <div style="font-size:12px;font-weight:600;color:var(--tx)">Viswas Program — July 27, 11 AM</div>
+          <div style="font-size:10px;color:var(--mu)">July 5, 2024</div>
+        </div>
+        <div style="padding:10px;background:rgba(76,175,80,.05);border-radius:10px;border-left:3px solid #4CAF50">
+          <div style="font-size:12px;font-weight:600;color:var(--tx)">Quran Competition — Register Now</div>
+          <div style="font-size:10px;color:var(--mu)">July 3, 2024</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MY PROFILE -->
+  <div class="pnl" id="pnl-profile">
+    <div class="card">
+      <div style="background:linear-gradient(135deg,var(--dk),#1a3a4a);padding:24px;display:flex;align-items:center;gap:16px">
+        <div style="width:64px;height:64px;background:linear-gradient(135deg,var(--pk),var(--mg));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;color:#fff;flex-shrink:0"><i class="fas fa-user-graduate"></i></div>
+        <div>
+          <div style="font-size:18px;font-weight:800;color:#fff" id="pr-name">—</div>
+          <div style="font-size:12px;color:var(--pk)" id="pr-class">—</div>
+          <div style="font-size:11px;color:rgba(255,255,255,.5)" id="pr-admno">—</div>
+        </div>
+      </div>
+      <div style="padding:16px;display:grid;grid-template-columns:1fr 1fr;gap:12px" id="profileGrid">
+        <div style="text-align:center;padding:20px;color:var(--mu)"><i class="fas fa-spinner fa-spin"></i></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ATTENDANCE -->
+  <div class="pnl" id="pnl-attendance">
+    <div class="card">
+      <div class="ch"><div class="ct"><i class="fas fa-calendar-check"></i> My Attendance</div></div>
+      <div style="padding:16px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px" id="attSummary">
+        <div style="text-align:center;padding:14px;background:rgba(76,175,80,.08);border-radius:12px">
+          <div style="font-size:26px;font-weight:800;color:#4CAF50" id="att-p">—</div>
+          <div style="height:4px;background:#e8f5e9;border-radius:2px;margin:6px 0"><div id="att-pbar" style="height:100%;background:#4CAF50;border-radius:2px;width:0%;transition:width .5s"></div></div>
+          <div style="font-size:11px;color:#388E3C;font-weight:600">Present</div>
+        </div>
+        <div style="text-align:center;padding:14px;background:rgba(244,67,54,.08);border-radius:12px">
+          <div style="font-size:26px;font-weight:800;color:#f44336" id="att-a">—</div>
+          <div style="height:4px;background:#ffebee;border-radius:2px;margin:6px 0"><div id="att-abar" style="height:100%;background:#f44336;border-radius:2px;width:0%;transition:width .5s"></div></div>
+          <div style="font-size:11px;color:#D32F2F;font-weight:600">Absent</div>
+        </div>
+        <div style="text-align:center;padding:14px;background:rgba(0,188,212,.08);border-radius:12px">
+          <div style="font-size:26px;font-weight:800;color:var(--pk)" id="att-pct">—</div>
+          <div style="height:4px;background:#e0f7fa;border-radius:2px;margin:6px 0"><div id="att-pctbar" style="height:100%;background:var(--pk);border-radius:2px;width:0%;transition:width .5s"></div></div>
+          <div style="font-size:11px;color:var(--mg);font-weight:600">Percentage</div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ch">
+        <div class="ct"><i class="fas fa-list"></i> Monthly Record</div>
+        <select id="attMonth" style="padding:6px 10px;border:1.5px solid var(--border);border-radius:8px;font-family:'Poppins',sans-serif;font-size:11px;outline:none" onchange="loadAttendance()">
+          <option value="2024-07">July 2024</option>
+          <option value="2024-06">June 2024</option>
+          <option value="2024-05">May 2024</option>
+        </select>
+      </div>
+      <div style="overflow-x:auto">
+        <table style="width:100%;border-collapse:collapse;font-size:12px">
+          <thead><tr style="background:#f0fbff"><th style="padding:9px 12px;text-align:left;border-bottom:1px solid var(--border)">Date</th><th style="padding:9px 12px;text-align:left;border-bottom:1px solid var(--border)">Day</th><th style="padding:9px 12px;text-align:left;border-bottom:1px solid var(--border)">Status</th></tr></thead>
+          <tbody id="attTable"><tr><td colspan="3" style="text-align:center;padding:20px;color:var(--mu)">Loading…</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="pnl" id="pnl-results">
+    <div class="card">
+      <div class="ch">
+        <div class="ct"><i class="fas fa-chart-bar"></i> My Results</div>
+        <select id="examSel" style="padding:6px 10px;border:1.5px solid var(--border);border-radius:8px;font-family:'Poppins',sans-serif;font-size:11px;outline:none" onchange="loadResults()">
+          <option>Annual Exam</option>
+          <option>Half Yearly</option>
+          <option>Unit Test 1</option>
+          <option>Unit Test 2</option>
+        </select>
+      </div>
+      <div id="resultsBody">
+        <div style="padding:30px;text-align:center;color:var(--mu)"><i class="fas fa-chart-bar" style="font-size:36px;opacity:.3;margin-bottom:10px;display:block"></i>Select an exam to view results</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADMIT CARD -->
+  <div class="pnl" id="pnl-admitcard">
+    <div class="card">
+      <div class="ch"><div class="ct"><i class="fas fa-id-card-alt"></i> My Admit Card</div></div>
+      <div class="fr" style="padding-bottom:0">
+        <div class="fg"><label>Select Exam</label>
+          <select class="fi" id="ac-exam-sel">
+            <option>Annual Exam 2024-25</option>
+            <option>Half Yearly 2024-25</option>
+            <option>Unit Test 1</option>
+            <option>Unit Test 2</option>
+          </select>
+        </div>
+      </div>
+      <div style="padding:0 14px 14px">
+        <button class="btn btn-pk" style="padding:10px 20px" onclick="loadAdmitCard()">
+          <i class="fas fa-id-card"></i> View My Admit Card
+        </button>
+      </div>
+    </div>
+    <div id="admitCardContent">
+      <div style="padding:30px;text-align:center;color:var(--mu)">
+        <i class="fas fa-id-card-alt" style="font-size:40px;opacity:.3;margin-bottom:12px;display:block"></i>
+        <p>Select exam and click View</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEE STATUS -->
+  <div class="pnl" id="pnl-fees">
+    <div class="card">
+      <div class="ch"><div class="ct"><i class="fas fa-rupee-sign"></i> Fee Status</div></div>
+      <div style="padding:14px;display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div style="background:rgba(76,175,80,.08);border-radius:12px;padding:14px;text-align:center">
+          <div style="font-size:22px;font-weight:800;color:#4CAF50" id="fee-paid">₹0</div>
+          <div style="font-size:11px;color:#388E3C;margin-top:4px">Total Paid</div>
+        </div>
+        <div style="background:rgba(244,67,54,.08);border-radius:12px;padding:14px;text-align:center">
+          <div style="font-size:22px;font-weight:800;color:#f44336" id="fee-due">₹0</div>
+          <div style="font-size:11px;color:#D32F2F;margin-top:4px">Pending</div>
+        </div>
+      </div>
+      <div style="overflow-x:auto">
+        <table style="width:100%;border-collapse:collapse;font-size:12px;min-width:380px">
+          <thead><tr style="background:#f0fbff"><th style="padding:9px 12px;text-align:left;border-bottom:1px solid var(--border)">Receipt</th><th style="padding:9px;text-align:left;border-bottom:1px solid var(--border)">Type</th><th style="padding:9px;text-align:right;border-bottom:1px solid var(--border)">Amount</th><th style="padding:9px;text-align:left;border-bottom:1px solid var(--border)">Month</th><th style="padding:9px;text-align:left;border-bottom:1px solid var(--border)">Status</th></tr></thead>
+          <tbody id="feeTable"><tr><td colspan="5" style="text-align:center;padding:20px;color:var(--mu)">Loading…</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- NOTICES -->
+  <div class="pnl" id="pnl-notices">
+    <div class="card">
+      <div class="ch"><div class="ct"><i class="fas fa-bullhorn"></i> School Notices</div></div>
+      <div style="padding:10px 14px;display:flex;flex-direction:column;gap:8px">
+        <div style="padding:12px;background:rgba(0,188,212,.05);border-radius:10px;border-left:3px solid var(--pk)"><div style="font-size:13px;font-weight:600">Annual Exam Schedule Published</div><div style="font-size:10px;color:var(--mu)">July 10 · Academic</div></div>
+        <div style="padding:12px;background:rgba(233,30,140,.05);border-radius:10px;border-left:3px solid #E91E8C"><div style="font-size:13px;font-weight:600">Viswas Program — July 27, 11 AM</div><div style="font-size:10px;color:var(--mu)">July 5 · Events</div></div>
+        <div style="padding:12px;background:rgba(76,175,80,.05);border-radius:10px;border-left:3px solid #4CAF50"><div style="font-size:13px;font-weight:600">Quran Recitation Competition</div><div style="font-size:10px;color:var(--mu)">July 3 · Academic</div></div>
+        <div style="padding:12px;background:rgba(255,152,0,.05);border-radius:10px;border-left:3px solid #FF9800"><div style="font-size:13px;font-weight:600">Parent-Teacher Meeting — Aug 3</div><div style="font-size:10px;color:var(--mu)">July 1 · General</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIMETABLE -->
+  <div class="pnl" id="pnl-timetable">
+    <div class="card">
+      <div class="ch"><div class="ct"><i class="fas fa-calendar-week"></i> Class Timetable</div></div>
+      <div style="padding:14px;overflow-x:auto">
+        <table style="width:100%;border-collapse:collapse;font-size:12px;min-width:400px">
+          <thead><tr style="background:linear-gradient(135deg,var(--dk),#1a3a4a);color:#fff"><th style="padding:10px;text-align:left">Day</th><th style="padding:10px;text-align:center">P1</th><th style="padding:10px;text-align:center">P2</th><th style="padding:10px;text-align:center">P3</th><th style="padding:10px;text-align:center">P4</th><th style="padding:10px;text-align:center">P5</th></tr></thead>
+          <tbody>
+            <tr style="background:rgba(0,188,212,.05)"><td style="padding:9px 10px;font-weight:600">Sunday</td><td style="padding:9px;text-align:center;color:var(--mu)">Quran</td><td style="padding:9px;text-align:center;color:var(--mu)">Arabic</td><td style="padding:9px;text-align:center;color:var(--mu)">Islamic</td><td style="padding:9px;text-align:center;color:var(--mu)">Maths</td><td style="padding:9px;text-align:center;color:var(--mu)">English</td></tr>
+            <tr><td style="padding:9px 10px;font-weight:600">Monday</td><td style="padding:9px;text-align:center;color:var(--mu)">Arabic</td><td style="padding:9px;text-align:center;color:var(--mu)">Islamic</td><td style="padding:9px;text-align:center;color:var(--mu)">Quran</td><td style="padding:9px;text-align:center;color:var(--mu)">English</td><td style="padding:9px;text-align:center;color:var(--mu)">Science</td></tr>
+            <tr style="background:rgba(0,188,212,.05)"><td style="padding:9px 10px;font-weight:600">Tuesday</td><td style="padding:9px;text-align:center;color:var(--mu)">Islamic</td><td style="padding:9px;text-align:center;color:var(--mu)">Quran</td><td style="padding:9px;text-align:center;color:var(--mu)">Maths</td><td style="padding:9px;text-align:center;color:var(--mu)">Arabic</td><td style="padding:9px;text-align:center;color:var(--mu)">English</td></tr>
+            <tr><td style="padding:9px 10px;font-weight:600">Wednesday</td><td style="padding:9px;text-align:center;color:var(--mu)">Maths</td><td style="padding:9px;text-align:center;color:var(--mu)">English</td><td style="padding:9px;text-align:center;color:var(--mu)">Arabic</td><td style="padding:9px;text-align:center;color:var(--mu)">Science</td><td style="padding:9px;text-align:center;color:var(--mu)">Islamic</td></tr>
+            <tr style="background:rgba(0,188,212,.05)"><td style="padding:9px 10px;font-weight:600">Thursday</td><td style="padding:9px;text-align:center;color:var(--mu)">English</td><td style="padding:9px;text-align:center;color:var(--mu)">Maths</td><td style="padding:9px;text-align:center;color:var(--mu)">Islamic</td><td style="padding:9px;text-align:center;color:var(--mu)">Arabic</td><td style="padding:9px;text-align:center;color:var(--mu)">Quran</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>
+</main>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <button class="bn-item active" id="bn-dashboard" data-panel="dashboard"><i class="fas fa-home"></i><span>Home</span></button>
+  <button class="bn-item" id="bn-attendance" data-panel="attendance"><i class="fas fa-calendar-check"></i><span>Attend.</span></button>
+  <div class="bn-fab" id="bnFab"><i class="fas fa-th-large"></i></div>
+  <button class="bn-item" id="bn-results" data-panel="results"><i class="fas fa-chart-bar"></i><span>Results</span></button>
+  <button class="bn-item" id="bn-fees" data-panel="fees"><i class="fas fa-rupee-sign"></i><span>Fees</span></button>
+</nav>
+
+<div id="toast"></div>
+
+<script>
+var PANELS = ['dashboard','profile','attendance','results','admitcard','fees','notices','timetable'];
+var _studentData = null;
+var _studentId   = '';
+
+function toggleSidebar() {
+  var sb=document.getElementById('sidebar'),ov=document.getElementById('sbOverlay'),btn=document.getElementById('hamBtn');
+  if(!sb) return;
+  var open=sb.classList.toggle('open');
+  if(ov) ov.classList.toggle('show',open);
+  if(btn) btn.classList.toggle('open',open);
+  document.body.style.overflow=open?'hidden':'';
+}
+function closeSidebar() {
+  ['sidebar','sbOverlay'].forEach(function(id){ var el=document.getElementById(id); if(el){ el.classList.remove('open'); el.classList.remove('show'); } });
+  var btn=document.getElementById('hamBtn'); if(btn) btn.classList.remove('open');
+  document.body.style.overflow='';
+}
+function showP(name) {
+  PANELS.forEach(function(p){
+    var el=document.getElementById('pnl-'+p); if(el) el.classList.toggle('active',p===name);
+    var ni=document.getElementById('ni-'+p);  if(ni) ni.classList.toggle('active',p===name);
+    var bn=document.getElementById('bn-'+p);  if(bn) bn.classList.toggle('active',p===name);
+  });
+  var titles={dashboard:'Dashboard',profile:'My Profile',attendance:'Attendance',results:'My Results',admitcard:'Admit Card',fees:'Fee Status',notices:'Notices',timetable:'Timetable'};
+  var t=document.getElementById('pageTitle'); if(t) t.textContent=titles[name]||name;
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(window.innerWidth<768) closeSidebar();
+  if(name==='profile')    loadProfile();
+  if(name==='attendance') { loadAttendanceSummary(); loadAttendance(); }
+  if(name==='results')    loadResults();
+  if(name==='fees')       loadFees();
+}
+function toast(msg){
+  var t=document.getElementById('toast'); if(!t) return;
+  t.textContent=msg; t.classList.add('show');
+  clearTimeout(window._tt);
+  window._tt=setTimeout(function(){ t.classList.remove('show'); },2600);
+}
+function gasRun(fn,arg,onOk,onErr){
+  if(typeof google==='undefined'||!google.script||!google.script.run){
+    if(onOk) onOk({success:true,data:[]});
+    return;
+  }
+  var r=google.script.run
+    .withSuccessHandler(onOk||function(){})
+    .withFailureHandler(onErr||function(e){ toast('Error: '+(e.message||e)); });
+  if(arg!==undefined) r[fn](arg); else r[fn]();
+}
+function fmtDate(v){
+  if(!v||v==='') return '—';
+  try{ var d=new Date(v); if(isNaN(d.getTime())) return String(v);
+    return String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0')+'/'+d.getFullYear(); }
+  catch(e){ return String(v); }
+}
+
+/* ── LOAD PROFILE ── */
+function loadProfile() {
+  if(!_studentId) return;
+  gasRun('getStudentById',_studentId,function(res){
+    if(res&&res.success&&res.data) renderProfile(res.data);
+    else if(_studentData) renderProfile(_studentData);
+  });
+}
+function renderProfile(s) {
+  _studentData = s;
+  var name=s.Name||s.name||'—';
+  var cls=(s.Class||s.class||'')+(s.Section||s.section?' - '+(s.Section||s.section):'');
+  var admno=s.AdmissionNo||s.admissionNo||_studentId||'—';
+  document.getElementById('pr-name').textContent  = name;
+  document.getElementById('pr-class').textContent = cls || '—';
+  document.getElementById('pr-admno').textContent = 'Adm: ' + admno;
+  var fields=[
+    ['Admission No', admno],['Class', cls||'—'],
+    ['Date of Birth', fmtDate(s.DOB||s.dob)],['Gender', s.Gender||s.gender||'—'],
+    ['Father\'s Name', s.FatherName||s.fatherName||'—'],['Mother\'s Name', s.MotherName||s.motherName||'—'],
+    ['Phone', s.Phone||s.phone||'—'],['Email', s.Email||s.email||'—'],
+    ['Address', s.Address||s.address||'—'],['Status', s.Status||s.status||'Active']
+  ];
+  document.getElementById('profileGrid').innerHTML = fields.map(function(f){
+    return '<div style="display:flex;flex-direction:column;gap:3px"><span style="font-size:10px;font-weight:700;color:#aaa;text-transform:uppercase">'+f[0]+'</span><span style="font-size:12px;color:var(--tx);font-weight:500;background:#f0fbff;padding:7px 10px;border-radius:8px">'+f[1]+'</span></div>';
+  }).join('');
+}
+
+/* ── ATTENDANCE ── */
+function loadAttendanceSummary() {
+  if(!_studentId) return;
+  gasRun('getAttendanceSummary',{studentId:_studentId},function(res){
+    if(res&&res.success&&res.data&&res.data[_studentId]){
+      var d=res.data[_studentId];
+      var p=d.P||0, a=d.A||0, tot=d.total||1;
+      var pct=Math.round((p/tot)*100);
+      document.getElementById('att-p').textContent=p;
+      document.getElementById('att-a').textContent=a;
+      document.getElementById('att-pct').textContent=pct+'%';
+      document.getElementById('dv-att').textContent=pct+'%';
+      setTimeout(function(){
+        document.getElementById('att-pbar').style.width=pct+'%';
+        document.getElementById('att-abar').style.width=Math.round((a/tot)*100)+'%';
+        document.getElementById('att-pctbar').style.width=pct+'%';
+      },200);
+    }
+  });
+}
+function loadAttendance() {
+  if(!_studentId) return;
+  var month=(document.getElementById('attMonth')||{value:''}).value;
+  var tbody=document.getElementById('attTable'); if(!tbody) return;
+  tbody.innerHTML='<tr><td colspan="3" style="text-align:center;padding:14px;color:var(--mu)"><i class="fas fa-spinner fa-spin"></i></td></tr>';
+  gasRun('getAttendanceForStudent',_studentId,function(res){
+    var data=(res&&res.data)||[];
+    if(month) data=data.filter(function(r){ return String(r.date||r.Date||'').indexOf(month)===0; });
+    if(data.length===0){ tbody.innerHTML='<tr><td colspan="3" style="text-align:center;padding:14px;color:var(--mu)">No records found</td></tr>'; return; }
+    var days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    tbody.innerHTML=data.map(function(r){
+      var d=new Date(r.date||r.Date||'');
+      var day=isNaN(d.getTime())?'':days[d.getDay()];
+      var st=r.status||r.Status||'P';
+      var cls=st==='P'?'b-ok':st==='A'?'b-no':'b-pd';
+      var lbl=st==='P'?'Present':st==='A'?'Absent':'Leave';
+      return '<tr><td style="padding:9px 12px;font-size:12px">'+fmtDate(r.date||r.Date)+'</td><td style="padding:9px 12px;font-size:12px;color:var(--mu)">'+day+'</td><td style="padding:9px 12px"><span class="badge '+cls+'">'+lbl+'</span></td></tr>';
+    }).join('');
+  });
+}
+
+/* ── RESULTS ── */
+function loadResults() {
+  if(!_studentId) return;
+  var exam=(document.getElementById('examSel')||{value:'Annual Exam'}).value;
+  var body=document.getElementById('resultsBody'); if(!body) return;
+  body.innerHTML='<div style="padding:20px;text-align:center;color:var(--mu)"><i class="fas fa-spinner fa-spin fa-2x"></i></div>';
+  gasRun('getMarksForClass',{class:'', examName:exam},function(res){
+    var all=(res&&res.data)||[];
+    var mine=all.filter(function(r){ return String(r.StudentID||r.AdmissionNo||'')===String(_studentId); });
+    if(mine.length===0){ body.innerHTML='<div style="padding:20px;text-align:center;color:var(--mu)">No results found for '+exam+'</div>'; return; }
+    var total=mine.reduce(function(s,m){ return s+Number(m.MarksObtained||0); },0);
+    var maxT=mine.reduce(function(s,m){ return s+Number(m.MaxMarks||100); },0);
+    var pct=maxT>0?Math.round((total/maxT)*100):0;
+    var grade=pct>=90?'A+':pct>=80?'A':pct>=70?'B+':pct>=60?'B':pct>=50?'C':pct>=35?'D':'F';
+    var pass=pct>=35;
+    var gc=pct>=60?'#388E3C':pct>=35?'#F57F17':'#D32F2F';
+    document.getElementById('dv-pct').textContent=pct+'%';
+    document.getElementById('dv-grade').textContent=grade;
+    var html='<div style="background:linear-gradient(135deg,var(--dk),#1a3a4a);padding:18px;display:flex;align-items:center;justify-content:space-between">';
+    html+='<div><div style="font-size:16px;font-weight:800;color:#fff">'+exam+'</div><div style="font-size:11px;color:rgba(255,255,255,.5)">'+total+'/'+maxT+' marks</div></div>';
+    html+='<div style="text-align:right"><div style="font-size:28px;font-weight:800;color:var(--pk)">'+pct+'%</div>';
+    html+='<span style="background:'+(pass?'rgba(76,175,80,.2)':'rgba(244,67,54,.2)')+';color:'+(pass?'#a5d6a7':'#ef9a9a')+';padding:2px 12px;border-radius:10px;font-size:12px;font-weight:700">'+(pass?'PASS':'FAIL')+'</span></div></div>';
+    html+='<div style="padding:12px 14px;display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px">';
+    mine.forEach(function(m){
+      var mp=m.MaxMarks>0?Math.round((m.MarksObtained/m.MaxMarks)*100):0;
+      var mc=mp>=60?'#388E3C':mp>=35?'#F57F17':'#D32F2F';
+      html+='<div style="border:1px solid var(--border);border-radius:10px;padding:10px;text-align:center;background:#fff">';
+      html+='<div style="font-size:9px;color:var(--mu);font-weight:700;text-transform:uppercase;margin-bottom:4px">'+(m.Subject||'')+'</div>';
+      html+='<div style="font-size:20px;font-weight:800;color:'+mc+'">'+m.MarksObtained+'<span style="font-size:10px;color:#ccc;font-weight:400">/'+m.MaxMarks+'</span></div>';
+      html+='<div style="height:3px;background:#e0f0f4;border-radius:2px;margin:4px 0"><div style="height:100%;width:'+mp+'%;background:'+mc+';border-radius:2px"></div></div>';
+      html+='<div style="font-size:9px;color:'+mc+';font-weight:700">'+(m.Grade||grade)+' · '+mp+'%</div></div>';
+    });
+    html+='</div>';
+    body.innerHTML=html;
+  });
+}
+
+/* ── FEES ── */
+function loadFees() {
+  if(!_studentId) return;
+  gasRun('getFeeStatus',_studentId,function(res){
+    var data=(res&&res.data)||[];
+    var total=data.reduce(function(s,r){ return s+Number(r.Amount||0); },0);
+    document.getElementById('fee-paid').textContent='₹'+total;
+    document.getElementById('fee-due').textContent='₹0';
+    var tbody=document.getElementById('feeTable');
+    if(data.length===0){ tbody.innerHTML='<tr><td colspan="5" style="text-align:center;padding:14px;color:var(--mu)">No fee records found</td></tr>'; return; }
+    tbody.innerHTML=data.map(function(r){
+      return '<tr><td style="padding:8px 12px;font-size:11px">'+(r.ReceiptID||'—')+'</td>'+
+        '<td style="padding:8px;font-size:11px">'+(r.FeeType||'—')+'</td>'+
+        '<td style="padding:8px;font-size:11px;text-align:right;font-weight:600;color:#388E3C">₹'+(r.Amount||0)+'</td>'+
+        '<td style="padding:8px;font-size:11px">'+(r.Month||'—')+'</td>'+
+        '<td style="padding:8px"><span class="badge b-ok">'+(r.Status||'Paid')+'</span></td></tr>';
+    }).join('');
+  });
+}
+
+/* ── ADMIT CARD ── */
+function loadAdmitCard() {
+  var exam = (document.getElementById('ac-exam-sel')||{value:'Annual Exam 2024-25'}).value;
+  var body = document.getElementById('admitCardContent');
+  if (!body) return;
+  body.innerHTML = '<div style="padding:20px;text-align:center;color:var(--mu)"><i class="fas fa-spinner fa-spin fa-2x"></i></div>';
+
+  if (!_studentId) {
+    body.innerHTML = '<div style="padding:20px;text-align:center;color:#f44336">Student ID not found. Please login again.</div>';
+    return;
+  }
+
+  function showCard(s) {
+    var today = new Date();
+    var dd=String(today.getDate()).padStart(2,'0'), mm=String(today.getMonth()+1).padStart(2,'0'), yyyy=today.getFullYear();
+    body.innerHTML =
+      '<div style="border:2px solid var(--dk);border-radius:12px;overflow:hidden;font-family:Arial,sans-serif;margin-bottom:14px">' +
+      '<div style="background:linear-gradient(135deg,var(--dk),#1a3a4a);padding:14px 18px;display:flex;align-items:center;gap:14px">' +
+        '<div style="width:52px;height:52px;background:linear-gradient(135deg,var(--pk),var(--mg));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;color:#fff;flex-shrink:0">🕌</div>' +
+        '<div style="flex:1"><div style="font-size:15px;font-weight:900;color:#fff">MARKAZ AL ASAS ACADEMY</div>' +
+        '<div style="font-size:11px;color:var(--pk);margin-top:2px">SSF Dawa Sector, Ali Gate, Calicut</div></div>' +
+        '<div style="text-align:right"><div style="font-size:11px;font-weight:700;color:var(--pk);letter-spacing:1px">ADMIT CARD</div></div>' +
+      '</div>' +
+      '<div style="background:linear-gradient(135deg,var(--pk),var(--mg));padding:8px 18px;display:flex;justify-content:space-between;align-items:center">' +
+        '<div style="font-size:13px;font-weight:800;color:#fff">'+exam+'</div>' +
+        '<div style="font-size:11px;color:rgba(255,255,255,.85)">Academic Year 2024-25</div>' +
+      '</div>' +
+      '<div style="padding:14px 18px;display:grid;grid-template-columns:1fr 1fr;gap:10px">' +
+        '<div><div style="font-size:9px;font-weight:700;color:#aaa;text-transform:uppercase">Student Name</div><div style="font-size:14px;font-weight:700;color:var(--dk)">'+(s.Name||s.name||'—')+'</div></div>' +
+        '<div><div style="font-size:9px;font-weight:700;color:#aaa;text-transform:uppercase">Admission No</div><div style="font-size:14px;font-weight:700;color:var(--pk);font-family:monospace">'+(s.AdmissionNo||s.admissionNo||_studentId||'—')+'</div></div>' +
+        '<div><div style="font-size:9px;font-weight:700;color:#aaa;text-transform:uppercase">Class</div><div style="font-size:13px;font-weight:700;color:var(--dk)">'+(s.Class||s.class||'—')+(s.Section||s.section?' - '+(s.Section||s.section):'')+'</div></div>' +
+        '<div><div style="font-size:9px;font-weight:700;color:#aaa;text-transform:uppercase">Date of Birth</div><div style="font-size:13px;color:#333">'+(s.DOB||s.dob||'—')+'</div></div>' +
+        '<div><div style="font-size:9px;font-weight:700;color:#aaa;text-transform:uppercase">Father Name</div><div style="font-size:13px;color:#333">'+(s.FatherName||s.fatherName||'—')+'</div></div>' +
+        '<div><div style="font-size:9px;font-weight:700;color:#aaa;text-transform:uppercase">Gender</div><div style="font-size:13px;color:#333">'+(s.Gender||s.gender||'—')+'</div></div>' +
+      '</div>' +
+      '<div style="padding:10px 18px 14px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--border)">' +
+        '<div style="font-size:11px;color:#666"><b>Venue:</b> Main Examination Hall</div>' +
+        '<div style="border-top:1px solid #333;width:120px;padding-top:4px;font-size:9px;color:#666;text-align:center">Signature</div>' +
+      '</div></div>' +
+      '<div style="display:flex;gap:8px">' +
+        '<button class="btn btn-pk" style="padding:10px 20px" onclick="window.print()"><i class="fas fa-print"></i> Print / Download</button>' +
+      '</div>';
+  }
+
+  if (_studentData) { showCard(_studentData); return; }
+  gasRun('getStudentById', _studentId, function(res){
+    if (res&&res.success&&res.data) { _studentData=res.data; showCard(res.data); }
+    else body.innerHTML = '<div style="padding:20px;text-align:center;color:#f44336">'+(res?res.message:'Could not load student data')+'</div>';
+  });
+}
+
+/* ── LOGOUT ── */
+function doLogout() {
+  sessionStorage.clear();
+  if(typeof google!=='undefined'&&google.script&&google.script.run){
+    google.script.run.withSuccessHandler(function(u){ window.top.location.href=u; }).withFailureHandler(function(){}).getScriptUrl();
+  } else { window.location.href='index.html'; }
+}
+
+/* ── INIT ── */
+document.addEventListener('DOMContentLoaded', function() {
+  /* Load session */
+  _studentId = sessionStorage.getItem('parentUsername') || sessionStorage.getItem('studentId') || '';
+  var name   = sessionStorage.getItem('parentName')     || 'Student';
+  var cls    = sessionStorage.getItem('studentClass')   || '';
+
+  document.getElementById('studentName').textContent = name;
+  document.getElementById('welcomeName').textContent = 'Welcome, ' + name.split(' ')[0] + '!';
+  document.getElementById('welcomeClass').textContent = cls || 'Markaz Al Asas Academy';
+  if(document.getElementById('studentClass'))
+    document.getElementById('studentClass').textContent = cls || 'Student';
+
+  /* Buttons */
+  document.getElementById('hamBtn').addEventListener('click', toggleSidebar);
+  document.getElementById('bnFab').addEventListener('click', toggleSidebar);
+  document.getElementById('sbClose').addEventListener('click', closeSidebar);
+  document.getElementById('sbOverlay').addEventListener('click', closeSidebar);
+  document.getElementById('btnLogout').addEventListener('click', doLogout);
+  document.getElementById('ni-logout').addEventListener('click', doLogout);
+
+  /* Nav delegation */
+  document.addEventListener('click', function(e){
+    var el=e.target.closest('[data-panel]');
+    if(el) showP(el.getAttribute('data-panel'));
+  });
+
+  /* Load initial data */
+  if(_studentId) {
+    loadAttendanceSummary();
+    loadFees();
+    gasRun('getStudentById',_studentId,function(res){
+      if(res&&res.success&&res.data){
+        _studentData=res.data;
+        var cls2=(res.data.Class||res.data.class||'');
+        document.getElementById('welcomeClass').textContent=cls2||'Markaz Al Asas Academy';
+        document.getElementById('studentClass').textContent=cls2||'Student';
+      }
+    });
+  }
+
+  /* Escape */
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeSidebar(); });
+});
+</script>
+</body>
+</html>
