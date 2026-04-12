@@ -555,41 +555,25 @@ function doLogin() {
   if (!user || !pass) { toast('Please enter username and password'); return; }
   var btn = g('lBtn'), txt = g('lBtnTxt');
   btn.disabled = true; txt.textContent = 'Logging in\u2026';
-  if (typeof google !== 'undefined' && google.script && google.script.run) {
-    google.script.run
-      .withSuccessHandler(function(res) {
-        btn.disabled = false; txt.textContent = 'Login to Portal';
-        if (res && res.success) {
-          closeModal(); toast('\u2713 Welcome ' + res.name + '!');
-          try {
-            sessionStorage.setItem('parentToken',    res.token || '');
-            sessionStorage.setItem('parentName',     res.name  || '');
-            sessionStorage.setItem('parentEmail',    res.email || '');
-            sessionStorage.setItem('parentUsername', user);
-            sessionStorage.setItem('userRole',       res.role  || CUR_PORTAL);
-          } catch(e) {}
-          setTimeout(function() {
-            google.script.run
-              .withSuccessHandler(function(url) {
-                if (url) window.top.location.href = url + '?page=' + CUR_PORTAL + '&token=' + (res.token || '');
-              })
-              .withFailureHandler(function(){})
-              .getScriptUrl();
-          }, 800);
-        } else { toast('\u2717 ' + (res ? res.message : 'Login failed')); }
-      })
-      .withFailureHandler(function(e) {
-        btn.disabled = false; txt.textContent = 'Login to Portal';
-        toast('\u2717 ' + (e.message || 'Connection error'));
-      })
-      .handleLoginFromClient(user, pass, CUR_PORTAL);
-  } else {
-    // Preview mode
-    setTimeout(function() {
-      btn.disabled = false; txt.textContent = 'Login to Portal';
-      closeModal(); toast('\u2713 Demo login as ' + CUR_PORTAL);
-    }, 900);
-  }
+  gasCall('login', { username: user, password: pass, role: CUR_PORTAL }, function(res) {
+    btn.disabled = false; txt.textContent = 'Login to Portal';
+    if (res && res.success) {
+      closeModal(); toast('\u2713 Welcome ' + res.name + '!');
+      try {
+        sessionStorage.setItem('parentToken',    res.token || '');
+        sessionStorage.setItem('parentName',     res.name  || '');
+        sessionStorage.setItem('parentEmail',    res.email || '');
+        sessionStorage.setItem('parentUsername', user);
+        sessionStorage.setItem('userRole',       res.role  || CUR_PORTAL);
+      } catch(e) {}
+      setTimeout(function() {
+        window.location.href = GAS_URL + '?page=' + CUR_PORTAL + '&token=' + (res.token || '');
+      }, 800);
+    } else { toast('\u2717 ' + (res ? res.message : 'Login failed')); }
+  }, function(e) {
+    btn.disabled = false; txt.textContent = 'Login to Portal';
+    toast('\u2717 ' + (e.message || 'Connection error'));
+  });
 }
 
 /* ============================================================
@@ -671,37 +655,26 @@ function doSendOtp(resend) {
   }
   var sendBtn = g('btn-send-otp');
   if(sendBtn){ sendBtn.disabled=true; sendBtn.innerHTML='<i class="fas fa-spinner fa-spin"></i> Sending…'; }
-  if(typeof google !== 'undefined' && google.script && google.script.run){
-    google.script.run
-      .withSuccessHandler(function(res){
-        if(sendBtn){ sendBtn.disabled=false; sendBtn.innerHTML='<i class="fas fa-envelope"></i> '+(resend?'Resend OTP':'Send OTP'); }
-        if(res && res.success){
-          _otpHash  = res.hash || '';
-          _otpPhone = email;
-          var wrap = g('otp-wrap'); if(wrap) wrap.classList.add('show');
-          var inp  = g('otp-input'); if(inp){ inp.value=''; inp.className='otp-input'; inp.focus(); }
-          var masked = res.maskedEmail || email.replace(/(.{2})[^@]+(@.+)/,'$1****$2');
-          var msg  = g('otp-msg');
-          if(msg){ msg.style.color='#388E3C'; msg.textContent='✓ OTP sent to '+masked+'. Check inbox & spam folder.'; }
-          startOtpTimer(600);
-          toast('OTP sent to ' + masked);
-        } else {
-          var msg2 = g('otp-msg'); if(msg2){ msg2.style.color='#f44336'; msg2.textContent='✗ '+(res?res.message:'Failed to send OTP'); }
-          toast('✗ '+(res?res.message:'OTP send failed'));
-        }
-      })
-      .withFailureHandler(function(e){
-        if(sendBtn){ sendBtn.disabled=false; sendBtn.innerHTML='<i class="fas fa-envelope"></i> Send OTP'; }
-        toast('✗ Server error: '+(e&&e.message?e.message:'Unknown'));
-      })
-      .sendOtp({ email: email });
-  } else {
+  gasCall('sendOtp', { email: email }, function(res){
+    if(sendBtn){ sendBtn.disabled=false; sendBtn.innerHTML='<i class="fas fa-envelope"></i> '+(resend?'Resend OTP':'Send OTP'); }
+    if(res && res.success){
+      _otpHash  = res.hash || '';
+      _otpPhone = email;
+      var wrap = g('otp-wrap'); if(wrap) wrap.classList.add('show');
+      var inp  = g('otp-input'); if(inp){ inp.value=''; inp.className='otp-input'; inp.focus(); }
+      var masked = res.maskedEmail || email.replace(/(.{2})[^@]+(@.+)/,'$1****$2');
+      var msg  = g('otp-msg');
+      if(msg){ msg.style.color='#388E3C'; msg.textContent='✓ OTP sent to '+masked+'. Check inbox & spam folder.'; }
+      startOtpTimer(600);
+      toast('OTP sent to ' + masked);
+    } else {
+      var msg2 = g('otp-msg'); if(msg2){ msg2.style.color='#f44336'; msg2.textContent='✗ '+(res?res.message:'Failed to send OTP'); }
+      toast('✗ '+(res?res.message:'OTP send failed'));
+    }
+  }, function(e){
     if(sendBtn){ sendBtn.disabled=false; sendBtn.innerHTML='<i class="fas fa-envelope"></i> Send OTP'; }
-    _otpHash='demo'; _otpPhone=email;
-    var wrap2=g('otp-wrap'); if(wrap2) wrap2.classList.add('show');
-    var msg3=g('otp-msg'); if(msg3){ msg3.style.color='#388E3C'; msg3.textContent='Demo: Use OTP 123456'; }
-    startOtpTimer(600); toast('Demo: Use OTP 123456');
-  }
+    toast('✗ Server error: '+(e&&e.message?e.message:'Unknown'));
+  });
 }
 
 function doVerifyOtp() {
@@ -724,25 +697,20 @@ function doVerifyOtp() {
   var verifyBtn = g('btn-verify-otp');
   if(verifyBtn){ verifyBtn.disabled=true; verifyBtn.innerHTML='<i class="fas fa-spinner fa-spin"></i>'; }
 
-  if(typeof google !== 'undefined' && google.script && google.script.run){
-    google.script.run
-      .withSuccessHandler(function(res){
-        if(verifyBtn){ verifyBtn.disabled=false; verifyBtn.innerHTML='<i class="fas fa-check"></i> Verify'; }
-        if(res && res.success){
-          if(inp) inp.className='otp-input ok';
-          setPhoneVerified();
-        } else {
-          if(inp) inp.className='otp-input err';
-          if(msg){ msg.style.color='#f44336'; msg.textContent='✗ '+(res?res.message:'Incorrect OTP. Try again.'); }
-          toast('✗ '+(res?res.message:'Incorrect OTP'));
-        }
-      })
-      .withFailureHandler(function(){
-        if(verifyBtn){ verifyBtn.disabled=false; verifyBtn.innerHTML='<i class="fas fa-check"></i> Verify'; }
-        toast('✗ Server error during verification');
-      })
-      .verifyOtp({ hash: _otpHash, otp: entered, email: _otpPhone });
-  }
+  gasCall('verifyOtp', { email: _otpPhone, otp: entered, hash: _otpHash }, function(res){
+    if(verifyBtn){ verifyBtn.disabled=false; verifyBtn.innerHTML='<i class="fas fa-check"></i> Verify'; }
+    if(res && res.success){
+      if(inp) inp.className='otp-input ok';
+      setPhoneVerified();
+    } else {
+      if(inp) inp.className='otp-input err';
+      if(msg){ msg.style.color='#f44336'; msg.textContent='✗ '+(res?res.message:'Incorrect OTP. Try again.'); }
+      toast('✗ '+(res?res.message:'Incorrect OTP'));
+    }
+  }, function(){
+    if(verifyBtn){ verifyBtn.disabled=false; verifyBtn.innerHTML='<i class="fas fa-check"></i> Verify'; }
+    toast('✗ Server error during verification');
+  });
 }
 
 function setPhoneVerified() {
@@ -810,36 +778,29 @@ function submitAdm() {
     otpVerified:      true
   };
 
-  if (typeof google !== 'undefined' && google.script && google.script.run) {
-    var btn = g('btn-submit-adm');
-    if(btn){ btn.disabled=true; btn.innerHTML='<i class="fas fa-spinner fa-spin"></i> Submitting…'; }
-    toast('Submitting application…');
-    google.script.run
-      .withSuccessHandler(function(res) {
-        if(btn){ btn.disabled=false; btn.innerHTML='<i class="fas fa-paper-plane"></i> Submit Application'; }
-        if (res && res.success) {
-          toast('✓ Application submitted! Your ID: ' + res.applicationId);
-          ['a_name','a_father','a_mother','a_email','a_addr','a_prev','a_prev_reg'].forEach(function(id){
-            var el=g(id); if(el) el.value='';
-          });
-          if(g('a_dob'))    g('a_dob').value='';
-          if(g('a_gender')) g('a_gender').value='';
-          if(g('a_photo_b64')) g('a_photo_b64').value='';
-          var prev=g('a_photo_prev'); if(prev){ prev.src=''; prev.style.display='none'; }
-          var ph=g('a_photo_ph'); if(ph) ph.style.display='';
-          doChangePhone(); // reset OTP state for next submission
-        } else {
-          toast('✗ '+(res?res.message:'Submission failed. Please try again.'));
-        }
-      })
-      .withFailureHandler(function() {
-        if(btn){ btn.disabled=false; btn.innerHTML='<i class="fas fa-paper-plane"></i> Submit Application'; }
-        toast('✗ Server error. Please try again.');
-      })
-      .handlePostFromClient(payload);
-  } else {
-    toast('✓ Demo: Application for ' + name + ' received!');
-  }
+  var btn = g('btn-submit-adm');
+  if(btn){ btn.disabled=true; btn.innerHTML='<i class="fas fa-spinner fa-spin"></i> Submitting…'; }
+  toast('Submitting application…');
+  gasCall('submitAdmission', payload, function(res) {
+    if(btn){ btn.disabled=false; btn.innerHTML='<i class="fas fa-paper-plane"></i> Submit Application'; }
+    if (res && res.success) {
+      toast('✓ Application submitted! Your ID: ' + res.applicationId);
+      ['a_name','a_father','a_mother','a_email','a_addr','a_prev','a_prev_reg'].forEach(function(id){
+        var el=g(id); if(el) el.value='';
+      });
+      if(g('a_dob'))    g('a_dob').value='';
+      if(g('a_gender')) g('a_gender').value='';
+      if(g('a_photo_b64')) g('a_photo_b64').value='';
+      var prev=g('a_photo_prev'); if(prev){ prev.src=''; prev.style.display='none'; }
+      var ph=g('a_photo_ph'); if(ph) ph.style.display='';
+      doChangePhone();
+    } else {
+      toast('✗ '+(res?res.message:'Submission failed. Please try again.'));
+    }
+  }, function() {
+    if(btn){ btn.disabled=false; btn.innerHTML='<i class="fas fa-paper-plane"></i> Submit Application'; }
+    toast('✗ Server error. Please try again.');
+  });
 }
 
 /* ============================================================
@@ -1055,18 +1016,23 @@ var revObs = new IntersectionObserver(function(entries) {
 document.querySelectorAll('.rv').forEach(function(el) { revObs.observe(el); });
 
 /* ============================================================
-   INIT — ONE GAS CALL
+   INIT — fetch() API (GitHub Pages compatible)
 ============================================================ */
+var GAS_URL = 'https://script.google.com/macros/s/AKfycbxGDd49uOZsPdYFg88s8slWcxf5F0poAmaYuRgCZtMrYGNz8iBUMzLMvzBNO4FIU2IR/exec';
+
+function gasCall(action, data, cb, errCb) {
+  var payload = Object.assign({ action: action }, data || {});
+  fetch(GAS_URL, {
+    method: 'POST',
+    body: JSON.stringify(payload)
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(res) { if (cb) cb(res); })
+  .catch(function(e) { if (errCb) errCb(e); else console.error(e); });
+}
+
 (function() {
-  if (typeof google !== 'undefined' && google.script && google.script.run) {
-    google.script.run
-      .withSuccessHandler(function(res) { applyAll(res); })
-      .withFailureHandler(function()    { applyAll(null); })
-      .getPublicData();
-  } else {
-    // Demo mode — apply defaults
-    applyAll(null);
-  }
+  gasCall('getPublicData', {}, function(res) { applyAll(res); }, function() { applyAll(null); });
 })();
 </script>
 </body>
