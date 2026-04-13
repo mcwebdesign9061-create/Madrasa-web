@@ -1020,12 +1020,11 @@ document.querySelectorAll('.rv').forEach(function(el) { revObs.observe(el); });
 ============================================================ */
 var GAS_URL = 'https://script.google.com/macros/s/AKfycbxGDd49uOZsPdYFg88s8slWcxf5F0poAmaYuRgCZtMrYGNz8iBUMzLMvzBNO4FIU2IR/exec';
 
+// Uses GET + URL params — CORS-safe with Google Apps Script
 function gasCall(action, data, cb, errCb) {
-  var payload = Object.assign({ action: action }, data || {});
-  fetch(GAS_URL, {
-    method: 'POST',
-    body: JSON.stringify(payload)
-  })
+  var url = GAS_URL + '?action=' + encodeURIComponent(action)
+          + '&data=' + encodeURIComponent(JSON.stringify(data || {}));
+  fetch(url, { method: 'GET', redirect: 'follow' })
   .then(function(r) { return r.json(); })
   .then(function(res) { if (cb) cb(res); })
   .catch(function(e) { if (errCb) errCb(e); else console.error(e); });
