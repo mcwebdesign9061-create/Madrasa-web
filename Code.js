@@ -22,35 +22,39 @@ function fmtGasDate(val) {
 
 // ── WEB APP ──────────────────────────────────────────────────
 function doGet(e) {
-  var page = (e && e.parameter && e.parameter.page) ? e.parameter.page : 'index';
+  var params = (e && e.parameter) ? e.parameter : {};
+  var action = params.action || '';
+
+  // ── API mode (called from GitHub Pages via fetch) ──────────
+  if (action) {
+    var result;
+    try {
+      var data = {};
+      try { data = JSON.parse(params.data || '{}'); } catch(x) {}
+
+      if      (action === 'getPublicData')   result = getPublicData();
+      else if (action === 'ping')            result = ping();
+      else if (action === 'getCommittee')    result = getCommittee();
+      else if (action === 'login')           result = handleLoginFromClient(data.username, data.password, data.role);
+      else if (action === 'sendOtp')         result = sendOtp({ email: data.email });
+      else if (action === 'verifyOtp')       result = verifyOtp({ email: data.email, otp: data.otp, hash: data.hash });
+      else if (action === 'submitAdmission') result = handlePostFromClient(data);
+      else result = { success: false, message: 'Unknown action: ' + action };
+    } catch(err) {
+      result = { success: false, message: err.message };
+    }
+    return ContentService
+      .createTextOutput(JSON.stringify(result))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+
+  // ── HTML page mode (normal GAS web app) ───────────────────
+  var page  = params.page || 'index';
   var files = { admin:'admin', parent:'parent', teacher:'teacher', student:'student' };
   return HtmlService.createHtmlOutputFromFile(files[page] || 'index')
     .setTitle('Markaz Al Asas Academy')
     .addMetaTag('viewport','width=device-width,initial-scale=1')
     .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
-}
-
-// ── doPost — GitHub Pages fetch() API ────────────────────────
-// Allows GitHub-hosted HTML to call GAS functions via fetch()
-function doPost(e) {
-  var result;
-  try {
-    var payload = JSON.parse(e.postData.contents);
-    var action  = payload.action || '';
-    if      (action === 'getPublicData')     result = getPublicData();
-    else if (action === 'login')             result = handleLoginFromClient(payload.username, payload.password, payload.role);
-    else if (action === 'sendOtp')           result = sendOtp({ email: payload.email });
-    else if (action === 'verifyOtp')         result = verifyOtp({ email: payload.email, otp: payload.otp, hash: payload.hash });
-    else if (action === 'submitAdmission')   result = handlePostFromClient(payload);
-    else if (action === 'getCommittee')      result = getCommittee();
-    else if (action === 'ping')              result = ping();
-    else result = { success: false, message: 'Unknown action: ' + action };
-  } catch(err) {
-    result = { success: false, message: err.message };
-  }
-  return ContentService
-    .createTextOutput(JSON.stringify(result))
-    .setMimeType(ContentService.MimeType.JSON);
 }
 
 // ── PING ─────────────────────────────────────────────────────
