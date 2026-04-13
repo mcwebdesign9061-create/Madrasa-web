@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Markaz Al Asas Academy</title>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Poppins:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+:root{--pk:#E91E8C;--mg:#C2185B;--yw:#F5C518;--gd:#FFB300;--pu:#7B1FA2;--dk:#1a0a2e;--dkr:#0d0519;--lt:#fff0f8;--gr:#f8f0f5;--tx:#2d1b3d;--mu:#8b7099;--sh:0 8px 32px rgba(233,30,140,.15);--shl:0 20px 60px rgba(233,30,140,.25);}
+*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}body{font-family:'Poppins',sans-serif;background:var(--lt);color:var(--tx);overflow-x:hidden;}
+.nb{position:fixed;top:0;width:100%;z-index:1000;background:rgba(26,10,46,.97);backdrop-filter:blur(20px);padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:64px;border-bottom:2px solid var(--pk);box-shadow:0 4px 30px rgba(233,30,140,.3);}
+.nb-logo{display:flex;align-items:center;gap:12px;cursor:pointer;}
+.nb-logo-icon{width:42px;height:42px;background:linear-gradient(135deg,var(--pk),var(--gd));border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;color:#fff;animation:glow 3s ease-in-out infinite;overflow:hidden;}
+@keyframes glow{0%,100%{box-shadow:0 0 10px rgba(233,30,140,.5);}50%{box-shadow:0 0 25px rgba(245,197,24,.8);}}
+.nb-logo-t1{font-family:'Amiri',serif;font-size:16px;font-weight:700;color:var(--yw);line-height:1.1;}
+.nb-logo-t2{font-size:9px;color:rgba(255,255,255,.6);letter-spacing:1px;text-transform:uppercase;}
+.nb-links{display:flex;gap:4px;list-style:none;}
+.nb-links a{color:rgba(255,255,255,.8);font-size:12px;font-weight:500;padding:6px 12px;border-radius:8px;transition:all .3s;cursor:pointer;}
+.nb-links a:hover{background:rgba(233,30,140,.2);color:var(--yw);}
+.nb-actions{display:flex;gap:8px;align-items:center;}
+.btn-login{background:linear-gradient(135deg,var(--pk),var(--mg));color:#fff;border:none;padding:8px 20px;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;transition:all .3s;box-shadow:0 4px 15px rgba(233,30,140,.4);display:flex;align-items:center;gap:6px;font-family:'Poppins',sans-serif;}
+.btn-login:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(233,30,140,.6);}
+.hbg{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;background:none;border:none;}
+.hbg span{width:24px;height:2px;background:var(--yw);border-radius:2px;display:block;}
+.mn{display:none;position:fixed;top:64px;left:0;right:0;background:rgba(13,5,25,.99);backdrop-filter:blur(20px);z-index:999;padding:16px;border-bottom:2px solid var(--pk);flex-direction:column;gap:4px;}
+.mn.open{display:flex;}
+.mn a{color:rgba(255,255,255,.8);font-size:14px;font-weight:500;padding:12px 16px;border-radius:10px;transition:all .2s;display:flex;align-items:center;gap:10px;cursor:pointer;}
+.mn a:hover{background:rgba(233,30,140,.2);color:var(--yw);}
+.tkr{background:linear-gradient(135deg,var(--pk),var(--mg));padding:10px 0;overflow:hidden;position:relative;margin-top:64px;}
+.tkr-lbl{position:absolute;left:0;top:0;bottom:0;background:var(--dk);display:flex;align-items:center;padding:0 18px;font-size:11px;font-weight:700;color:var(--yw);z-index:1;letter-spacing:1px;white-space:nowrap;}
+.tkr-track{overflow:hidden;margin-left:108px;}
+.tkr-inner{display:flex;animation:tkr 38s linear infinite;white-space:nowrap;}
+.tkr-inner span{font-size:13px;font-weight:500;color:#fff;padding:0 28px;display:inline-flex;align-items:center;gap:8px;}
+.tkr-inner span::before{content:'&#9733;';color:var(--yw);font-size:10px;}
+@keyframes tkr{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+.hero{min-height:100vh;background:linear-gradient(135deg,var(--dkr) 0%,#2d0845 40%,#1a0035 70%,var(--dk) 100%);position:relative;display:flex;align-items:center;overflow:hidden;}
+.hbg2{position:absolute;inset:0;background-image:radial-gradient(circle at 20% 30%,rgba(233,30,140,.15) 0%,transparent 50%),radial-gradient(circle at 80% 70%,rgba(245,197,24,.1) 0%,transparent 50%);}
+.geo{position:absolute;inset:0;overflow:hidden;pointer-events:none;}
+.gc{position:absolute;border:1px solid rgba(233,30,140,.15);border-radius:50%;animation:rot 20s linear infinite;}
+.gc:nth-child(1){width:320px;height:320px;top:8%;right:4%;animation-duration:28s;}
+.gc:nth-child(2){width:190px;height:190px;top:18%;right:11%;border-color:rgba(245,197,24,.12);animation-direction:reverse;animation-duration:16s;}
+.gc:nth-child(3){width:520px;height:520px;bottom:-120px;left:-120px;border-color:rgba(123,31,162,.08);animation-duration:40s;}
+@keyframes rot{from{transform:rotate(0);}to{transform:rotate(360deg);}}
+.hro{position:relative;z-index:2;max-width:1200px;margin:0 auto;padding:70px 24px;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;}
+.hbdg{display:inline-flex;align-items:center;gap:8px;background:rgba(233,30,140,.15);border:1px solid rgba(233,30,140,.3);color:var(--yw);padding:6px 16px;border-radius:20px;font-size:12px;font-weight:600;margin-bottom:20px;letter-spacing:1px;text-transform:uppercase;animation:fu .8s ease both;}
+.harb{font-size:clamp(.95rem,2vw,1.2rem);color:var(--pk);font-weight:600;margin-bottom:16px;animation:fu .8s ease .2s both;}
+.htitle{font-family:'Amiri',serif;font-size:clamp(2.2rem,5vw,3.5rem);line-height:1.15;color:#fff;margin-bottom:8px;animation:fu .8s ease .1s both;}
+.htitle .ac{color:var(--yw);display:block;}
+.hdesc{font-size:14px;line-height:1.8;color:rgba(255,255,255,.7);margin-bottom:32px;animation:fu .8s ease .3s both;}
+.hstats{display:flex;gap:24px;margin-bottom:32px;animation:fu .8s ease .4s both;}
+.hstat .num{font-size:2rem;font-weight:800;background:linear-gradient(135deg,var(--yw),var(--pk));-webkit-background-clip:text;-webkit-text-fill-color:transparent;display:block;line-height:1;}
+.hstat .lbl{font-size:11px;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.5px;}
+.hact{display:flex;gap:12px;flex-wrap:wrap;animation:fu .8s ease .5s both;}
+@keyframes fu{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
+.btn-p{background:linear-gradient(135deg,var(--pk),var(--mg));color:#fff;border:none;padding:12px 28px;border-radius:30px;font-size:14px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:all .3s;box-shadow:0 6px 20px rgba(233,30,140,.4);font-family:'Poppins',sans-serif;}
+.btn-p:hover{transform:translateY(-3px);box-shadow:0 12px 35px rgba(233,30,140,.6);}
+.btn-s{background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.3);padding:12px 28px;border-radius:30px;font-size:14px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:all .3s;font-family:'Poppins',sans-serif;}
+.btn-s:hover{background:rgba(255,255,255,.2);border-color:var(--yw);color:var(--yw);transform:translateY(-3px);}
+.hvis{position:relative;animation:fr 1s ease .3s both;}
+@keyframes fr{from{opacity:0;transform:translateX(40px);}to{opacity:1;transform:translateX(0);}}
+.hcard{background:rgba(255,255,255,.05);backdrop-filter:blur(20px);border:1px solid rgba(233,30,140,.2);border-radius:24px;padding:28px;}
+.pqg{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.pqi{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:16px 10px;text-align:center;cursor:pointer;transition:all .3s;}
+.pqi:hover{background:rgba(233,30,140,.15);border-color:var(--pk);transform:translateY(-4px);}
+.pqi-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin:0 auto 8px;font-size:20px;color:#fff;}
+.pqi p{font-size:10px;font-weight:600;color:rgba(255,255,255,.8);}
+.stbar{background:#fff;padding:28px 24px;box-shadow:0 4px 20px rgba(233,30,140,.1);}
+.stbar-in{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:20px;text-align:center;}
+.sti{padding:16px;border-right:1px solid rgba(233,30,140,.12);}
+.sti:last-child{border-right:none;}
+.stn{font-size:2.2rem;font-weight:800;background:linear-gradient(135deg,var(--pk),var(--mg));-webkit-background-clip:text;-webkit-text-fill-color:transparent;display:block;line-height:1;}
+.stl{font-size:12px;color:var(--mu);margin-top:4px;font-weight:500;}
+.sec{padding:80px 24px;max-width:1200px;margin:0 auto;}
+.sch{text-align:center;margin-bottom:52px;}
+.stag{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,rgba(233,30,140,.1),rgba(245,197,24,.1));border:1px solid rgba(233,30,140,.2);color:var(--pk);padding:5px 16px;border-radius:20px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;}
+.stitle{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4vw,2.8rem);color:var(--tx);margin-bottom:12px;line-height:1.2;}
+.sdesc{font-size:15px;color:var(--mu);max-width:500px;margin:0 auto;line-height:1.7;}
+.sub-h{font-size:13px;font-weight:700;color:var(--pk);text-transform:uppercase;letter-spacing:1px;margin-bottom:18px;display:flex;align-items:center;gap:8px;}
+.ptbg{background:linear-gradient(135deg,var(--dkr),#2d0845);padding:80px 0;}
+.ptgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px;}
+.ptc{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:26px 18px;text-align:center;cursor:pointer;transition:all .4s;position:relative;overflow:hidden;}
+.ptc::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--pc,var(--pk));transform:scaleX(0);transition:transform .3s;transform-origin:left;}
+.ptc:hover::before{transform:scaleX(1);}
+.ptc:hover{transform:translateY(-8px);background:rgba(255,255,255,.1);}
+.ptci{width:62px;height:62px;border-radius:18px;background:var(--pc,var(--pk));display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:26px;color:#fff;transition:transform .3s;}
+.ptc:hover .ptci{transform:scale(1.1) rotate(5deg);}
+.ptc h3{font-size:14px;font-weight:700;color:#fff;margin-bottom:5px;}
+.ptc p{font-size:11px;color:rgba(255,255,255,.5);}
+.ptar{display:inline-flex;align-items:center;gap:6px;margin-top:12px;color:var(--pc,var(--pk));font-size:11px;font-weight:600;opacity:0;transition:opacity .3s;}
+.ptc:hover .ptar{opacity:1;}
+.cmg{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:22px;}
+.mc{background:#fff;border-radius:20px;overflow:hidden;box-shadow:var(--sh);transition:all .4s;}
+.mc:hover{transform:translateY(-8px);box-shadow:var(--shl);}
+.mp{height:175px;position:relative;overflow:hidden;}
+.mp img,.mp-ph{width:100%;height:100%;}
+.mp img{object-fit:cover;}
+.mp-ph{display:flex;align-items:center;justify-content:center;font-size:56px;}
+.mp::after{content:'';position:absolute;bottom:0;left:0;right:0;height:60px;background:linear-gradient(transparent,#fff);}
+.mi{padding:14px 16px;text-align:center;}
+.mn2{font-family:'Amiri',serif;font-size:17px;font-weight:700;color:var(--tx);margin-bottom:5px;}
+.mr{font-size:10px;font-weight:700;color:var(--pk);text-transform:uppercase;letter-spacing:.5px;padding:3px 12px;background:rgba(233,30,140,.08);border-radius:20px;display:inline-block;}
+.md-d{font-size:11px;color:var(--mu);margin-top:5px;}
+.ng{display:grid;grid-template-columns:2fr 1fr;gap:22px;}
+.nf{background:#fff;border-radius:20px;overflow:hidden;box-shadow:var(--sh);transition:all .3s;}
+.nf:hover{transform:translateY(-4px);box-shadow:var(--shl);}
+.nim{height:220px;background:linear-gradient(135deg,var(--pk),var(--mg),var(--pu));display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+.nim::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 30% 50%,rgba(245,197,24,.3) 0%,transparent 60%);}
+.ncat{position:absolute;top:16px;left:16px;background:var(--yw);color:var(--dk);font-size:10px;font-weight:700;padding:4px 12px;border-radius:20px;text-transform:uppercase;letter-spacing:1px;}
+.nb2{padding:20px;}
+.nmt{font-size:11px;color:var(--mu);margin-bottom:8px;}
+.ntitle{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--tx);margin-bottom:8px;line-height:1.3;}
+.el{display:flex;flex-direction:column;gap:11px;}
+.ec{background:#fff;border-radius:16px;padding:14px;box-shadow:var(--sh);cursor:pointer;transition:all .3s;display:flex;gap:12px;align-items:flex-start;}
+.ec:hover{transform:translateX(4px);}
+.ed{color:#fff;border-radius:12px;padding:7px 10px;text-align:center;min-width:44px;flex-shrink:0;}
+.ed .dy{font-size:17px;font-weight:800;line-height:1;}
+.ed .mo{font-size:9px;font-weight:600;text-transform:uppercase;}
+.ei h4{font-size:13px;font-weight:600;color:var(--tx);margin-bottom:3px;}
+.ei p{font-size:11px;color:var(--mu);}
+.gg{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;}
+.gi{border-radius:16px;overflow:hidden;aspect-ratio:4/3;position:relative;cursor:pointer;}
+.gib{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:48px;transition:transform .4s;}
+.gi img{width:100%;height:100%;object-fit:cover;transition:transform .4s;}
+.gi:hover .gib,.gi:hover img{transform:scale(1.1);}
+.gio{position:absolute;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:flex-end;padding:12px;opacity:0;transition:opacity .3s;}
+.gi:hover .gio{opacity:1;}
+.gio span{color:#fff;font-size:12px;font-weight:600;}
+.af{max-width:680px;margin:0 auto;background:#fff;border-radius:24px;padding:32px;box-shadow:var(--shl);border:1px solid rgba(233,30,140,.1);}
+.afg{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.fg{display:flex;flex-direction:column;gap:4px;}
+.fg label{font-size:12px;font-weight:600;color:var(--tx);}
+.fi{width:100%;padding:11px 14px;border:1.5px solid #e8d8f0;border-radius:12px;font-family:'Poppins',sans-serif;font-size:13px;color:var(--tx);background:#fdf8ff;outline:none;transition:all .2s;}
+.fi:focus{border-color:var(--pk);background:#fff;box-shadow:0 0 0 3px rgba(233,30,140,.1);}
+.full{grid-column:1/-1;}
+.adm-closed-box{text-align:center;padding:40px;background:rgba(244,67,54,.04);border:1.5px dashed rgba(244,67,54,.3);border-radius:20px;display:none;}
+.adm-closed-box i{font-size:48px;color:#f44336;display:block;margin-bottom:14px;}
+.adm-closed-box h3{color:#D32F2F;font-size:18px;font-weight:700;margin-bottom:8px;}
+.adm-closed-box p{color:#D32F2F;opacity:.7;font-size:14px;}
+.cs{background:linear-gradient(135deg,var(--pk),var(--mg),var(--pu));padding:50px 24px;text-align:center;position:relative;overflow:hidden;}
+.cs::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 30% 50%,rgba(245,197,24,.2) 0%,transparent 60%);}
+.cs h2{font-family:'Amiri',serif;color:#fff;font-size:1.9rem;margin-bottom:8px;position:relative;}
+.cs p{color:rgba(255,255,255,.85);font-size:14px;margin-bottom:22px;position:relative;}
+.cs .cr{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;position:relative;}
+.ft{background:var(--dkr);color:#fff;padding:60px 24px 28px;}
+.ftc{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px;}
+.ftlr{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+.ftli{width:40px;height:40px;background:linear-gradient(135deg,var(--pk),var(--gd));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;color:#fff;overflow:hidden;}
+.ftlr span{font-family:'Amiri',serif;font-size:17px;color:var(--yw);}
+.ftd{font-size:13px;line-height:1.7;color:rgba(255,255,255,.5);margin-bottom:16px;}
+.ftsoc{display:flex;gap:10px;}
+.sb{width:36px;height:36px;background:rgba(255,255,255,.08);border-radius:10px;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.6);font-size:14px;transition:all .2s;text-decoration:none;}
+.sb:hover{background:var(--pk);color:#fff;transform:translateY(-3px);}
+.ftcol h4{font-size:12px;font-weight:700;color:var(--yw);margin-bottom:14px;text-transform:uppercase;letter-spacing:.5px;}
+.ftl{list-style:none;}
+.ftl li{margin-bottom:8px;}
+.ftl a{font-size:12px;color:rgba(255,255,255,.5);text-decoration:none;transition:color .2s;display:flex;align-items:center;gap:6px;cursor:pointer;}
+.ftl a:hover{color:var(--pk);}
+.ftb{max-width:1200px;margin:0 auto;border-top:1px solid rgba(255,255,255,.08);padding-top:22px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;}
+.ftb p{font-size:12px;color:rgba(255,255,255,.4);}
+.mo{position:fixed;inset:0;background:rgba(0,0,0,.87);backdrop-filter:blur(10px);z-index:9999;display:none;align-items:center;justify-content:center;padding:20px;}
+.mo.open{display:flex;}
+.md2{background:#fff;border-radius:28px;max-width:420px;width:100%;overflow:hidden;animation:mIn .4s cubic-bezier(.34,1.56,.64,1) both;box-shadow:0 40px 80px rgba(0,0,0,.5);}
+@keyframes mIn{from{opacity:0;transform:scale(.8) translateY(30px);}to{opacity:1;transform:scale(1) translateY(0);}}
+.mh{background:linear-gradient(135deg,var(--dkr),var(--dk));padding:28px;text-align:center;position:relative;}
+.mh::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--pk),var(--yw),var(--pk));}
+.mcls-btn{position:absolute;top:14px;right:14px;width:32px;height:32px;background:rgba(255,255,255,.1);border:none;border-radius:50%;color:#fff;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.mcls-btn:hover{background:rgba(255,255,255,.2);transform:rotate(90deg);}
+.mlogo{width:54px;height:54px;background:linear-gradient(135deg,var(--pk),var(--gd));border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:26px;color:#fff;overflow:hidden;}
+.mh h2{font-family:'Amiri',serif;color:var(--yw);font-size:20px;margin-bottom:4px;}
+.mh p{color:rgba(255,255,255,.6);font-size:12px;}
+.mb2{padding:26px;}
+.ptabs{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:18px;}
+.pt{flex:1;min-width:70px;padding:8px 5px;border:1.5px solid #e0d0ea;border-radius:12px;background:#fff;font-size:11px;font-weight:600;color:var(--mu);cursor:pointer;transition:all .2s;text-align:center;font-family:'Poppins',sans-serif;}
+.pt.active{background:linear-gradient(135deg,var(--pk),var(--mg));color:#fff;border-color:var(--pk);}
+.mfg{margin-bottom:14px;}
+.mfg label{display:block;font-size:12px;font-weight:600;color:var(--tx);margin-bottom:5px;}
+.mi2{width:100%;padding:11px 14px;border:1.5px solid #e8d8f0;border-radius:12px;font-family:'Poppins',sans-serif;font-size:13px;color:var(--tx);background:#fdf8ff;outline:none;transition:all .2s;}
+.mi2:focus{border-color:var(--pk);background:#fff;box-shadow:0 0 0 3px rgba(233,30,140,.1);}
+.bsub{width:100%;background:linear-gradient(135deg,var(--pk),var(--mg));color:#fff;border:none;padding:13px;border-radius:14px;font-family:'Poppins',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:all .3s;display:flex;align-items:center;justify-content:center;gap:8px;}
+.bsub:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 8px 20px rgba(233,30,140,.4);}
+.bsub:disabled{opacity:.7;cursor:not-allowed;}
+.mmsg{text-align:center;font-size:11px;color:var(--mu);margin-top:12px;}
+.mmsg a{color:var(--pk);}
+#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--dk);color:#fff;padding:12px 24px;border-radius:30px;font-size:13px;font-weight:500;z-index:99999;transition:transform .35s cubic-bezier(.34,1.3,.64,1);box-shadow:0 8px 25px rgba(0,0,0,.4);border:1px solid rgba(233,30,140,.3);pointer-events:none;}
+#toast.show{transform:translateX(-50%) translateY(0);}
+#btt{position:fixed;bottom:28px;right:28px;width:44px;height:44px;background:linear-gradient(135deg,var(--pk),var(--mg));border:none;border-radius:50%;color:#fff;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 20px rgba(233,30,140,.4);opacity:0;transform:scale(0);transition:all .3s;z-index:500;}
+#btt.show{opacity:1;transform:scale(1);}
+.rv{opacity:0;transform:translateY(28px);transition:all .65s ease;}
+.rv.vis{opacity:1;transform:translateY(0);}
+.ring::after{content:'';display:block;width:32px;height:32px;margin:30px auto;border:3px solid rgba(233,30,140,.2);border-top-color:var(--pk);border-radius:50%;animation:spin .8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+@media(max-width:900px){.hro{grid-template-columns:1fr;}.hvis{display:none;}.ng{grid-template-columns:1fr;}.ftc{grid-template-columns:1fr 1fr;}.stbar-in{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:640px){.nb-links{display:none;}.hbg{display:flex;}.ptgrid{grid-template-columns:repeat(2,1fr);}.cmg{grid-template-columns:repeat(2,1fr);}.ftc{grid-template-columns:1fr;}.afg{grid-template-columns:1fr;}.stbar-in{grid-template-columns:repeat(2,1fr);}.hstats{gap:14px;}}
+.otp-wrap{background:rgba(233,30,140,.06);border:2px solid rgba(233,30,140,.3);border-radius:14px;padding:16px;margin:12px 0;display:none;}
+.otp-wrap.show{display:block;}
+.otp-title{font-size:12px;font-weight:700;color:var(--pk);margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+.otp-row{display:flex;gap:8px;align-items:center;}
+.otp-input{flex:1;padding:12px 14px;border:2px solid rgba(233,30,140,.3);border-radius:10px;font-size:18px;font-weight:700;letter-spacing:8px;text-align:center;font-family:'Poppins',sans-serif;outline:none;transition:all .2s;background:#fff;}
+.otp-input:focus{border-color:var(--pk);box-shadow:0 0 0 3px rgba(233,30,140,.1);}
+.otp-input.ok{border-color:#4CAF50;background:rgba(76,175,80,.05);}
+.otp-input.err{border-color:#f44336;background:rgba(244,67,54,.05);}
+.verified-badge{background:rgba(76,175,80,.1);border:1px solid #4CAF50;border-radius:10px;padding:10px 14px;font-size:12px;font-weight:700;color:#388E3C;display:none;align-items:center;gap:6px;}
+.verified-badge.show{display:flex;}
+.phone-lock{background:#fdf5ff;border:1.5px solid var(--border);border-radius:10px;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;margin-top:8px;}
+.resend-link{font-size:11px;color:var(--pk);cursor:pointer;font-weight:600;text-decoration:underline;}
+.resend-link.disabled{color:#aaa;pointer-events:none;}
+</style>
+</head>
+<body>
+
+<nav class="nb" id="navbar">
+  <div class="nb-logo" id="nb-logo" data-action="goto-home">
+    <div class="nb-logo-icon" id="nb-icon"><i class="fas fa-mosque"></i></div>
+    <div><div class="nb-logo-t1" id="nb-name">Markaz Al Asas</div><div class="nb-logo-t2" id="nb-tag">SSF Da'wa Sector</div></div>
+  </div>
+  <ul class="nb-links">
+    <li><a data-action="goto-home">Home</a></li>
+    <li><a data-action="goto-portals">Portals</a></li>
+    <li><a data-action="goto-committee">Committee</a></li>
+    <li><a data-action="goto-events">Events</a></li>
+    <li><a data-action="goto-gallery">Gallery</a></li>
+    <li><a data-action="goto-contact">Contact</a></li>
+  </ul>
+  <div class="nb-actions">
+    <button class="btn-login" data-action="open-login"><i class="fas fa-sign-in-alt"></i> Login</button>
+    <button class="hbg" id="hbg-btn"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="mn" id="mobileNav">
+  <a data-action="goto-home"      data-close-nav="1"><i class="fas fa-home"></i> Home</a>
+  <a data-action="goto-portals"   data-close-nav="1"><i class="fas fa-th"></i> Portals</a>
+  <a data-action="goto-committee" data-close-nav="1"><i class="fas fa-users"></i> Committee</a>
+  <a data-action="goto-events"    data-close-nav="1"><i class="fas fa-calendar"></i> Events</a>
+  <a data-action="goto-gallery"   data-close-nav="1"><i class="fas fa-images"></i> Gallery</a>
+  <a data-action="goto-contact"   data-close-nav="1"><i class="fas fa-phone"></i> Contact</a>
+  <a data-action="open-login"     data-close-nav="1" style="background:rgba(233,30,140,.15);color:var(--yw)"><i class="fas fa-sign-in-alt"></i> Login to Portal</a>
+</div>
+
+<div class="tkr">
+  <div class="tkr-lbl">&#x1F4E2; NEWS</div>
+  <div class="tkr-track"><div class="tkr-inner" id="tkr-inner"><span>Loading&#x2026;</span></div></div>
+</div>
+
+<section class="hero" id="home">
+  <div class="hbg2"></div>
+  <div class="geo"><div class="gc"></div><div class="gc"></div><div class="gc"></div></div>
+  <div class="hro">
+    <div>
+      <div class="hbdg"><i class="fas fa-star"></i> Est. <span id="h-estd">1985</span> &#xB7; Ali Gate, Calicut</div>
+      <div class="harb">&#x628;&#x650;&#x633;&#x652;&#x645;&#x650; &#x627;&#x644;&#x644;&#x651;&#x647;&#x650; &#x627;&#x644;&#x631;&#x651;&#x62D;&#x652;&#x645;&#x651;&#x646;&#x650; &#x627;&#x644;&#x631;&#x651;&#x62D;&#x650;&#x64A;&#x645;&#x650;</div>
+      <h1 class="htitle" id="hero-title">Markaz Ali Gate <span class="ac">Al Asas Academy</span></h1>
+      <p class="hdesc">Nurturing minds with Islamic knowledge and modern education. Excellence in Quran, Arabic, and contemporary sciences.</p>
+      <div class="hstats">
+        <div class="hstat"><span class="num" id="h-stu">1200+</span><span class="lbl">Students</span></div>
+        <div class="hstat"><span class="num" id="h-tch">85+</span><span class="lbl">Teachers</span></div>
+        <div class="hstat"><span class="num" id="h-yrs">38</span><span class="lbl">Years</span></div>
+      </div>
+      <div class="hact">
+        <button class="btn-p" data-action="open-login"><i class="fas fa-sign-in-alt"></i> Access Portal</button>
+        <button class="btn-s" id="btn-apply" data-action="goto-admissions"><i class="fas fa-user-plus"></i> Online Admission</button>
+      </div>
+    </div>
+    <div class="hvis">
+      <div class="hcard">
+        <p style="font-size:11px;font-weight:700;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:1px;margin-bottom:14px;">Quick Access</p>
+        <div class="pqg">
+          <div class="pqi" data-action="portal-admin"><div class="pqi-icon" style="background:linear-gradient(135deg,#E91E8C,#C2185B)"><i class="fas fa-tachometer-alt"></i></div><p>Admin</p></div>
+          <div class="pqi" data-action="portal-teacher"><div class="pqi-icon" style="background:linear-gradient(135deg,#F5C518,#FFB300)"><i class="fas fa-chalkboard-teacher"></i></div><p>Teachers</p></div>
+          <div class="pqi" data-action="portal-parent"><div class="pqi-icon" style="background:linear-gradient(135deg,#7B1FA2,#4A148C)"><i class="fas fa-user-friends"></i></div><p>Parents</p></div>
+          <div class="pqi" data-action="portal-student"><div class="pqi-icon" style="background:linear-gradient(135deg,#00BCD4,#00838F)"><i class="fas fa-user-graduate"></i></div><p>Students</p></div>
+          <div class="pqi" data-action="goto-gallery"><div class="pqi-icon" style="background:linear-gradient(135deg,#4CAF50,#388E3C)"><i class="fas fa-images"></i></div><p>Gallery</p></div>
+          <div class="pqi" data-action="goto-events"><div class="pqi-icon" style="background:linear-gradient(135deg,#FF5722,#E64A19)"><i class="fas fa-calendar-alt"></i></div><p>Events</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="stbar">
+  <div class="stbar-in">
+    <div class="sti"><span class="stn" id="s-stu">0</span><div class="stl">Total Students</div></div>
+    <div class="sti"><span class="stn" id="s-tch">0</span><div class="stl">Teaching Staff</div></div>
+    <div class="sti"><span class="stn" id="s-cls">0</span><div class="stl">Classes</div></div>
+    <div class="sti"><span class="stn" id="s-pss">0</span><div class="stl">% Pass Rate</div></div>
+  </div>
+</div>
+
+<div class="ptbg" id="portals">
+  <div class="sec">
+    <div class="sch rv">
+      <div class="stag" style="background:rgba(233,30,140,.2);border-color:rgba(233,30,140,.4)"><i class="fas fa-th-large"></i> Management System</div>
+      <h2 class="stitle" style="color:#fff">All Portals &amp; Services</h2>
+      <p class="sdesc" style="color:rgba(255,255,255,.6)">Complete digital management for every aspect of madrasa administration</p>
+    </div>
+    <div class="ptgrid rv">
+      <div class="ptc" style="--pc:#E91E8C" data-action="portal-admin"><div class="ptci"><i class="fas fa-tachometer-alt"></i></div><h3>Admin Dashboard</h3><p>Full administrative control</p><div class="ptar"><i class="fas fa-arrow-right"></i> Open</div></div>
+      <div class="ptc" style="--pc:#F5C518" data-action="portal-teacher"><div class="ptci" style="background:#F5C518"><i class="fas fa-chalkboard-teacher"></i></div><h3>Teachers Portal</h3><p>Classes &amp; attendance</p><div class="ptar"><i class="fas fa-arrow-right"></i> Open</div></div>
+      <div class="ptc" style="--pc:#7B1FA2" data-action="portal-parent"><div class="ptci" style="background:#7B1FA2"><i class="fas fa-user-friends"></i></div><h3>Parent Portal</h3><p>Track child progress</p><div class="ptar"><i class="fas fa-arrow-right"></i> Open</div></div>
+      <div class="ptc" style="--pc:#00BCD4" data-action="portal-student"><div class="ptci" style="background:#00BCD4"><i class="fas fa-user-graduate"></i></div><h3>Student Portal</h3><p>Results &amp; admit cards</p><div class="ptar"><i class="fas fa-arrow-right"></i> Open</div></div>
+      <div class="ptc" style="--pc:#4CAF50" data-action="open-login"><div class="ptci" style="background:#4CAF50"><i class="fas fa-clipboard-check"></i></div><h3>Attendance</h3><p>Daily &amp; monthly tracking</p><div class="ptar"><i class="fas fa-arrow-right"></i> Login</div></div>
+      <div class="ptc" style="--pc:#FF9800" data-action="open-login"><div class="ptci" style="background:#FF9800"><i class="fas fa-chart-bar"></i></div><h3>Results</h3><p>Exam results &amp; grades</p><div class="ptar"><i class="fas fa-arrow-right"></i> Login</div></div>
+      <div class="ptc" style="--pc:#2196F3" data-action="goto-admissions"><div class="ptci" style="background:#2196F3"><i class="fas fa-user-plus"></i></div><h3>Online Admission</h3><p>Apply for admissions</p><div class="ptar"><i class="fas fa-arrow-right"></i> Apply</div></div>
+      <div class="ptc" style="--pc:#FF5722" data-action="goto-gallery"><div class="ptci" style="background:#FF5722"><i class="fas fa-images"></i></div><h3>Gallery</h3><p>Photos &amp; events</p><div class="ptar"><i class="fas fa-arrow-right"></i> View</div></div>
+    </div>
+  </div>
+</div>
+
+<section style="padding:80px 0;background:var(--gr)" id="committee">
+  <div class="sec">
+    <div class="sch rv"><div class="stag"><i class="fas fa-users"></i> Leadership</div><h2 class="stitle">Our Committee</h2><p class="sdesc">Meet the dedicated team leading our academy</p></div>
+    <div class="sub-h rv"><i class="fas fa-star"></i> Management Committee</div>
+    <div class="cmg rv" id="cm-mgmt" style="margin-bottom:40px"><div class="ring"></div></div>
+    <div id="cm-acad-wrap" style="display:none">
+      <div class="sub-h rv"><i class="fas fa-chalkboard-teacher"></i> Academic Staff</div>
+      <div class="cmg rv" id="cm-acad"></div>
+    </div>
+  </div>
+</section>
+
+<section style="padding:80px 0;background:#fff" id="events">
+  <div class="sec">
+    <div class="sch rv"><div class="stag"><i class="fas fa-newspaper"></i> Stay Updated</div><h2 class="stitle">News &amp; Events</h2><p class="sdesc">Latest happenings and upcoming programs</p></div>
+    <div class="ng rv">
+      <div class="nf">
+        <div class="nim"><span class="ncat">Featured Event</span><i class="fas fa-calendar" style="font-size:60px;opacity:.4;color:#fff"></i></div>
+        <div class="nb2">
+          <div class="nmt" id="feat-meta"><i class="fas fa-calendar"></i> Loading&#x2026;</div>
+          <h3 class="ntitle" id="feat-title">Loading events&#x2026;</h3>
+        </div>
+      </div>
+      <div class="el" id="events-list"><div class="ring"></div></div>
+    </div>
+  </div>
+</section>
+
+<section style="padding:80px 0;background:var(--gr)" id="gallery">
+  <div class="sec">
+    <div class="sch rv"><div class="stag"><i class="fas fa-images"></i> Gallery</div><h2 class="stitle">Our Gallery</h2><p class="sdesc">Moments and memories from our academy</p></div>
+    <div class="gg rv" id="gallery-grid"><div class="ring" style="grid-column:1/-1"></div></div>
+  </div>
+</section>
+
+<section style="padding:80px 0;background:#fff" id="admissions">
+  <div class="sec">
+    <div class="sch rv"><div class="stag"><i class="fas fa-user-plus"></i> Admissions</div><h2 class="stitle">Online Admission</h2><p class="sdesc" id="adm-label">Apply for the new academic year</p></div>
+    <div class="adm-closed-box rv" id="adm-closed"><i class="fas fa-door-closed"></i><h3>Admissions Currently Closed</h3><p>Please contact us for more information.</p></div>
+    <div class="af rv" id="adm-form">
+      <div class="afg">
+        <!-- PHOTO UPLOAD -->
+        <div class="fg full" style="margin-bottom:4px">
+          <label>Student Photo</label>
+          <div style="display:flex;align-items:flex-start;gap:14px;margin-top:4px">
+            <div id="a_photo_box" style="width:88px;height:108px;border-radius:10px;border:2px dashed rgba(233,30,140,.4);background:rgba(233,30,140,.04);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;overflow:hidden;flex-shrink:0;transition:all .2s">
+              <img id="a_photo_prev" src="" alt="" style="width:100%;height:100%;object-fit:cover;display:none;border-radius:8px">
+              <div id="a_photo_ph" style="text-align:center;padding:6px"><i class="fas fa-camera" style="font-size:22px;color:var(--pk);display:block;margin-bottom:4px"></i><span style="font-size:9px;color:#888">Click to upload</span></div>
+              <input type="file" id="a_photo_file" accept="image/*" style="display:none">
+            </div>
+            <div style="flex:1;font-size:11px;color:#888;line-height:1.7;padding-top:4px">
+              <i class="fas fa-info-circle" style="color:var(--pk)"></i>
+              Upload a clear passport-size photo.<br>JPG or PNG format.<br>Max size: 2MB.
+            </div>
+          </div>
+          <input type="hidden" id="a_photo_b64">
+        </div>
+        <div class="fg"><label>Student Full Name *</label><input class="fi" type="text" id="a_name" placeholder="Full name"></div>
+        <div class="fg"><label>Date of Birth</label><input class="fi" type="date" id="a_dob"></div>
+        <div class="fg"><label>Gender</label><select class="fi" id="a_gender"><option value="">Select</option><option>Male</option><option>Female</option></select></div>
+        <div class="fg"><label>Applying for Class *</label><select class="fi" id="a_class"><option value="">Loading&#x2026;</option></select></div>
+        <div class="fg"><label>Father's Name *</label><input class="fi" type="text" id="a_father" placeholder="Father's full name"></div>
+        <div class="fg"><label>Mother's Name</label><input class="fi" type="text" id="a_mother"></div>
+        <div class="fg"><label>Phone Number *</label><input class="fi" type="tel" id="a_phone" placeholder="+91 XXXXX XXXXX"></div>
+        <div class="fg full">
+          <label>Email Address * <span id="phone-verify-status" style="font-size:10px;font-weight:700;color:#f44336">&#x2014; Not verified</span></label>
+          <div style="display:flex;gap:8px;align-items:center">
+            <input class="fi" type="email" id="a_email" placeholder="parent@email.com" style="flex:1;margin:0">
+            <button class="btn-p" id="btn-send-otp" style="padding:10px 16px;font-size:12px;white-space:nowrap;border-radius:10px">
+              <i class="fas fa-envelope"></i> Send OTP
+            </button>
+          </div>
+          <!-- OTP entry box -->
+          <div class="otp-wrap" id="otp-wrap">
+            <div class="otp-title"><i class="fas fa-shield-alt"></i> Enter the 6-digit OTP sent to your email inbox</div>
+            <div class="otp-row">
+              <input class="otp-input" type="number" id="otp-input" maxlength="6" placeholder="------" min="0" max="999999">
+              <button class="btn-p" id="btn-verify-otp" style="padding:10px 16px;font-size:12px;border-radius:10px">
+                <i class="fas fa-check"></i> Verify
+              </button>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px">
+              <span id="otp-timer" style="font-size:11px;color:#888">OTP expires in <b id="otp-countdown">10:00</b></span>
+              <span class="resend-link disabled" id="btn-resend-otp">Resend OTP</span>
+            </div>
+            <div id="otp-msg" style="font-size:11px;margin-top:6px;font-weight:600"></div>
+          </div>
+          <!-- Verified badge -->
+          <div class="verified-badge" id="verified-badge">
+            <i class="fas fa-check-circle"></i> Email verified: <span id="verified-phone"></span>
+            <span style="margin-left:auto;font-size:10px;cursor:pointer;color:#888" id="btn-change-phone">Change</span>
+          </div>
+        </div>
+        <div class="fg full"><label>Home Address</label><input class="fi" type="text" id="a_addr"></div>
+        <div class="fg full"><label>Previous Madrasa / School</label><input class="fi" type="text" id="a_prev" placeholder="Name of previous madrasa or school"></div>
+        <div class="fg"><label>Previous Madrasa Reg. No.</label><input class="fi" type="number" id="a_prev_reg" placeholder="Registration number (numeric)" min="0" style="appearance:textfield"></div>
+        <div class="fg"><label>Academic Year *</label><select class="fi" id="a_year"><option value="2024-25">2024-25</option><option value="2025-26">2025-26</option><option value="2026-27">2026-27</option></select></div>
+      </div>
+      <button class="btn-p" id="btn-submit-adm" style="width:100%;justify-content:center;margin-top:18px;padding:13px"><i class="fas fa-paper-plane"></i> Submit Application</button>
+    </div>
+  </div>
+</section>
+
+<div class="cs" id="contact">
+  <h2 id="cs-head">Join Our Academy</h2>
+  <p>Limited seats available. Contact us for more information.</p>
+  <div class="cr">
+    <button class="btn-p" id="cs-apply-btn" style="background:var(--yw);color:var(--dk)" data-action="goto-admissions"><i class="fas fa-user-plus"></i> Apply for Admission</button>
+    <a id="cs-phone-btn" href="tel:+919876543210" class="btn-s"><i class="fas fa-phone"></i> <span id="cs-phone-txt">+91 98765 43210</span></a>
+  </div>
+</div>
+
+<footer class="ft">
+  <div class="ftc">
+    <div>
+      <div class="ftlr"><div class="ftli" id="ft-logo-icon"><i class="fas fa-mosque"></i></div><span id="ft-name">Markaz Al Asas Academy</span></div>
+      <p class="ftd" id="ft-about">A premier Islamic educational institution under SSF Da'wa Sector, Ali Gate, Calicut. Providing quality Islamic and modern education since 1985.</p>
+      <div class="ftsoc">
+        <a class="sb" href="https://youtube.com" target="_blank" rel="noopener"><i class="fab fa-youtube"></i></a>
+        <a class="sb" href="https://facebook.com" target="_blank" rel="noopener"><i class="fab fa-facebook-f"></i></a>
+        <a class="sb" href="https://instagram.com" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
+        <a class="sb" id="ft-wa" href="https://wa.me/919876543210" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i></a>
+      </div>
+    </div>
+    <div class="ftcol"><h4>Quick Links</h4>
+      <ul class="ftl">
+        <li><a data-action="goto-home"><i class="fas fa-chevron-right" style="font-size:9px"></i> About Us</a></li>
+        <li><a data-action="goto-admissions"><i class="fas fa-chevron-right" style="font-size:9px"></i> Admissions</a></li>
+        <li><a data-action="goto-committee"><i class="fas fa-chevron-right" style="font-size:9px"></i> Committee</a></li>
+        <li><a data-action="goto-gallery"><i class="fas fa-chevron-right" style="font-size:9px"></i> Gallery</a></li>
+        <li><a data-action="goto-contact"><i class="fas fa-chevron-right" style="font-size:9px"></i> Contact</a></li>
+      </ul>
+    </div>
+    <div class="ftcol"><h4>Portals</h4>
+      <ul class="ftl">
+        <li><a data-action="portal-admin"><i class="fas fa-chevron-right" style="font-size:9px"></i> Admin Portal</a></li>
+        <li><a data-action="portal-teacher"><i class="fas fa-chevron-right" style="font-size:9px"></i> Teacher Portal</a></li>
+        <li><a data-action="portal-parent"><i class="fas fa-chevron-right" style="font-size:9px"></i> Parent Portal</a></li>
+        <li><a data-action="portal-student"><i class="fas fa-chevron-right" style="font-size:9px"></i> Student Portal</a></li>
+      </ul>
+    </div>
+    <div class="ftcol"><h4>Contact Us</h4>
+      <ul class="ftl">
+        <li><a id="ft-addr-a"><i class="fas fa-map-marker-alt"></i> <span id="ft-addr-txt">Ali Gate, Calicut, Kerala</span></a></li>
+        <li><a id="ft-ph-a"><i class="fas fa-phone"></i> <span id="ft-ph-txt">+91 98765 43210</span></a></li>
+        <li><a id="ft-em-a"><i class="fas fa-envelope"></i> <span id="ft-em-txt"><span class="__cf_email__" data-cfemail="3a53545c557a5b565b495b49145f5e4f">[email&#160;protected]</span></span></a></li>
+        <li><a id="ft-wb-a"><i class="fas fa-globe"></i> <span id="ft-wb-txt">www.alasas.edu</span></a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="ftb">
+    <p id="ft-copy">&copy; 2024 Markaz Al Asas Academy &middot; All rights reserved</p>
+    <p id="ft-tag2">SSF Da'wa Sector &middot; Markaz Ali Gate Al Asas Academy</p>
+  </div>
+</footer>
+
+<!-- LOGIN MODAL -->
+<div class="mo" id="loginModal">
+  <div class="md2">
+    <div class="mh">
+      <button class="mcls-btn" id="modal-close-btn"><i class="fas fa-times"></i></button>
+      <div class="mlogo" id="modal-logo"><i class="fas fa-mosque"></i></div>
+      <h2>Portal Login</h2>
+      <p id="modal-sub">Markaz Al Asas Academy</p>
+    </div>
+    <div class="mb2">
+      <div class="ptabs">
+        <div class="pt active" id="tab-admin"   data-tab="admin"><i class="fas fa-shield-alt"></i> Admin</div>
+        <div class="pt"        id="tab-teacher" data-tab="teacher"><i class="fas fa-chalkboard-teacher"></i> Teacher</div>
+        <div class="pt"        id="tab-parent"  data-tab="parent"><i class="fas fa-user-friends"></i> Parent</div>
+        <div class="pt"        id="tab-student" data-tab="student"><i class="fas fa-user-graduate"></i> Student</div>
+      </div>
+      <div class="mfg"><label>Username / ID</label><input class="mi2" type="text" id="lUser" placeholder="Enter your username" autocomplete="username"></div>
+      <div class="mfg"><label>Password</label><input class="mi2" type="password" id="lPass" placeholder="Enter your password" autocomplete="current-password"></div>
+      <button class="bsub" id="lBtn"><i class="fas fa-sign-in-alt"></i> <span id="lBtnTxt">Login to Portal</span></button>
+      <p class="mmsg">Forgot password? Contact <a href="/cdn-cgi/l/email-protection#abcacfc6c2c5ebcac7cad8cad885cecfde"><span class="__cf_email__" data-cfemail="8eefeae3e7e0ceefe2effdeffda0ebeafb">[email&#160;protected]</span></a></p>
+      <p class="mmsg" style="margin-top:4px;font-size:10px;color:#bbb">Demo: admin/admin123 | teacher/teacher123</p>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+<button id="btt"><i class="fas fa-chevron-up"></i></button>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+'use strict';
+/* ============================================================
+   STATE
+============================================================ */
+var CUR_PORTAL = 'admin';
+
+/* ============================================================
+   HELPERS
+============================================================ */
+function g(id) { return document.getElementById(id); }
+function scrollTo(id) {
+  if (id === 'home') { window.scrollTo({ top: 0, behavior: 'smooth' }); return; }
+  var el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+function toast(msg) {
+  var t = g('toast');
+  if (!t) return;
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(window._tt);
+  window._tt = setTimeout(function() { t.classList.remove('show'); }, 2800);
+}
+function countUp(el, target) {
+  if (!el || !target) return;
+  var c = 0, step = Math.max(1, Math.ceil(target / 55));
+  var t = setInterval(function() {
+    c = Math.min(c + step, target);
+    el.textContent = c;
+    if (c >= target) { el.textContent = target; clearInterval(t); }
+  }, 18);
+}
+
+/* ============================================================
+   MODAL
+============================================================ */
+function openModal() {
+  g('loginModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  setTimeout(function() { var u = g('lUser'); if (u) u.focus(); }, 320);
+}
+function closeModal() {
+  g('loginModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function setTab(p) {
+  CUR_PORTAL = p;
+  ['admin','teacher','parent','student'].forEach(function(x) {
+    var el = g('tab-' + x);
+    if (el) el.classList.toggle('active', x === p);
+  });
+}
+function selectPortal(p) { setTab(p); openModal(); }
+
+/* ============================================================
+   LOGIN
+============================================================ */
+function doLogin() {
+  var user = g('lUser').value.trim();
+  var pass = g('lPass').value.trim();
+  if (!user || !pass) { toast('Please enter username and password'); return; }
+  var btn = g('lBtn'), txt = g('lBtnTxt');
+  btn.disabled = true; txt.textContent = 'Logging in\u2026';
+  gasCall('login', { username: user, password: pass, role: CUR_PORTAL }, function(res) {
+    btn.disabled = false; txt.textContent = 'Login to Portal';
+    if (res && res.success) {
+      closeModal(); toast('\u2713 Welcome ' + res.name + '!');
+      try {
+        sessionStorage.setItem('parentToken',    res.token || '');
+        sessionStorage.setItem('parentName',     res.name  || '');
+        sessionStorage.setItem('parentEmail',    res.email || '');
+        sessionStorage.setItem('parentUsername', user);
+        sessionStorage.setItem('userRole',       res.role  || CUR_PORTAL);
+      } catch(e) {}
+      setTimeout(function() {
+        window.location.href = GAS_URL + '?page=' + CUR_PORTAL + '&token=' + (res.token || '');
+      }, 800);
+    } else { toast('\u2717 ' + (res ? res.message : 'Login failed')); }
+  }, function(e) {
+    btn.disabled = false; txt.textContent = 'Login to Portal';
+    toast('\u2717 ' + (e.message || 'Connection error'));
+  });
+}
+
+/* ============================================================
+   PHOTO BOX SETUP
+============================================================ */
+(function(){
+  document.addEventListener('DOMContentLoaded', function(){
+    var box  = document.getElementById('a_photo_box');
+    var file = document.getElementById('a_photo_file');
+    if(!box || !file) return;
+    box.addEventListener('click', function(){ file.click(); });
+    box.addEventListener('mouseover', function(){ box.style.borderColor='var(--pk)'; box.style.background='rgba(233,30,140,.08)'; });
+    box.addEventListener('mouseout',  function(){ box.style.borderColor='rgba(233,30,140,.4)'; box.style.background='rgba(233,30,140,.04)'; });
+    file.addEventListener('change', function(){
+      var f = file.files[0]; if(!f) return;
+      // Compress before storing
+      var reader = new FileReader();
+      reader.onload = function(e){
+        var img = new Image();
+        img.onload = function(){
+          var MAX = 600;
+          var w = img.width, h = img.height;
+          if(w > MAX || h > MAX){ var r = Math.min(MAX/w, MAX/h); w = Math.round(w*r); h = Math.round(h*r); }
+          var canvas = document.createElement('canvas');
+          canvas.width = w; canvas.height = h;
+          canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+          var b64 = canvas.toDataURL('image/jpeg', 0.80);
+          var prev = document.getElementById('a_photo_prev');
+          var ph   = document.getElementById('a_photo_ph');
+          var b64f = document.getElementById('a_photo_b64');
+          if(prev){ prev.src = b64; prev.style.display = 'block'; }
+          if(ph)   ph.style.display = 'none';
+          if(b64f) b64f.value = b64;
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(f);
+    });
+  });
+})();
+
+/* ============================================================
+   ADMISSION SUBMIT
+============================================================ */
+/* ============================================================
+   OTP STATE
+============================================================ */
+var _otpVerified   = false;
+var _otpHash       = '';   // server-side hash returned after sending
+var _otpPhone      = '';
+var _otpTimer      = null;
+var _otpSecondsLeft= 0;
+
+function startOtpTimer(secs) {
+  clearInterval(_otpTimer);
+  _otpSecondsLeft = secs;
+  var cd = g('otp-countdown');
+  var rb = g('btn-resend-otp');
+  if(rb) rb.className = 'resend-link disabled';
+  _otpTimer = setInterval(function(){
+    _otpSecondsLeft--;
+    var m = Math.floor(_otpSecondsLeft / 60);
+    var s = _otpSecondsLeft % 60;
+    if(cd) cd.textContent = m + ':' + String(s).padStart(2,'0');
+    if(_otpSecondsLeft <= 0){
+      clearInterval(_otpTimer);
+      if(cd) cd.textContent = '0:00';
+      if(rb){ rb.className = 'resend-link'; rb.textContent = 'Resend OTP'; }
+    }
+  }, 1000);
+}
+
+function doSendOtp(resend) {
+  var email = g('a_email') ? g('a_email').value.trim() : '';
+  if(!email || !email.match(/^[^@\s]+@[^@\s]+\.[^@\s]+$/)){
+    toast('Enter a valid email address first');
+    var el=g('a_email'); if(el){ el.focus(); el.style.borderColor='#f44336'; setTimeout(function(){el.style.borderColor='';},2000); }
+    return;
+  }
+  var sendBtn = g('btn-send-otp');
+  if(sendBtn){ sendBtn.disabled=true; sendBtn.innerHTML='<i class="fas fa-spinner fa-spin"></i> Sending…'; }
+  gasCall('sendOtp', { email: email }, function(res){
+    if(sendBtn){ sendBtn.disabled=false; sendBtn.innerHTML='<i class="fas fa-envelope"></i> '+(resend?'Resend OTP':'Send OTP'); }
+    if(res && res.success){
+      _otpHash  = res.hash || '';
+      _otpPhone = email;
+      var wrap = g('otp-wrap'); if(wrap) wrap.classList.add('show');
+      var inp  = g('otp-input'); if(inp){ inp.value=''; inp.className='otp-input'; inp.focus(); }
+      var masked = res.maskedEmail || email.replace(/(.{2})[^@]+(@.+)/,'$1****$2');
+      var msg  = g('otp-msg');
+      if(msg){ msg.style.color='#388E3C'; msg.textContent='✓ OTP sent to '+masked+'. Check inbox & spam folder.'; }
+      startOtpTimer(600);
+      toast('OTP sent to ' + masked);
+    } else {
+      var msg2 = g('otp-msg'); if(msg2){ msg2.style.color='#f44336'; msg2.textContent='✗ '+(res?res.message:'Failed to send OTP'); }
+      toast('✗ '+(res?res.message:'OTP send failed'));
+    }
+  }, function(e){
+    if(sendBtn){ sendBtn.disabled=false; sendBtn.innerHTML='<i class="fas fa-envelope"></i> Send OTP'; }
+    toast('✗ Server error: '+(e&&e.message?e.message:'Unknown'));
+  });
+}
+
+function doVerifyOtp() {
+  var entered = g('otp-input') ? String(g('otp-input').value).trim() : '';
+  if(!entered || entered.length < 4){ toast('Enter the OTP'); return; }
+  var inp = g('otp-input');
+  var msg = g('otp-msg');
+
+  // Demo mode shortcut
+  if(_otpHash === 'demo'){
+    if(entered === '123456'){
+      setPhoneVerified();
+    } else {
+      if(inp) inp.className='otp-input err';
+      if(msg){ msg.style.color='#f44336'; msg.textContent='✗ Wrong OTP. Demo OTP is 123456'; }
+    }
+    return;
+  }
+
+  var verifyBtn = g('btn-verify-otp');
+  if(verifyBtn){ verifyBtn.disabled=true; verifyBtn.innerHTML='<i class="fas fa-spinner fa-spin"></i>'; }
+
+  gasCall('verifyOtp', { email: _otpPhone, otp: entered, hash: _otpHash }, function(res){
+    if(verifyBtn){ verifyBtn.disabled=false; verifyBtn.innerHTML='<i class="fas fa-check"></i> Verify'; }
+    if(res && res.success){
+      if(inp) inp.className='otp-input ok';
+      setPhoneVerified();
+    } else {
+      if(inp) inp.className='otp-input err';
+      if(msg){ msg.style.color='#f44336'; msg.textContent='✗ '+(res?res.message:'Incorrect OTP. Try again.'); }
+      toast('✗ '+(res?res.message:'Incorrect OTP'));
+    }
+  }, function(){
+    if(verifyBtn){ verifyBtn.disabled=false; verifyBtn.innerHTML='<i class="fas fa-check"></i> Verify'; }
+    toast('✗ Server error during verification');
+  });
+}
+
+function setPhoneVerified() {
+  _otpVerified = true;
+  clearInterval(_otpTimer);
+  // Hide OTP box, show verified badge
+  var wrap  = g('otp-wrap');     if(wrap)  wrap.classList.remove('show');
+  var badge = g('verified-badge'); if(badge) badge.classList.add('show');
+  var vp    = g('verified-phone'); if(vp)   vp.textContent = '+91'+_otpPhone;
+  var vs    = g('phone-verify-status');
+  if(vs){ vs.style.color='#388E3C'; vs.textContent='✓ Verified'; }
+  // Lock the phone input
+  var pinp = g('a_phone'); if(pinp){ pinp.value='+91'+_otpPhone; pinp.readOnly=true; pinp.style.background='#f0fdf4'; }
+  var sendBtn = g('btn-send-otp'); if(sendBtn) sendBtn.style.display='none';
+  toast('✓ Phone number verified!');
+}
+
+function doChangePhone() {
+  _otpVerified = false;
+  _otpHash     = '';
+  _otpPhone    = '';
+  clearInterval(_otpTimer);
+  var wrap  = g('otp-wrap');     if(wrap)  wrap.classList.remove('show');
+  var badge = g('verified-badge'); if(badge) badge.classList.remove('show');
+  var vs    = g('phone-verify-status');
+  if(vs){ vs.style.color='#f44336'; vs.textContent='— Not verified'; }
+  var pinp = g('a_phone'); if(pinp){ pinp.value=''; pinp.readOnly=false; pinp.style.background=''; }
+  var sendBtn = g('btn-send-otp');
+  if(sendBtn){ sendBtn.style.display=''; sendBtn.innerHTML='<i class="fas fa-envelope"></i> Send OTP'; }
+}
+
+function submitAdm() {
+  var name   = g('a_name').value.trim();
+  var father = g('a_father').value.trim();
+  var phone  = g('a_phone').value.trim();
+  var cls    = g('a_class').value;
+  if (!name || !father || !phone || !cls) { toast('Fill all required fields (*)'); return; }
+
+  // ── ENFORCE OTP VERIFICATION ──────────────────────────────
+  if (!_otpVerified) {
+    toast('✗ Please verify your email address with OTP first');
+    var sendBtn = g('btn-send-otp');
+    if(sendBtn) sendBtn.style.animation='pulse 0.5s ease 3';
+    var phoneInp = g('a_phone');
+    if(phoneInp){ phoneInp.focus(); phoneInp.style.borderColor='#f44336'; setTimeout(function(){ phoneInp.style.borderColor=''; },2000); }
+    return;
+  }
+
+  var photo = g('a_photo_b64') ? g('a_photo_b64').value : '';
+  var payload = {
+    action:           'submitAdmission',
+    studentName:      name,
+    dob:              g('a_dob').value,
+    gender:           g('a_gender').value,
+    applyingForClass: cls,
+    fatherName:       father,
+    motherName:       g('a_mother') ? g('a_mother').value.trim() : '',
+    phone:            phone,
+    email:            g('a_email') ? g('a_email').value.trim() : '',
+    address:          g('a_addr')  ? g('a_addr').value.trim()  : '',
+    previousSchool:   g('a_prev')  ? g('a_prev').value.trim()  : '',
+    prevRegNo:        g('a_prev_reg') ? g('a_prev_reg').value.trim() : '',
+    academicYear:     g('a_year')  ? g('a_year').value : '2024-25',
+    photo:            photo,
+    otpVerified:      true
+  };
+
+  var btn = g('btn-submit-adm');
+  if(btn){ btn.disabled=true; btn.innerHTML='<i class="fas fa-spinner fa-spin"></i> Submitting…'; }
+  toast('Submitting application…');
+  gasCall('submitAdmission', payload, function(res) {
+    if(btn){ btn.disabled=false; btn.innerHTML='<i class="fas fa-paper-plane"></i> Submit Application'; }
+    if (res && res.success) {
+      toast('✓ Application submitted! Your ID: ' + res.applicationId);
+      ['a_name','a_father','a_mother','a_email','a_addr','a_prev','a_prev_reg'].forEach(function(id){
+        var el=g(id); if(el) el.value='';
+      });
+      if(g('a_dob'))    g('a_dob').value='';
+      if(g('a_gender')) g('a_gender').value='';
+      if(g('a_photo_b64')) g('a_photo_b64').value='';
+      var prev=g('a_photo_prev'); if(prev){ prev.src=''; prev.style.display='none'; }
+      var ph=g('a_photo_ph'); if(ph) ph.style.display='';
+      doChangePhone();
+    } else {
+      toast('✗ '+(res?res.message:'Submission failed. Please try again.'));
+    }
+  }, function() {
+    if(btn){ btn.disabled=false; btn.innerHTML='<i class="fas fa-paper-plane"></i> Submit Application'; }
+    toast('✗ Server error. Please try again.');
+  });
+}
+
+/* ============================================================
+   APPLY ALL DATA FROM GAS
+============================================================ */
+function applyAll(res) {
+  if (!res || !res.success) res = { success:true, settings:{}, committee:[], gallery:[], identity:{} };
+  var s  = res.settings || {};
+  var id = res.identity || s.public_identity || {};
+
+  /* IDENTITY */
+  if (id.nameEn || id.nameShort) {
+    var sn = id.nameShort || id.nameEn;
+    var fn = id.nameEn || sn;
+    var nb1 = g('nb-name'); if (nb1) nb1.textContent = sn;
+    var nb2 = g('nb-tag');  if (nb2 && id.tagline) nb2.textContent = id.tagline;
+    var ftn = g('ft-name'); if (ftn) ftn.textContent = fn;
+    var msu = g('modal-sub'); if (msu) msu.textContent = fn;
+    document.title = fn;
+    var estd = g('h-estd'); if (estd && id.estd) estd.textContent = id.estd;
+    if (id.about) { var fta = g('ft-about'); if (fta) fta.textContent = id.about; }
+    var fc = g('ft-copy'); if (fc) fc.innerHTML = '&copy; 2024 ' + fn + ' &middot; All rights reserved';
+    var csh = g('cs-head'); if (csh) csh.textContent = 'Join ' + sn;
+  }
+  if (id.logo && id.logo.length > 10) {
+    var nbIc = g('nb-icon'); if (nbIc) nbIc.innerHTML = '<img src="' + id.logo + '" style="width:100%;height:100%;object-fit:contain;border-radius:10px">';
+    var ftIc = g('ft-logo-icon'); if (ftIc) ftIc.innerHTML = '<img src="' + id.logo + '" style="width:100%;height:100%;object-fit:contain;border-radius:8px">';
+    var mLg = g('modal-logo'); if (mLg) mLg.innerHTML = '<img src="' + id.logo + '" style="width:100%;height:100%;object-fit:contain;border-radius:12px">';
+  }
+
+  /* TICKER */
+  var ticks = (Array.isArray(s.public_ticker) && s.public_ticker.length) ? s.public_ticker
+    : ['Annual Exam Results Published','New Batch Admissions Open','Parent-Teacher Meeting \u2014 Coming Soon','Quran Competition \u2014 Register Now'];
+  var doubled = ticks.concat(ticks);
+  g('tkr-inner').innerHTML = doubled.map(function(t) { return '<span>' + t + '</span>'; }).join('');
+
+  /* STATS */
+  var st = s.public_stats || {};
+  var stu = parseInt(st.students || 1200), tch = parseInt(st.teachers || 85);
+  var cls = parseInt(st.classes  || 24),   pss = parseInt(st.passrate || 98);
+  var yrs = parseInt(st.years    || 38);
+  countUp(g('s-stu'), stu); countUp(g('s-tch'), tch);
+  countUp(g('s-cls'), cls); countUp(g('s-pss'), pss);
+  g('h-stu').textContent = stu + '+'; g('h-tch').textContent = tch + '+'; g('h-yrs').textContent = yrs;
+  var admLbl = g('adm-label');
+  if (admLbl) admLbl.textContent = 'Apply for the new academic year ' + (st.year || '2024-25');
+
+  /* ADMISSION CLASSES */
+  var admCls = (Array.isArray(s.public_adm_classes) && s.public_adm_classes.length) ? s.public_adm_classes
+    : ['Class 1','Class 2','Class 3','Class 4','Class 5','Class 6','Class 7','Class 8','Class 9','Class 10','Hifz','Alim'];
+  var sel = g('a_class');
+  sel.innerHTML = '<option value="">Select Class</option>';
+  admCls.forEach(function(c) { var o = document.createElement('option'); o.value = c; o.textContent = c; sel.appendChild(o); });
+
+  /* ADMISSIONS OPEN/CLOSED */
+  var ct = s.public_contact || {};
+  var admOpen = ct.admOpen !== undefined ? ct.admOpen : true;
+  if (typeof admOpen === 'string') admOpen = (admOpen === 'true');
+  g('adm-form').style.display   = admOpen ? '' : 'none';
+  g('adm-closed').style.display = admOpen ? 'none' : 'block';
+  var ab = g('btn-apply'); if (ab) ab.style.display = admOpen ? '' : 'none';
+  var ca = g('cs-apply-btn'); if (ca) ca.style.display = admOpen ? '' : 'none';
+
+  /* CONTACT */
+  var ph = ct.phone    || '+91 98765 43210';
+  var em = ct.email    || 'info@alasas.edu';
+  var ad = ct.address  || 'Ali Gate, Calicut, Kerala';
+  var wb = ct.website  || 'www.alasas.edu';
+  var wa = ct.whatsapp || '919876543210';
+  var phEl = g('ft-ph-a');   if (phEl) phEl.href = 'tel:' + ph.replace(/\s/g,'');
+  var emEl = g('ft-em-a');   if (emEl) emEl.href = 'mailto:' + em;
+  var waEl = g('ft-wa');     if (waEl) waEl.href = 'https://wa.me/' + wa.replace(/[^0-9]/g,'');
+  var csPh = g('cs-phone-btn'); if (csPh) csPh.href = 'tel:' + ph.replace(/\s/g,'');
+  g('ft-ph-txt').textContent   = ph;
+  g('ft-em-txt').textContent   = em;
+  g('ft-addr-txt').textContent = ad;
+  g('ft-wb-txt').textContent   = wb;
+  g('cs-phone-txt').textContent = ph;
+
+  /* EVENTS */
+  var evC = ['linear-gradient(135deg,#E91E8C,#C2185B)','linear-gradient(135deg,#F5C518,#FFB300)','linear-gradient(135deg,#7B1FA2,#4A148C)','linear-gradient(135deg,#4CAF50,#388E3C)','linear-gradient(135deg,#FF5722,#E64A19)'];
+  var evs = (Array.isArray(s.public_events) && s.public_events.length) ? s.public_events
+    : [{day:'27',month:'Jul',title:'Viswas \u2014 Annual Cultural Program',time:'11:00 AM'},{day:'03',month:'Aug',title:'Parent-Teacher Meeting',time:'10:00 AM'},{day:'15',month:'Aug',title:'Quran Recitation Competition',time:'9:00 AM'},{day:'22',month:'Aug',title:'New Batch Orientation',time:'8:00 AM'}];
+  var fe = evs[0];
+  g('feat-title').textContent = fe.title;
+  g('feat-meta').innerHTML = '<i class="fas fa-calendar"></i> ' + fe.day + ' ' + fe.month + (fe.time ? ' &middot; ' + fe.time : '');
+  var evList = g('events-list'); evList.innerHTML = '';
+  evs.forEach(function(ev, i) {
+    var d = document.createElement('div'); d.className = 'ec';
+    d.innerHTML = '<div class="ed" style="background:' + evC[i % evC.length] + '"><div class="dy">' + ev.day + '</div><div class="mo">' + ev.month + '</div></div><div class="ei"><h4>' + ev.title + '</h4>' + (ev.time ? '<p><i class="fas fa-clock"></i> ' + ev.time + '</p>' : '') + '</div>';
+    evList.appendChild(d);
+  });
+
+  /* COMMITTEE */
+  var members = res.committee || [];
+  var cmG = ['linear-gradient(135deg,#E91E8C,#C2185B)','linear-gradient(135deg,#F5C518,#FFB300)','linear-gradient(135deg,#7B1FA2,#4A148C)','linear-gradient(135deg,#00BCD4,#00838F)','linear-gradient(135deg,#4CAF50,#388E3C)','linear-gradient(135deg,#FF5722,#E64A19)','linear-gradient(135deg,#2196F3,#1565C0)','linear-gradient(135deg,#9C27B0,#6A1B9A)'];
+  var fallback = [{Name:'Ustadh Ibrahim Haji',Role:'President',Department:'Management',Photo:''},{Name:'Moulavi Abdul Kareem',Role:'Secretary',Department:'Management',Photo:''},{Name:'Hafiz Muhammed Ali',Role:'Treasurer',Department:'Management',Photo:''},{Name:'Sr. Amina Beevi',Role:"Women's Wing Head",Department:'Management',Photo:''}];
+  var list = members.length ? members : fallback;
+  function buildCard(m, i) {
+    var ph = (m.Photo && m.Photo.length > 10)
+      ? '<img src="' + m.Photo + '" style="width:100%;height:100%;object-fit:cover">'
+      : '<div class="mp-ph" style="background:' + cmG[i % cmG.length] + '">&#x1F464;</div>';
+    return '<div class="mc"><div class="mp">' + ph + '</div><div class="mi"><div class="mn2">' + m.Name + '</div><div class="mr">' + (m.Role || 'Member') + '</div>' + (m.Department ? '<div class="md-d">' + m.Department + '</div>' : '') + '</div></div>';
+  }
+  var mgmt = list.filter(function(m) { return !m.Department || m.Department.toLowerCase().indexOf('academic') < 0; });
+  var acad = list.filter(function(m) { return m.Department && m.Department.toLowerCase().indexOf('academic') >= 0; });
+  g('cm-mgmt').innerHTML = mgmt.map(buildCard).join('') || '<p style="color:var(--mu);padding:20px;text-align:center">No committee members yet.</p>';
+  if (acad.length) {
+    g('cm-acad').innerHTML = acad.map(function(m, i) { return buildCard(m, mgmt.length + i); }).join('');
+    g('cm-acad-wrap').style.display = '';
+  } else { g('cm-acad-wrap').style.display = 'none'; }
+
+  /* GALLERY */
+  var gal = res.gallery || [];
+  var glGrid = g('gallery-grid');
+  var gbgs = ['linear-gradient(135deg,#E91E8C,#C2185B)','linear-gradient(135deg,#F5C518,#FFB300)','linear-gradient(135deg,#7B1FA2,#4A148C)','linear-gradient(135deg,#00BCD4,#00838F)','linear-gradient(135deg,#4CAF50,#388E3C)','linear-gradient(135deg,#FF5722,#E64A19)'];
+  if (!gal.length) {
+    glGrid.innerHTML = [{bg:gbgs[0],ic:'&#x1F4DA;',t:'Annual Day 2024'},{bg:gbgs[1],ic:'&#x1F3A4;',t:'Viswas Program'},{bg:gbgs[2],ic:'&#x1F54C;',t:'Masjid Inauguration'},{bg:gbgs[3],ic:'&#x1F3C6;',t:'Sports Day'},{bg:gbgs[4],ic:'&#x1F4D6;',t:'Quran Competition'},{bg:gbgs[5],ic:'&#x1F393;',t:'Graduation Day'}]
+    .map(function(g) { return '<div class="gi"><div class="gib" style="background:' + g.bg + '">' + g.ic + '</div><div class="gio"><span>' + g.t + '</span></div></div>'; }).join('');
+  } else {
+    glGrid.innerHTML = gal.slice(0,12).map(function(it,i) {
+      var src = it.Photo || it.ImageURL || '';
+      return src
+        ? '<div class="gi"><img src="' + src + '" alt="' + it.Title + '" loading="lazy"><div class="gio"><span>' + it.Title + '</span></div></div>'
+        : '<div class="gi"><div class="gib" style="background:' + gbgs[i % gbgs.length] + '">&#x1F4F7;</div><div class="gio"><span>' + it.Title + '</span></div></div>';
+    }).join('');
+  }
+}
+
+/* ============================================================
+   UNIFIED EVENT DELEGATION — zero onclick in HTML
+============================================================ */
+document.addEventListener('click', function(e) {
+  var el = e.target;
+
+  /* ── Close modal on backdrop click ── */
+  if (el.id === 'loginModal') { closeModal(); return; }
+
+  /* ── Modal close button ── */
+  if (el.closest('#modal-close-btn')) { closeModal(); return; }
+
+  /* ── Login tabs ── */
+  var tab = el.closest('[data-tab]');
+  if (tab) { setTab(tab.getAttribute('data-tab')); return; }
+
+  /* ── Login submit button ── */
+  if (el.closest('#lBtn')) { doLogin(); return; }
+
+  /* ── Admission submit button ── */
+  if (el.closest('#btn-submit-adm'))  { submitAdm();               return; }
+  if (el.closest('#btn-send-otp'))    { doSendOtp(false);           return; }
+  if (el.closest('#btn-verify-otp'))  { doVerifyOtp();              return; }
+  if (el.closest('#btn-resend-otp'))  { doSendOtp(true);            return; }
+  if (el.closest('#btn-change-phone')){ doChangePhone();            return; }
+
+  /* ── Back to top button ── */
+  if (el.closest('#btt')) { window.scrollTo({ top: 0, behavior: 'smooth' }); return; }
+
+  /* ── Hamburger menu ── */
+  if (el.closest('#hbg-btn')) {
+    document.getElementById('mobileNav').classList.toggle('open');
+    return;
+  }
+
+  /* ── data-action buttons and links ── */
+  var actionEl = el.closest('[data-action]');
+  if (!actionEl) return;
+
+  /* Close mobile nav if requested */
+  if (actionEl.getAttribute('data-close-nav')) {
+    document.getElementById('mobileNav').classList.remove('open');
+  }
+
+  var action = actionEl.getAttribute('data-action');
+  switch (action) {
+    case 'goto-home':       scrollTo('home');        break;
+    case 'goto-portals':    scrollTo('portals');     break;
+    case 'goto-committee':  scrollTo('committee');   break;
+    case 'goto-events':     scrollTo('events');      break;
+    case 'goto-gallery':    scrollTo('gallery');     break;
+    case 'goto-admissions': scrollTo('admissions');  break;
+    case 'goto-contact':    scrollTo('contact');     break;
+    case 'open-login':      openModal();             break;
+    case 'portal-admin':    selectPortal('admin');   break;
+    case 'portal-teacher':  selectPortal('teacher'); break;
+    case 'portal-parent':   selectPortal('parent');  break;
+    case 'portal-student':  selectPortal('student'); break;
+  }
+});
+
+/* ── Enter key in password field ── */
+document.getElementById('lPass').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') doLogin();
+});
+
+/* ── Escape closes modal ── */
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeModal();
+});
+
+/* ── Scroll effects ── */
+window.addEventListener('scroll', function() {
+  var nb = g('navbar');
+  if (nb) nb.style.background = window.scrollY > 60 ? 'rgba(13,5,25,.99)' : 'rgba(26,10,46,.97)';
+  var btt = g('btt');
+  if (btt) btt.classList.toggle('show', window.scrollY > 400);
+});
+
+/* ── Reveal on scroll ── */
+var revObs = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('vis'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.rv').forEach(function(el) { revObs.observe(el); });
+
+/* ============================================================
+   INIT — fetch() API (GitHub Pages compatible)
+============================================================ */
+var GAS_URL = 'https://script.google.com/macros/s/AKfycbxGDd49uOZsPdYFg88s8slWcxf5F0poAmaYuRgCZtMrYGNz8iBUMzLMvzBNO4FIU2IR/exec';
+
+// JSONP — 100% CORS-free, works on all devices and browsers
+var _cbCount = 0;
+function gasCall(action, data, cb, errCb) {
+  var cbName = '_gasCb' + (++_cbCount);
+  var script = document.createElement('script');
+  var done   = false;
+  var timer  = setTimeout(function() {
+    if (done) return;
+    done = true;
+    try { delete window[cbName]; } catch(x) {}
+    if (script.parentNode) script.parentNode.removeChild(script);
+    if (errCb) errCb(new Error('Request timeout'));
+  }, 15000);
+
+  window[cbName] = function(res) {
+    if (done) return;
+    done = true;
+    clearTimeout(timer);
+    try { delete window[cbName]; } catch(x) {}
+    if (script.parentNode) script.parentNode.removeChild(script);
+    if (cb) cb(res);
+  };
+
+  script.onerror = function() {
+    if (done) return;
+    done = true;
+    clearTimeout(timer);
+    try { delete window[cbName]; } catch(x) {}
+    if (errCb) errCb(new Error('Network error'));
+  };
+
+  script.src = GAS_URL
+    + '?action='   + encodeURIComponent(action)
+    + '&data='     + encodeURIComponent(JSON.stringify(data || {}))
+    + '&callback=' + cbName;
+  document.head.appendChild(script);
+}
+
+(function() {
+  gasCall('getPublicData', {}, function(res) { applyAll(res); }, function() { applyAll(null); });
+})();
+</script>
+</body>
+</html>
